@@ -25,7 +25,7 @@
               text
           >
             <span>
-              Web Projects
+              Web Project
             </span>
             <v-icon large>mdi-menu-down</v-icon>
           </v-btn>
@@ -40,7 +40,7 @@
               :to="item.route"
           >
             <v-icon class="mr-2">{{ item.icon }}</v-icon>
-            <v-list-item-title style="font-family: 'Iowan Old Style'">{{
+            <v-list-item-title>{{
                 item.title
               }}</v-list-item-title>
           </v-list-item>

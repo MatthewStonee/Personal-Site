@@ -25,51 +25,6 @@
       </v-layout>
     </v-row>
 
-   <v-row class="section">
-    <div data-aos="fade-up">
-      <h2>Web Projects</h2>
-    </div>
-   </v-row>
-    <v-row class="button">
-      <v-col>
-        <v-sheet
-            color="grey lighten-1"
-            rounded
-            elevation="2"
-            min-width="200"
-            max-width="400"
-            max-height="400"
-            style="cursor: pointer"
-            @click="push1RM"
-        >
-          <v-img :src="images.deadlift">
-            <div class="caption">
-              <h2>One Rep Max Calculator</h2>
-            </div>
-          </v-img>
-
-        </v-sheet>
-      </v-col>
-
-        <v-sheet
-            color="grey lighten-1"
-            rounded
-            elevation="2"
-            min-width="200"
-            max-width="400"
-            max-height="400"
-            style="cursor: pointer"
-            @click="pushCalc"
-        >
-          <v-img :src="images.calculator">
-            <div class="caption">
-              <h2>Calculator</h2>
-            </div>
-          </v-img>
-
-        </v-sheet>
-      <v-spacer></v-spacer>
-    </v-row>
 
   </v-container>
 
