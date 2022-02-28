@@ -25,7 +25,7 @@
               text
           >
             <span>
-              Web Project
+              Web Projects
             </span>
             <v-icon large>mdi-menu-down</v-icon>
           </v-btn>
