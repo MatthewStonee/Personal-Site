@@ -63,13 +63,13 @@
     data: () => ({
       barMenu: [
         {
-          icon: "mdi-information",
+          icon: "mdi-weight-lifter",
           title: "One Rep Max Calculator",
-          route: "/project",
+          route: "/OneRM",
         },
-        { icon: "mdi-magnify",
+        { icon: "mdi-calculator",
           title: "Simple Calculator",
-          route: "/search",
+          route: "/calculator",
         },
       ],
   }),
