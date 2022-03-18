@@ -32,12 +32,25 @@ export default {
     return {
       api_key: '2b45cad984142d1d3b9d6583e5bf55bd',
       url_base: 'https://api.openweathermap.org/data/2.5/',
+      default: 'Orlando',
       query: '',
       weather: {}
     }
   },
 
+  beforeMount() {
+    this.defaultWeather()
+  },
+
   methods: {
+
+    defaultWeather () {
+      fetch(`${this.url_base}weather?q=${this.default}&units=imperial&APPID=${this.api_key}`)
+          .then(res => {
+            return res.json();
+          }).then(this.setResults);
+      },
+
     fetchWeather (e) {
       if (e.key === "Enter") {
         fetch(`${this.url_base}weather?q=${this.query}&units=imperial&APPID=${this.api_key}`)
@@ -57,7 +70,7 @@ export default {
       let date = d.getDate();
       let month = months[d.getMonth()];
       let year = d.getFullYear();
-      return `${day} ${month}${date} ${year}`;
+      return `${day} ${month} ${date}, ${year}`;
     }
   }
 }
@@ -95,7 +108,8 @@ main {
 }
 
 .search-box {
-  width: 100%;
+  width: 50%;
+  margin: auto;
   margin-bottom: 30px;
 
 }
