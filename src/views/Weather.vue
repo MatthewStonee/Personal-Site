@@ -1,14 +1,16 @@
 <template>
   <div id="focus" :class="typeof weather.main != 'undefined' && weather.main.temp > 70 ? 'warm' : ''">
     <main>
-      <div class="search-box">
-        <input type="text"
-               class="search-bar"
-               placeholder="Ex: San Francisco"
-               v-model="query"
-               @keypress="fetchWeather"
-        />
+      <div class="solo">
+        <v-text-field
+            label="Search"
+            placeholder="San Francisco"
+            v-model="query"
+            @keypress="fetchWeather"
+            solo
+        ></v-text-field>
       </div>
+
       <div class="weather-wrap" v-if="typeof  weather.main != 'undefined'">
         <div class="location-box">
           <div class="location">{{ weather.name}}, {{ weather.sys.country}}</div>
@@ -127,7 +129,7 @@ export default {
 }
 
 body {
-  font-family: 'montserrat', sans-serif;
+  font-family: "Prompt";
 }
 
 #focus {
@@ -146,6 +148,13 @@ main {
   padding: 25px;
 
   background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.25), rgba(0,0,0, 0.75));
+}
+
+.solo {
+  width: 65%;
+  max-width: 700px;
+  margin: auto;
+  margin-bottom: 5px;
 }
 
 .search-box {

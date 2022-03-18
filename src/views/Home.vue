@@ -1,31 +1,17 @@
 <template>
   <v-container>
-    <v-row>
-      <v-layout align-center wrap class="center">
-        <v-col justify="center">
-          <v-row>
-            <div>
-              <h1>Hi! I'm Matthew Stone</h1>
-            </div>
-          </v-row>
-        </v-col>
-        <v-col justify="center">
-          <v-row>
-            <v-sheet
-                color="grey lighten-1"
-                rounded
-                elevation="8"
-                min-width="200"
-                max-width="600"
-            >
-              <v-img :src="images.profile"></v-img>
-            </v-sheet>
-          </v-row>
-        </v-col>
-      </v-layout>
+    <v-row class="home">
+      <h1>Hi! I'm Matthew Stone</h1>
+      <v-sheet
+          color="grey lighten-1"
+          rounded
+          elevation="8"
+          min-width="200"
+          max-width="600"
+      >
+        <v-img :src="images.profile"></v-img>
+      </v-sheet>
     </v-row>
-
-
   </v-container>
 
 
@@ -50,30 +36,9 @@ h2{
   font-family: "Prompt";
 }
 
-.center {
-  padding: 200px;
-  padding-bottom: 315px;
-}
-
-.button {
-  padding-bottom: 500px;
-}
-
-.section {
-  padding-bottom: 60px;
-  padding-left: 45px;
-}
-
-.caption {
-  position: absolute; /* Position the background text */
-  bottom: 0; /* At the bottom. Use top:0 to append it to the top */
-  background: rgb(0, 0, 0); /* Fallback color */
-  background: rgba(0, 0, 0, 0.65); /* Black background with 0.5 opacity */
-  color: #f1f1f1; /* Grey text */
-  width: 100%; /* Full width */
-  padding: 15px; /* Some padding */
-  text-align: center;
-  height: 50px;
+.home {
+  margin: auto;
+  width: 100%;
 }
 
 </style>
@@ -99,16 +64,7 @@ export default {
       }
     }
   },
-
-  methods: {
-
-    push1RM() {
-      this.$router.push({ name: "onerm" }).catch(err => {console.log("Redundant Navigation, error: " + err)})
-    },
-    pushCalc() {
-      this.$router.push({ name: "Calculator" }).catch(err => {console.log("Redundant Navigation, error: " + err)})
-    }
-  },
+  
 
 
 };
