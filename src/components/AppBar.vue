@@ -67,6 +67,11 @@
           title: "One Rep Max Calculator",
           route: "/OneRM",
         },
+        {
+          icon: "mdi-weather-partly-cloudy",
+          title: "Weather App",
+          route: "/weather"
+        },
         { icon: "mdi-calculator",
           title: "Simple Calculator",
           route: "/calculator",

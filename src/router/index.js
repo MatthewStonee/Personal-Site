@@ -52,7 +52,11 @@ const routes = [
     name: 'Calculator',
     component: () => import('../views/Calc'),
   },
-
+  {
+    path: '/weather',
+    name: 'Weather',
+    component: () => import('../views/Weather'),
+  },
 ]
 
 const router = new VueRouter( {
