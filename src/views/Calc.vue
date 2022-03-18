@@ -6,7 +6,15 @@
 
 <script>
   import CalcComponent from "@/components/CalcComponent";
+
   export default {
+
+    name: 'Calculator',
+
+    created() {
+      document.title = "Calculator"
+    },
+
     components: {CalcComponent}
   }
 

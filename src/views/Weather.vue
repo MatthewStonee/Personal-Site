@@ -17,6 +17,9 @@
 
         <div class="weather-box">
           <div class="temperature">{{ Math.round(weather.main.temp) }}°F</div>
+         <div>
+           <v-icon size="125" color="white">{{ icon }}</v-icon>
+         </div>
           <div class="weather">{{ weather.weather[0].main}}</div>
         </div>
 
@@ -28,17 +31,25 @@
 
 <script>
 export default {
-  data () {
+
+  name: 'Weather',
+
+  data: () => {
+
     return {
       api_key: '2b45cad984142d1d3b9d6583e5bf55bd',
       url_base: 'https://api.openweathermap.org/data/2.5/',
       default: 'Orlando',
       query: '',
-      weather: {}
+      weather: {},
+      icon: 'mdi-weather-sunny',
+      code: '',
+
     }
   },
 
-  beforeMount() {
+  created() {
+    document.title = "Weather";
     this.defaultWeather()
   },
 
@@ -61,6 +72,33 @@ export default {
     },
     setResults (results) {
       this.weather = results;
+      this.code = this.weather.weather[0].main;
+
+      switch (this.code)
+      {
+        case "Clear":
+          this.icon = "mdi-weather-sunny";
+          break;
+        case "Thunderstorm":
+          this.icon = "mdi-weather-lightning";
+          break;
+        case "Drizzle":
+          this.icon = "mdi-weather-rainy";
+          break;
+        case "Rain":
+          this.icon = "mdi-weather-pouring";
+          break;
+        case "Clouds":
+          this.icon = "mdi-weather-cloudy";
+          break;
+        case "Snow":
+          this.icon = "mdi-snowflake";
+          break;
+        case "Fog":
+          this.icon = "mdi- weather-fog";
+      }
+
+
     },
     dateBuilder () {
       let d = new Date();
@@ -72,7 +110,11 @@ export default {
       let year = d.getFullYear();
       return `${day} ${month} ${date}, ${year}`;
     }
-  }
+  },
+
+
+
+
 }
 
 </script>
@@ -180,7 +222,7 @@ main {
 
 .weather-box .weather {
   color: white;
-  font-size: 48px;
+  font-size: 55px;
   font-weight: 700;
   font-style: italic;
   text-shadow: 3px 6px rgba(0,0,0,0.25);
