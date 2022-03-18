@@ -108,9 +108,10 @@ main {
 }
 
 .search-box {
-  width: 50%;
+  width: 65%;
   margin: auto;
   margin-bottom: 30px;
+  color: #070707;
 
 }
 
@@ -119,7 +120,7 @@ main {
   width: 100%;
   padding: 15px;
 
-  color: #313131;
+  color: #070707;
   font-size: 20px;
 
   appearance: none;
@@ -135,10 +136,12 @@ main {
 }
 
 .search-box .search-bar:focus {
+  color: #070707;
   box-shadow: 0px 0px 16px rgba(0,0,0,0.25);
   background-color: rgba(255,255,255,0.75);
   border-radius: 16px 0px 16px 0px;
 }
+
 
 .location-box .location {
   color: white;
