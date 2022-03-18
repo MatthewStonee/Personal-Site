@@ -151,6 +151,7 @@ main {
 
 .search-box {
   width: 65%;
+  max-width: 700px;
   margin: auto;
   margin-bottom: 30px;
   color: #070707;
