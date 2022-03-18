@@ -1,10 +1,10 @@
 <template>
-  <div id="focus" :class="typeof weather.main != 'undefined' && weather.main.temp > 60 ? 'warm' : ''">
+  <div id="focus" :class="typeof weather.main != 'undefined' && weather.main.temp > 70 ? 'warm' : ''">
     <main>
       <div class="search-box">
         <input type="text"
                class="search-bar"
-               placeholder="Ex: Orlando"
+               placeholder="Ex: San Francisco"
                v-model="query"
                @keypress="fetchWeather"
         />
@@ -97,7 +97,7 @@ body {
 }
 
 #focus.warm {
-  background-image: linear-gradient(firebrick, indianred);
+  background-image: linear-gradient(firebrick, #f88787);
 }
 
 main {
