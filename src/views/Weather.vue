@@ -72,9 +72,8 @@ export default {
     },
     setResults (results) {
       this.weather = results;
-      this.code = this.weather.weather[0].main;
 
-      switch (this.code)
+      switch (this.weather.weather[0].main)
       {
         case "Clear":
           this.icon = "mdi-weather-sunny";
