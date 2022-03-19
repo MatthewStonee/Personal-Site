@@ -1,7 +1,8 @@
 <template>
   <div id="focus" :class="typeof weather.main != 'undefined' && weather.main.temp > 70 ? 'warm' : ''">
     <main>
-      <div class="solo">
+
+      <v-row class="solo">
         <v-text-field
             label="Search"
             placeholder="San Francisco"
@@ -9,6 +10,9 @@
             @keypress="fetchWeather"
             solo
         ></v-text-field>
+      </v-row>
+      <div class="me">
+        <v-btn @click="defaultWeather"><v-icon>mdi-crosshairs-gps</v-icon></v-btn>
       </div>
 
       <div class="weather-wrap" v-if="typeof  weather.main != 'undefined'">
@@ -37,7 +41,6 @@ export default {
   name: 'Weather',
 
   data: () => {
-
     return {
       api_key: '2b45cad984142d1d3b9d6583e5bf55bd',
       url_base: 'https://api.openweathermap.org/data/2.5/',
@@ -47,22 +50,43 @@ export default {
       icon: 'mdi-weather-sunny',
       code: '',
 
+      longitude: '',
+      latitude: '',
+
     }
   },
 
   created() {
     document.title = "Weather";
-    this.defaultWeather()
+
+    //do we support geolocation
+    if(!("geolocation" in navigator)) {
+      console.log('Geolocation is not available.');
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        position => {
+          this.longitude = position.coords.longitude;
+          this.latitude = position.coords.latitude;
+        },
+        error => {
+          console.log(error.message);
+        },
+    )
+
   },
 
   methods: {
 
     defaultWeather () {
-      fetch(`${this.url_base}weather?q=${this.default}&units=imperial&APPID=${this.api_key}`)
+
+      fetch(`${this.url_base}weather?lat=${this.latitude}&lon=${this.longitude}&units=imperial&APPID=${this.api_key}`)
           .then(res => {
             return res.json();
           }).then(this.setResults);
-      },
+
+    },
 
     fetchWeather (e) {
       if (e.key === "Enter") {
@@ -74,6 +98,8 @@ export default {
     },
     setResults (results) {
       this.weather = results;
+
+      console.log("YES");
 
       switch (this.weather.weather[0].main)
       {
@@ -155,6 +181,14 @@ main {
   max-width: 700px;
   margin: auto;
   margin-bottom: 5px;
+}
+
+.me {
+  width: 65%;
+  margin: auto;
+  margin-top: -10px;
+  margin-bottom: 5px;
+  text-align: center;
 }
 
 .search-box {

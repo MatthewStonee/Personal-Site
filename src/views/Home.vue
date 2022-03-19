@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row class="home">
+    <v-row>
       <h1>Hi! I'm Matthew Stone</h1>
       <v-sheet
           color="grey lighten-1"
@@ -38,7 +38,7 @@ h2{
 
 .home {
   margin: auto;
-  width: 100%;
+  width: 50%;
 }
 
 </style>
