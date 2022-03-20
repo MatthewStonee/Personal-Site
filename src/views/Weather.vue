@@ -41,7 +41,6 @@
 
       <v-snackbar
           v-model="snackbar"
-          absolute
           :multi-line="multiLine"
           :timeout="timeout"
       >
