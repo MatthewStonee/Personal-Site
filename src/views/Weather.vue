@@ -16,7 +16,7 @@
                  :disabled="loading"
                  @click="loader = 'loading', defaultWeather()"
           >
-            <v-icon>mdi-crosshairs-gps</v-icon>
+            <v-icon color="blue">mdi-crosshairs-gps</v-icon>
           </v-btn>
         </div>
         <v-text-field
