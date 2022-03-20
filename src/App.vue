@@ -32,6 +32,10 @@ import AppBar from "./components/AppBar.vue";
 export default {
   name: "App",
 
+  created() {
+    document.title = "Home";
+  },
+
   components: {AppBar}
 }
 
