@@ -198,8 +198,8 @@ main {
 }
 
 .solo {
-  width: 65%;
-  max-width: 650px;
+  width: 75%;
+  max-width: 700px;
   margin: auto;
   margin-bottom: 5px;
 }
