@@ -2,6 +2,13 @@
   <div id="focus" :class="typeof weather.main != 'undefined' && weather.main.temp > 70 ? 'warm' : ''">
     <main>
 
+      <v-alert
+          class="alert"
+          dense
+          v-model="alert"
+          type="error"
+      >Please enter a valid city name. ex: Atlanta</v-alert>
+
       <v-row class="solo">
         <div class="me">
           <v-btn height="50"
@@ -23,6 +30,7 @@
         ></v-text-field>
       </v-row>
 
+
       <div class="weather-wrap" v-if="typeof  weather.main != 'undefined'">
         <div class="location-box">
           <div class="location">{{ weather.name}}, {{ weather.sys.country}}</div>
@@ -38,25 +46,6 @@
         </div>
 
       </div>
-
-      <v-snackbar
-          v-model="snackbar"
-          :multi-line="multiLine"
-          :timeout="timeout"
-      >
-        {{ text }}
-
-        <template v-slot:action="{ attrs }">
-          <v-btn
-              color="red"
-              text
-              v-bind="attrs"
-              @click="snackbar = false"
-          >
-            Close
-          </v-btn>
-        </template>
-      </v-snackbar>
 
     </main>
   </div>
@@ -81,10 +70,7 @@ export default {
       loader: null,
       loading: false,
 
-      snackbar: false,
-      text: `Please enter a valid city name. ex: Atlanta`,
-      multiLine: true,
-      timeout: 10000,
+      alert: false,
 
     }
   },
@@ -151,9 +137,9 @@ export default {
 
 
       if(this.weather.name == undefined)
-        this.snackbar = true;
+        this.alert = true;
       else
-        this.snackbar = false;
+        this.alert = false;
 
 
       switch (this.weather.weather[0].main)
@@ -322,9 +308,11 @@ main {
   text-shadow: 3px 6px rgba(0,0,0,0.25);
 }
 
-.custom-loader {
-  animation: loader 1s infinite;
-  display: flex;
+.alert {
+  width: 75%;
+  max-width: 700px;
+  margin: auto;
+  margin-bottom: 5px;
 }
 
 @keyframes loader {
