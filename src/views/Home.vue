@@ -4,15 +4,17 @@
       <v-col>
         <h1>Hi! I'm Matthew Stone</h1>
       </v-col>
-      <v-sheet
-          color="grey lighten-1"
-          rounded
-          elevation="8"
-          min-width="200"
-          max-width="600"
-      >
-        <v-img :src="images.profile"></v-img>
-      </v-sheet>
+      <v-col>
+        <v-sheet
+            color="grey lighten-1"
+            rounded
+            elevation="8"
+            min-width="200"
+            max-width="600"
+        >
+          <v-img :src="images.profile"></v-img>
+        </v-sheet>
+      </v-col>
     </v-row>
   </v-container>
 
@@ -39,10 +41,11 @@ h2{
 }
 
 .home {
-  width: 65%;
-  max-width: 700px;
+  width: 100%;
+  max-width: 650px;
   margin: auto;
   margin-bottom: 5px;
+  text-align: center;
 }
 
 </style>
