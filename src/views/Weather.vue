@@ -41,6 +41,7 @@
 
       <v-snackbar
           v-model="snackbar"
+          absolute
           :multi-line="multiLine"
           :timeout="timeout"
       >
@@ -149,7 +150,6 @@ export default {
     setResults (results) {
       this.weather = results;
 
-      console.log("this " + this.weather.name);
 
       if(this.weather.name == undefined)
         this.snackbar = true;
@@ -177,7 +177,7 @@ export default {
         case "Snow":
           this.icon = "mdi-snowflake";
           break;
-        case "Fog":
+        case "Fog" || "Mist" || "Haze":
           this.icon = "mdi- weather-fog";
       }
 
