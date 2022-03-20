@@ -38,6 +38,26 @@
         </div>
 
       </div>
+
+      <v-snackbar
+          v-model="snackbar"
+          :multi-line="multiLine"
+          :timeout="timeout"
+      >
+        {{ text }}
+
+        <template v-slot:action="{ attrs }">
+          <v-btn
+              color="red"
+              text
+              v-bind="attrs"
+              @click="snackbar = false"
+          >
+            Close
+          </v-btn>
+        </template>
+      </v-snackbar>
+
     </main>
   </div>
 
@@ -60,6 +80,11 @@ export default {
 
       loader: null,
       loading: false,
+
+      snackbar: false,
+      text: `Incorrect City Name. Example: Atlanta`,
+      multiLine: true,
+      timeout: 10000,
 
     }
   },
@@ -123,6 +148,13 @@ export default {
     },
     setResults (results) {
       this.weather = results;
+
+      console.log("this " + this.weather.name);
+
+      if(this.weather.name == undefined)
+        this.snackbar = true;
+      else
+        this.snackbar = false;
 
 
       switch (this.weather.weather[0].main)
