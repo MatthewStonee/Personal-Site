@@ -122,7 +122,7 @@ export default {
 
 .calculator {
   margin: 0 auto;
-  width: 400px;
+  width: 360px;
   font-size: 40px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
