@@ -3,7 +3,6 @@
       app
       color="primary"
       dark
-      hide-on-scroll
   >
 
     <v-toolbar-items>
@@ -17,7 +16,7 @@
           </span>
       </v-btn>
 
-      <v-menu offset-y open-on-hover>
+      <v-menu offset-y open-on-click open-on-hover>
         <template v-slot:activator="{ on, attrs }">
           <v-btn
               v-bind="attrs" v-on="on"
