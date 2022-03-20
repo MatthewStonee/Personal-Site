@@ -17,6 +17,7 @@
             placeholder="Orlando"
             v-model="query"
             @keypress="fetchWeather"
+            @focus="$event.target.select()"
             height="50"
             solo
         ></v-text-field>
@@ -108,6 +109,8 @@ export default {
 
      this[l] = false;
      this.loader = null;
+
+     this.query = 'My Location'
     },
 
     fetchWeather (e) {
