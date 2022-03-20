@@ -7,7 +7,7 @@
           dense
           v-model="alert"
           type="error"
-      >Please enter a valid city name. ex: Atlanta</v-alert>
+      >Please enter a valid city name. Ex: Atlanta</v-alert>
 
       <v-row class="solo">
         <div class="me">
