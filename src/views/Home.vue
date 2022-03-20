@@ -1,7 +1,9 @@
 <template>
   <v-container>
-    <v-row>
-      <h1>Hi! I'm Matthew Stone</h1>
+    <v-row class="home">
+      <v-col>
+        <h1>Hi! I'm Matthew Stone</h1>
+      </v-col>
       <v-sheet
           color="grey lighten-1"
           rounded
@@ -37,8 +39,10 @@ h2{
 }
 
 .home {
+  width: 65%;
+  max-width: 700px;
   margin: auto;
-  width: 50%;
+  margin-bottom: 5px;
 }
 
 </style>

@@ -3,17 +3,18 @@
     <main>
 
       <v-row class="solo">
+        <div class="me">
+          <v-btn height="50" @click="defaultWeather"><v-icon>mdi-crosshairs-gps</v-icon></v-btn>
+        </div>
         <v-text-field
-            label="Search"
+            label="Search a City"
             placeholder="San Francisco"
             v-model="query"
             @keypress="fetchWeather"
+            height="50"
             solo
         ></v-text-field>
       </v-row>
-      <div class="me">
-        <v-btn @click="defaultWeather"><v-icon>mdi-crosshairs-gps</v-icon></v-btn>
-      </div>
 
       <div class="weather-wrap" v-if="typeof  weather.main != 'undefined'">
         <div class="location-box">
@@ -59,29 +60,37 @@ export default {
   created() {
     document.title = "Weather";
 
-    //do we support geolocation
-    if(!("geolocation" in navigator)) {
-      console.log('Geolocation is not available.');
-      return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-        position => {
-          this.longitude = position.coords.longitude;
-          this.latitude = position.coords.latitude;
-        },
-        error => {
-          console.log(error.message);
-        },
-    )
+    fetch(`${this.url_base}weather?q=orlando&units=imperial&APPID=${this.api_key}`)
+        .then(res => {
+          return res.json();
+        }).then(this.setResults);
 
   },
 
   methods: {
 
-    defaultWeather () {
+    getCoords () {
 
-      fetch(`${this.url_base}weather?lat=${this.latitude}&lon=${this.longitude}&units=imperial&APPID=${this.api_key}`)
+      //do we support geolocation
+      if(!("geolocation" in navigator)) {
+        console.log('Geolocation is not available.');
+        return;
+      }
+
+      return new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject)
+      })
+
+    },
+
+    async defaultWeather () {
+
+      let pos = {};
+      let position = await this.getCoords();
+      pos.lat = position.coords.latitude;
+      pos.lon = position.coords.longitude;
+
+      fetch(`${this.url_base}weather?lat=${pos.lat}&lon=${pos.lon}&units=imperial&APPID=${this.api_key}`)
           .then(res => {
             return res.json();
           }).then(this.setResults);
@@ -184,11 +193,7 @@ main {
 }
 
 .me {
-  width: 65%;
-  margin: auto;
-  margin-top: -10px;
-  margin-bottom: 5px;
-  text-align: center;
+  margin-right: 5px;
 }
 
 .search-box {
@@ -270,6 +275,7 @@ main {
   font-style: italic;
   text-shadow: 3px 6px rgba(0,0,0,0.25);
 }
+
 
 </style>
 
