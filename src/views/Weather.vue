@@ -82,7 +82,7 @@ export default {
       loading: false,
 
       snackbar: false,
-      text: `Incorrect City Name. Example: Atlanta`,
+      text: `Please enter a valid city name. ex: Atlanta`,
       multiLine: true,
       timeout: 10000,
 
