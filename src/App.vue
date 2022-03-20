@@ -1,7 +1,7 @@
 <template>
-  <v-app>
+  <v-app id="grad">
     <AppBar></AppBar>
-    <v-main id="grad">
+    <v-main>
       <router-view></router-view>
     </v-main>
   </v-app>
