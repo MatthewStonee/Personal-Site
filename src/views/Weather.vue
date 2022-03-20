@@ -4,7 +4,13 @@
 
       <v-row class="solo">
         <div class="me">
-          <v-btn height="50" @click="defaultWeather"><v-icon>mdi-crosshairs-gps</v-icon></v-btn>
+          <v-btn height="50"
+                 :loading="loading"
+                 :disabled="loading"
+                 @click="loader = 'loading', defaultWeather()"
+          >
+            <v-icon>mdi-crosshairs-gps</v-icon>
+          </v-btn>
         </div>
         <v-text-field
             label="Search a City"
@@ -51,8 +57,12 @@ export default {
       icon: 'mdi-weather-sunny',
       code: '',
 
+      loader: null,
+      loading: false,
+
     }
   },
+
 
   created() {
     document.title = "Weather";
@@ -82,16 +92,22 @@ export default {
 
     async defaultWeather () {
 
+      const l = this.loader
+      this[l] = !this[l]
+
       let pos = {};
       let position = await this.getCoords();
       pos.lat = position.coords.latitude;
       pos.lon = position.coords.longitude;
+
 
       fetch(`${this.url_base}weather?lat=${pos.lat}&lon=${pos.lon}&units=imperial&APPID=${this.api_key}`)
           .then(res => {
             return res.json();
           }).then(this.setResults);
 
+     this[l] = false;
+     this.loader = null;
     },
 
     fetchWeather (e) {
@@ -105,7 +121,6 @@ export default {
     setResults (results) {
       this.weather = results;
 
-      console.log("YES");
 
       switch (this.weather.weather[0].main)
       {
@@ -271,6 +286,20 @@ main {
   font-weight: 700;
   font-style: italic;
   text-shadow: 3px 6px rgba(0,0,0,0.25);
+}
+
+.custom-loader {
+  animation: loader 1s infinite;
+  display: flex;
+}
+
+@keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 
