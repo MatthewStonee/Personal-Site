@@ -8,7 +8,7 @@
         </div>
         <v-text-field
             label="Search a City"
-            placeholder="San Francisco"
+            placeholder="Orlando"
             v-model="query"
             @keypress="fetchWeather"
             height="50"
@@ -50,9 +50,6 @@ export default {
       weather: {},
       icon: 'mdi-weather-sunny',
       code: '',
-
-      longitude: '',
-      latitude: '',
 
     }
   },
