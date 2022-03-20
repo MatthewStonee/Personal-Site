@@ -199,7 +199,7 @@ main {
 
 .solo {
   width: 65%;
-  max-width: 700px;
+  max-width: 650px;
   margin: auto;
   margin-bottom: 5px;
 }
