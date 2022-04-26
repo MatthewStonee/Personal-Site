@@ -75,6 +75,11 @@
           title: "Simple Calculator",
           route: "/calculator",
         },
+        {
+          icon: "mdi-basketball",
+          title: "NBA Scores",
+          route: "/NBA",
+        },
       ],
   }),
 

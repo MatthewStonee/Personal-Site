@@ -57,6 +57,11 @@ const routes = [
     name: 'Weather',
     component: () => import('../views/Weather'),
   },
+  {
+    path: '/NBA',
+    name: 'NBA',
+    component: () => import('../views/NBA'),
+  },
 ]
 
 const router = new VueRouter( {

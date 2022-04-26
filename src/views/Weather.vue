@@ -163,7 +163,7 @@ export default {
           this.icon = "mdi-snowflake";
           break;
         case "Fog" || "Mist" || "Haze":
-          this.icon = "mdi- weather-fog";
+          this.icon = "mdi-weather-fog";
       }
 
 
