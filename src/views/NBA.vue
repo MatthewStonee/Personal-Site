@@ -3,6 +3,7 @@
     <div class="display">
       <v-card
           class="card mt-10"
+          elevation="15"
       >
         <v-row>
 
@@ -10,6 +11,7 @@
               cols="20"
               sm="6"
               md="4"
+              class="calendar mb-n10"
           >
             <v-menu
                 v-model="menu2"
@@ -35,32 +37,49 @@
               ></v-date-picker>
             </v-menu>
           </v-col>
+        </v-row>
 
 
-
-          <v-card-text>
-            <div class="scoreText">
-            <v-list>
+        <v-row>
+          <v-col
+              cols="20"
+              md="55"
+              class="calendar"
+          >
+          <v-card-text
+          >
+            <div>
+            <v-list class="scoreText">
               <v-list-item
                   v-for="item in games" :key="item.teams.home.code"
               >
-                  <h2>
-                    {{ item.teams.home.code }}:
-                  </h2>
+                  <v-img
+                      :src="require(`../assets/Teams/${item.teams.home.code}.png`)"
+                      max-height="60"
+                      max-width="60"></v-img>
                   <h3>
-                    &nbsp; {{ item.scores.home.points }}
+                    &nbsp; {{ item.teams.home.code }} &nbsp;
                   </h3>
                   <h2>
-                    &nbsp; {{ item.teams.visitors.code }}:
+                    &nbsp; {{ item.scores.home.points }} &nbsp;
+                  </h2>
+                  <h2>-</h2>
+                  <h2>
+                    &nbsp; {{ item.scores.visitors.points }} &nbsp;
                   </h2>
                   <h3>
-                    &nbsp; {{ item.scores.visitors.points }}
+                    &nbsp; {{ item.teams.visitors.code }} &nbsp;
                   </h3>
+                  <v-img
+                    :src="require(`../assets/Teams/${item.teams.visitors.code}.png`)"
+                    max-height="60"
+                    max-width="60"></v-img>
 
               </v-list-item>
             </v-list>
             </div>
           </v-card-text>
+          </v-col>
         </v-row>
       </v-card>
 
@@ -89,8 +108,6 @@ export default {
       modal: false,
       menu2: false,
 
-
-
     }
   },
 
@@ -99,21 +116,6 @@ export default {
     document.title = "NBA";
 
     this.date = moment(new Date()).format('YYYY-MM-DD');
-
-    console.log("TODAY'S DATE IS " + this.date);
-
-    fetch(`https://api-nba-v1.p.rapidapi.com/games?date=${this.date}`, {
-      "method": "GET",
-      "headers": {
-        "x-rapidapi-host": "api-nba-v1.p.rapidapi.com",
-        "x-rapidapi-key": "ed88420268msh8ad778ec7682163p11d092jsn1ca842f5f5cb"
-      }})
-        .then(res => {
-          return res.json();
-        })
-        .then(this.setResults)
-        .catch(error => console.log('error', error));
-
 
 
   },
@@ -140,9 +142,6 @@ export default {
       const obj = results;
       this.numofResults = obj.results;
 
-      //console.log("DATE: " + obj.parameters.date);
-      //console.log("Number of results = " + obj.results);
-
       this.games = {};
 
       for(let i = 0; i < this.numofResults; i++)
@@ -151,12 +150,9 @@ export default {
 
       }
 
-
     },
 
-
   }
-
 
 }
 
@@ -176,6 +172,10 @@ export default {
 .scoreText {
   text-align: center;
 }
+.calendar {
+  margin: 0 auto;
+}
+
 
 
 
