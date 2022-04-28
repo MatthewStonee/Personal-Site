@@ -77,7 +77,7 @@
         },
         {
           icon: "mdi-basketball",
-          title: "NBA Scores",
+          title: "NBA Game Scores",
           route: "/NBA",
         },
       ],
