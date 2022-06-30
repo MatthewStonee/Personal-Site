@@ -10,7 +10,7 @@
 <style>
 #grad {
   /*background-image: linear-gradient(dodgerblue, lightsteelblue);*/
-  background-color: rgba(2,2,6,0.75);
+  background-color: rgb(28, 28, 33);
 }
 
 @font-face {

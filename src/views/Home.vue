@@ -2,7 +2,7 @@
   <v-container>
     <v-row class="home">
       <v-col>
-        <h1>Hi! I'm Matthew Stone</h1>
+        <h1>Hey! I'm Matthew Stone</h1>
       </v-col>
       <v-col>
         <v-sheet

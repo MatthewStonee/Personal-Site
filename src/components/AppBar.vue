@@ -1,8 +1,9 @@
 <template>
   <v-app-bar
       app
-      color="primary"
+      color="backgroundColor"
       dark
+      flat
   >
 
     <v-toolbar-items>
