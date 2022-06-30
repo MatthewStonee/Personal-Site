@@ -10,10 +10,11 @@
       <v-btn
           text
           large
+          class="text"
           @click="clickMethod()"
       >
           <span class="font-weight-bold">
-            Home
+            matthewstone
           </span>
       </v-btn>
 
@@ -23,6 +24,7 @@
               v-bind="attrs" v-on="on"
               large
               text
+              class="text2"
           >
             <span>
               Web Projects
@@ -92,3 +94,17 @@
 
   };
 </script>
+
+<style scoped>
+
+.text {
+  font-family: "Prompt";
+  text-transform: lowercase;
+}
+
+.text2 {
+  font-family: "Prompt";
+  text-transform: capitalize;
+}
+
+</style>
