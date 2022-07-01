@@ -9,7 +9,6 @@
 
 <style>
 #grad {
-  /*background-image: linear-gradient(dodgerblue, lightsteelblue);*/
   background-color: rgb(28, 28, 33);
 }
 

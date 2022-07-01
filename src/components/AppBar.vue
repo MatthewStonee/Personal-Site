@@ -1,7 +1,8 @@
 <template>
   <v-app-bar
-      app
-      color="backgroundColor"
+      color="#1C1C21"
+      elevate-on-scroll
+      dense
       dark
       flat
   >
