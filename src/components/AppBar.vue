@@ -50,6 +50,17 @@
         </v-list>
       </v-menu>
 
+      <v-btn
+          text
+          large
+          class="text2"
+          onclick="window.open('https://github.com/MatthewStonee','_blank')"
+      >
+        <span class="git">GitHub</span>
+        <v-icon dense>mdi-open-in-new</v-icon>
+
+      </v-btn>
+
 
     </v-toolbar-items>
 
@@ -91,6 +102,9 @@
       clickMethod() {
         this.$router.push({ name: "home" }).catch(err => {console.log("Redundant Navigation, error: " + err)})
       },
+      goGithub() {
+
+      }
     }
 
   };
@@ -99,13 +113,17 @@
 <style scoped>
 
 .text {
-  font-family: "Prompt";
+  font-family: Prompt, monospace;
   text-transform: lowercase;
 }
 
 .text2 {
-  font-family: "Prompt";
+  font-family: Prompt, monospace;
   text-transform: capitalize;
+}
+
+.git {
+  margin-right: 7px;
 }
 
 </style>

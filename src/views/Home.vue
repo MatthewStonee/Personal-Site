@@ -1,51 +1,94 @@
 <template>
-  <v-container>
-    <v-row class="home">
-      <v-col>
-        <h1>Hey! I'm Matthew Stone</h1>
-      </v-col>
-      <v-col>
+  <v-container class="header">
+    <div>
+      <div>
+        <h1>Hi 👋 I’m Matthew Stone!</h1>
+        <h2>I’m a software engineer at Bolt and graduate of the University of Central Florida</h2>
+      </div>
+    </div>
+
+
+    <div class="container-1">
+      <div class="Exp">
+        <p>🎓  B.S. Computer Science @ UCF</p>
+        <p class="p2">📍 Grew up in Central Florida</p>
+        <p>💪 Love to workout, game, and trade stocks</p>
+        <p class="p2">⌨️ There are some simple web apps on this website that I built while learning different aspects of web development!</p>
+      </div>
+
+      <div class="image">
         <v-sheet
             color="grey lighten-1"
             rounded
             elevation="8"
-            min-width="200"
-            max-width="600"
+            max-width="325"
         >
           <v-img :src="images.profile"></v-img>
         </v-sheet>
-      </v-col>
-    </v-row>
+      </div>
+    </div>
+
+
+
+
   </v-container>
-
-
 
 </template>
 
 <style scoped>
-/*#title {
-  font-family: "Iowan Old Style";
-  font-size: 35px;
-}*/
+
+.header {
+  width: 100%;
+  margin: auto;
+  padding: 50px;
+  margin-bottom: 15px;
+  max-width: 800px;
+  text-align: justify;
+  font-family: Prompt, monospace;
+}
 
 h1 {
   color: white;
-  font-size: 60px;
-  font-family: "Prompt";
+  margin-bottom: 25px;
+  font-size: 45px;
 }
 
 h2{
   color:white;
   font-size: 27px;
-  font-family: "Prompt";
+  margin-bottom: 10px;
 }
 
-.home {
-  width: 100%;
-  max-width: 650px;
-  margin: auto;
+p{
+  color:white;
+  font-size: 16px;
   margin-bottom: 5px;
-  text-align: center;
+  max-width: 255px;
+  text-align: justify;
+}
+.p2 {
+  color:white;
+  font-size: 16px;
+  margin-top: 50px;
+  text-align: justify;
+}
+
+@media (min-width: 600px) {
+  .container-1 {
+    display: flex;
+    margin-top: 30px;
+  }
+
+}
+
+.Exp {
+  flex:2;
+  margin-bottom: 30px;
+}
+
+.image {
+  flex: 1;
+  margin-right: 75px;
 }
 
 </style>
