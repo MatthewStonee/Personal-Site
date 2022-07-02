@@ -61,6 +61,17 @@
 
       </v-btn>
 
+      <v-btn
+          text
+          large
+          class="text2"
+          href="Matthew Stone Resume.pdf"
+          download>
+        <span class="git">Resume</span>
+        <v-icon dense>mdi-download</v-icon>
+
+      </v-btn>
+
 
     </v-toolbar-items>
 
