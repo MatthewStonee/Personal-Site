@@ -9,10 +9,12 @@ export default new Vuetify({
         iconfont: 'mdi', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
     },
 
-    primary: '#303038',
-    backgroundColor: '#1C1C21',
-    error: '#FF5252',
-    info: '#2196F3',
-    success: '#4CAF50',
-    warning: '#FFC107',
+    theme: {
+        primary: '#1C1C21',
+        backgroundColor: '#1C1C21',
+        error: '#FF5252',
+        info: '#2196F3',
+        success: '#4CAF50',
+        warning: '#FFC107',
+    }
 });

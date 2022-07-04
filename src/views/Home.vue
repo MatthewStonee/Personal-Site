@@ -10,7 +10,7 @@
 
     <div class="container-1">
       <div class="Exp">
-        <p>🎓  B.S. Computer Science @ UCF</p>
+        <p>🎓  B.S. Computer Science @ University of Central Florida</p>
         <p class="p2">📍 Grew up in Central Florida</p>
         <p>💪 Love to workout, game, and trade stocks</p>
         <p class="p2">⌨️ There are some simple web apps on this website that I built while learning different aspects of web development!</p>
@@ -40,9 +40,9 @@
 .header {
   width: 100%;
   margin: auto;
-  padding: 50px;
+  padding: 45px;
   margin-bottom: 15px;
-  max-width: 800px;
+  max-width: 815px;
   text-align: justify;
   font-family: Prompt, monospace;
 }
@@ -61,19 +61,19 @@ h2{
 
 p{
   color:white;
-  font-size: 16px;
+  font-size: 17px;
   margin-bottom: 5px;
   max-width: 255px;
   text-align: justify;
 }
 .p2 {
   color:white;
-  font-size: 16px;
+  font-size: 17px;
   margin-top: 50px;
   text-align: justify;
 }
 
-@media (min-width: 600px) {
+@media (min-width: 700px) {
   .container-1 {
     display: flex;
     margin-top: 30px;
@@ -83,12 +83,13 @@ p{
 
 .Exp {
   flex:2;
+  padding-right: 25px;
   margin-bottom: 30px;
 }
 
 .image {
   flex: 1;
-  margin-right: 75px;
+  margin-right: 65px;
 }
 
 </style>

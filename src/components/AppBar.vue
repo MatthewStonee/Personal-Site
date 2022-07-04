@@ -1,13 +1,23 @@
 <template>
   <v-app-bar
-      color="#1C1C21"
+      color='#1C1C21'
       elevate-on-scroll
       dense
       dark
       flat
   >
 
-    <v-toolbar-items>
+    <v-app-bar-nav-icon @click="drawer = true"
+                        class="d-flex d-sm-none"
+    ></v-app-bar-nav-icon>
+
+
+
+
+
+
+    <v-toolbar-items
+        class="d-none d-sm-flex">
       <v-btn
           text
           large
@@ -113,8 +123,16 @@
       clickMethod() {
         this.$router.push({ name: "home" }).catch(err => {console.log("Redundant Navigation, error: " + err)})
       },
-      goGithub() {
-
+      isMobile() {
+        if(this.$vuetify.breakpoint.xsOnly)
+        {
+          return true;
+        }
+        else
+          return this.isLarge();
+      },
+      isLarge() {
+        return true;
       }
     }
 
