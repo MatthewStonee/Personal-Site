@@ -3,8 +3,9 @@
 
   <v-row class="d-flex flex-wrap justify-center mb-7 pt-15">
     <v-card
-        class="justify-lg-start justify-md-center justify-sm-center ma-2"
+        class="card"
         :width="width"
+        height="575px"
         elevation="10"
     >
 
@@ -26,6 +27,10 @@
 
 
 </template>
+
+<style>
+
+</style>
 
 <script>
 

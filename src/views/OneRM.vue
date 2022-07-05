@@ -1,9 +1,6 @@
 <template>
-  <v-container>
-
-    <v-row class="d-flex flex-wrap justify-center mt-n10 pt-15">
+  <div class="cards">
       <v-card
-          class="justify-lg-start justify-md-center justify-sm-center ma-2"
           max-height="450"
           :width="width"
           elevation="10"
@@ -70,19 +67,26 @@
 
       </v-card>
 
-    </v-row>
-
-
-
 
     <Table></Table>
 
-  </v-container>
+  </div>
 
 
 </template>
 
 <style>
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+  margin-top: 20px;
+}
+
 #title {
   /*font-family: "Iowan Old Style";*/
   font-size: 30px;

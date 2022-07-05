@@ -3,7 +3,6 @@
     <v-app-bar
         color='#1C1C21'
         elevate-on-scroll
-        dense
         dark
         flat
     >
@@ -11,7 +10,6 @@
       <v-app-bar-nav-icon @click="drawer = true"
                           class="d-flex d-sm-none"
       ></v-app-bar-nav-icon>
-
 
 
       <v-toolbar-items
@@ -27,7 +25,7 @@
             </span>
         </v-btn>
 
-        <v-menu offset-y open-on-click open-on-hover>
+        <v-menu offset-y open-on-click open-on-hover close-on-content-click>
           <template v-slot:activator="{ on, attrs }">
             <v-btn
                 v-bind="attrs" v-on="on"
@@ -35,9 +33,7 @@
                 text
                 class="text2"
             >
-              <span>
                 Web Projects
-              </span>
               <v-icon large>mdi-menu-down</v-icon>
             </v-btn>
           </template>
@@ -215,20 +211,18 @@
   color: white;
   font-family: Prompt, monospace;
   text-transform: lowercase;
+  cursor: pointer;
 }
 
 .text2 {
   color: white;
   font-family: Prompt, monospace;
   text-transform: capitalize;
+  cursor: pointer;
 }
 
 .git {
   margin-right: 7px;
-}
-
-.btn {
-  margin-right: 100px;
 }
 
 </style>

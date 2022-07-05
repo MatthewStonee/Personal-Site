@@ -55,19 +55,19 @@
               >
                   <v-img
                       :src="require(`../assets/Teams/${item.teams.home.code}.png`)"
-                      max-height="60"
-                      max-width="60"></v-img>
-                  <h3>
+                      max-height="40"
+                      max-width="40"></v-img>
+                  <h3 class="left">
                     &nbsp; {{ item.teams.home.code }} &nbsp;
                   </h3>
-                  <h2>
+                  <h2 class="left">
                     &nbsp; {{ item.scores.home.points }} &nbsp;
                   </h2>
                   <h2>-</h2>
-                  <h2>
+                  <h2 class="right">
                     &nbsp; {{ item.scores.visitors.points }} &nbsp;
                   </h2>
-                  <h3>
+                  <h3 class="right">
                     &nbsp; {{ item.teams.visitors.code }} &nbsp;
                   </h3>
                   <v-img
@@ -176,6 +176,15 @@ export default {
   margin: 0 auto;
 }
 
+.left {
+  text-align: left;
+
+}
+
+.right {
+  text-align: right;
+
+}
 
 
 
