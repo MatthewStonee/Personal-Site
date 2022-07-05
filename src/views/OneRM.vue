@@ -85,7 +85,7 @@
 <style>
 #title {
   /*font-family: "Iowan Old Style";*/
-  font-size: 35px;
+  font-size: 30px;
 }
 
 v-text-field{
