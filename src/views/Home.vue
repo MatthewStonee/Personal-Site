@@ -1,10 +1,8 @@
 <template>
-  <v-container class="header">
-    <div>
-      <div>
-        <h1>Hi 👋 I’m Matthew Stone!</h1>
-        <h2>I’m a software engineer at Bolt and graduate of the University of Central Florida</h2>
-      </div>
+  <div class="header">
+    <div class="intro">
+      <h1>Hi 👋 I’m Matthew Stone!</h1>
+      <h2>I’m a software engineer at Bolt and graduate of the University of Central Florida</h2>
     </div>
 
 
@@ -31,20 +29,24 @@
 
 
 
-  </v-container>
+  </div>
 
 </template>
 
 <style scoped>
 
 .header {
+  display: block;
   width: 100%;
   margin: auto;
   padding: 45px;
-  margin-bottom: 15px;
   max-width: 815px;
   text-align: justify;
   font-family: Prompt, monospace;
+}
+
+.intro {
+  margin: auto;
 }
 
 h1 {

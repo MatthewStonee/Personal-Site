@@ -1,94 +1,162 @@
 <template>
-  <v-app-bar
-      color='#1C1C21'
-      elevate-on-scroll
-      dense
-      dark
-      flat
-  >
+  <div>
+    <v-app-bar
+        color='#1C1C21'
+        elevate-on-scroll
+        dense
+        dark
+        flat
+    >
 
-    <v-app-bar-nav-icon @click="drawer = true"
-                        class="d-flex d-sm-none"
-    ></v-app-bar-nav-icon>
-
-
-
+      <v-app-bar-nav-icon @click="drawer = true"
+                          class="d-flex d-sm-none"
+      ></v-app-bar-nav-icon>
 
 
 
-    <v-toolbar-items
-        class="d-none d-sm-flex">
-      <v-btn
-          text
-          large
-          class="text"
-          @click="clickMethod()"
-      >
-          <span class="font-weight-bold">
-            matthewstone
-          </span>
-      </v-btn>
-
-      <v-menu offset-y open-on-click open-on-hover>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-              v-bind="attrs" v-on="on"
-              large
-              text
-              class="text2"
-          >
-            <span>
-              Web Projects
+      <v-toolbar-items
+          class="d-none d-sm-flex">
+        <v-btn
+            text
+            large
+            class="text"
+            @click="clickMethod()"
+        >
+            <span class="font-weight-bold">
+              matthewstone
             </span>
-            <v-icon large>mdi-menu-down</v-icon>
-          </v-btn>
-        </template>
+        </v-btn>
 
-        <v-list>
-          <v-list-item
-              v-for="item in barMenu"
-              :key="item.title"
-              :icon="item.icon"
-              router
-              :to="item.route"
-          >
-            <v-icon class="mr-2">{{ item.icon }}</v-icon>
-            <v-list-item-title>{{
-                item.title
-              }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
+        <v-menu offset-y open-on-click open-on-hover>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+                v-bind="attrs" v-on="on"
+                large
+                text
+                class="text2"
+            >
+              <span>
+                Web Projects
+              </span>
+              <v-icon large>mdi-menu-down</v-icon>
+            </v-btn>
+          </template>
 
-      <v-btn
-          text
-          large
-          class="text2"
-          onclick="window.open('https://github.com/MatthewStonee','_blank')"
+          <v-list>
+            <v-list-item
+                v-for="item in barMenu"
+                :key="item.title"
+                :icon="item.icon"
+                router
+                :to="item.route"
+            >
+              <v-icon class="mr-2">{{ item.icon }}</v-icon>
+              <v-list-item-title>{{
+                  item.title
+                }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+
+        <v-btn
+            text
+            large
+            class="text2"
+            onclick="window.open('https://github.com/MatthewStonee','_blank')"
+        >
+          <span class="git">GitHub</span>
+          <v-icon dense>mdi-open-in-new</v-icon>
+
+        </v-btn>
+
+        <v-btn
+            text
+            large
+            class="text2"
+            href="Matthew Stone Resume.pdf"
+            download>
+          <span class="git">Resume</span>
+          <v-icon dense>mdi-download</v-icon>
+
+        </v-btn>
+
+
+      </v-toolbar-items>
+
+      <v-spacer></v-spacer>
+
+    </v-app-bar>
+
+    <!-- Mobile drawer -->
+    <v-navigation-drawer
+        v-model="drawer"
+        color="#33333D"
+        absolute
+        temporary
+    >
+      <v-list
+          nav
       >
-        <span class="git">GitHub</span>
-        <v-icon dense>mdi-open-in-new</v-icon>
+        <v-list-item-group
+            v-model="group"
+            active-class="white--text"
+        >
+          <v-list-item @click="clickMethod()">
+            <v-list-item-title class="text">matthewstone</v-list-item-title>
+          </v-list-item>
 
-      </v-btn>
+          <v-list-item>
 
-      <v-btn
-          text
-          large
-          class="text2"
-          href="Matthew Stone Resume.pdf"
-          download>
-        <span class="git">Resume</span>
-        <v-icon dense>mdi-download</v-icon>
+            <v-menu offset-y open-on-click open-on-hover>
+              <template v-slot:activator="{ on, attrs }" class="btn">
+                <v-list-item-title v-bind="attrs" v-on="on" class="text2">
+                  Web Projects
+                  <v-icon color="white">mdi-menu-down</v-icon>
+                </v-list-item-title>
+              </template>
 
-      </v-btn>
+              <v-list>
+                <v-list-item
+                    v-for="item in barMenu"
+                    :key="item.title"
+                    :icon="item.icon"
+                    router
+                    :to="item.route"
+                    active-class="darken-1--text"
+                >
+                  <v-icon class="mr-2">{{ item.icon }}</v-icon>
+                  <v-list-item-title class="darken-1--text">{{
+                      item.title
+                    }}</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+
+          </v-list-item>
+
+        <v-list-item onclick="window.open('https://github.com/MatthewStonee','_blank')">
+          <v-list-item-title class="text2">
+            GitHub
+            <v-icon color="white">mdi-open-in-new</v-icon>
+          </v-list-item-title>
+        </v-list-item>
+
+          <v-list-item href="Matthew Stone Resume.pdf"
+                       download>
+            <v-list-item-title class="text2">
+              Resume
+              <v-icon color="white">mdi-download</v-icon>
+            </v-list-item-title>
+          </v-list-item>
+
+        </v-list-item-group>
+
+      </v-list>
+    </v-navigation-drawer>
+
+  </div>
 
 
-    </v-toolbar-items>
-
-  <v-spacer></v-spacer>
-
-
-  </v-app-bar>
 </template>
 
 <script>
@@ -117,6 +185,8 @@
           route: "/NBA",
         },
       ],
+      drawer: false,
+      group: null,
   }),
 
     methods: {
@@ -142,17 +212,23 @@
 <style scoped>
 
 .text {
+  color: white;
   font-family: Prompt, monospace;
   text-transform: lowercase;
 }
 
 .text2 {
+  color: white;
   font-family: Prompt, monospace;
   text-transform: capitalize;
 }
 
 .git {
   margin-right: 7px;
+}
+
+.btn {
+  margin-right: 100px;
 }
 
 </style>
