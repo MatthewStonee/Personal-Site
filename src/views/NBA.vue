@@ -158,8 +158,12 @@ export default {
 <style>
 
 .display {
-  margin-top: 25px;
+  margin: auto;
+  max-width: 650px;
   padding: 20px;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
 }
 
 .scoreText {
