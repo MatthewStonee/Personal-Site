@@ -1,112 +1,75 @@
 <template>
   <div class="cards">
       <v-card
-          max-height="450"
+          max-height="475"
           :width="width"
           elevation="10"
       >
         <v-card-title id="title">One Rep Max Calculator</v-card-title>
-        <v-row  no-gutters class="justify-lg-start justify-md-center justify-sm-center ma-4"
+
+        <div class="reps">
+          <v-row  no-gutters
+          >
+            <v-col cols="9" class="text">
+              <v-text-field
+                  label="Lift"
+                  type="number"
+                  v-model.number.trim="lift"
+                  outlined
+                  placeholder="185"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="3">
+              <v-select
+                  v-model="units"
+                  :items="items"
+                  label="Unit"
+                  outlined
+                  :menu-props="{offsetY: true }"
+              ></v-select>
+            </v-col>
+          </v-row>
+        </div>
+
+        <div class="reps">
+          <v-text-field
+              label="Repetitions"
+              type="number"
+              v-model.number.trim="repetitions"
+              v-on:keypress.enter="result"
+              outlined
+              placeholder="3"
+          ></v-text-field>
+        </div>
+
+
+        <div id="render" class="answer">
+          <h2>{{ answer }}</h2>
+        </div>
+
+        <v-btn
+            @click="result"
+            large
+            color="blue"
+            class="white--text btn"
         >
-          <v-col cols="9">
-            <v-text-field
-                label="Lift"
-                type="number"
-                v-model.number.trim="lift"
-                outlined
-                placeholder="185"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="3">
-            <v-select
-                v-model="units"
-                :items="items"
-                label="Unit"
-                outlined
-                :menu-props="{offsetY: true }"
-            ></v-select>
-          </v-col>
-        </v-row>
-
-        <v-row no-gutters class="justify-lg-start justify-md-center justify-sm-center ma-4 mb-n2">
-          <v-col cols="12">
-            <v-text-field
-                label="Repetitions"
-                type="number"
-                v-model.number.trim="repetitions"
-                v-on:keypress.enter="result"
-                outlined
-                placeholder="3"
-            ></v-text-field>
-          </v-col>
-        </v-row>
-
-        <v-row class="justify-lg-start justify-md-center justify-sm-center ma-5 ">
-          <div id="render" style="display:none">
-            <h2>{{ answer }}</h2>
-          </div>
-        </v-row>
-
-
-        <v-row no-gutters class="justify-lg-start justify-md-center justify-sm-center ma-4">
-          <v-col>
-            <v-card-actions>
-              <v-btn
-                  @click="result"
-                  large
-                  color="blue"
-                  class="white--text mt-n2 mb-1 ml-n1"
-              >
-                Calculate One Rep Max
-              </v-btn>
-            </v-card-actions>
-          </v-col>
-        </v-row>
-
-
+          Calculate One Rep Max
+        </v-btn>
 
       </v-card>
 
-
-    <Table></Table>
 
   </div>
 
 
 </template>
 
-<style>
-
-.cards {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  min-height: 100vh;
-  margin-top: 20px;
-}
-
-#title {
-  /*font-family: "Iowan Old Style";*/
-  font-size: 30px;
-}
-
-v-text-field{
-  width: 20px;
-}
-
-</style>
-
 <script>
-
-import Table from './Table';
 
 export default {
   name: 'OneRM',
 
   components: {
-    Table
   },
 
   created() {
@@ -156,3 +119,43 @@ export default {
 
 };
 </script>
+
+
+<style>
+
+.cards {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  min-height: 100vh;
+  margin-top: 30px;
+}
+
+.text {
+  padding: 20px;
+}
+
+.answer {
+  padding-left: 15px;
+  padding-right: 15px;
+  text-align: justify-all;
+}
+
+.btn {
+  margin-top: 20px;
+}
+
+.reps {
+  padding: 15px;
+}
+
+#title {
+  font-size: 30px;
+}
+
+v-text-field{
+  width: 15px;
+}
+
+</style>
+
