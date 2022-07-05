@@ -1,8 +1,6 @@
 <template>
-  <div>
     <div class="display">
       <v-card
-          class="card mt-10"
           elevation="15"
       >
         <v-row>
@@ -84,8 +82,6 @@
       </v-card>
 
     </div>
-
-  </div>
 </template>
 
 <script>
@@ -160,13 +156,10 @@ export default {
 </script>
 
 <style>
-.card {
-  margin: 0 auto;
-  width: 500px;
-}
 
 .display {
-  padding-top: 10px;
+  margin-top: 25px;
+  padding: 20px;
 }
 
 .scoreText {
