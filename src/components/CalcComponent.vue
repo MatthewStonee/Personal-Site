@@ -126,8 +126,9 @@ export default {
   font-size: 40px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: minmax(50px, auto);
+  grid-auto-rows: minmax(55px, 55px);
   text-align: center;
+  padding: 25px;
 }
 
 .display {
