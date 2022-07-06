@@ -1,11 +1,12 @@
 <template>
   <div class="cards">
       <v-card
-          max-height="475"
+          max-height="525"
           :width="width"
           elevation="10"
       >
         <v-card-title id="title">One Rep Max Calculator</v-card-title>
+        <p id="cap">Enter a weight and the maximum amount of reps you can do to find out your one rep max!</p>
 
         <div class="reps">
           <v-row  no-gutters
@@ -151,6 +152,11 @@ export default {
 
 #title {
   font-size: 30px;
+}
+
+#cap {
+  text-align: justify;
+  padding: 15px;
 }
 
 v-text-field{
