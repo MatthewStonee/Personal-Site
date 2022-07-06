@@ -156,7 +156,8 @@ export default {
 
 #cap {
   text-align: justify;
-  padding: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 v-text-field{
