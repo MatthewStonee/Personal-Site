@@ -3,14 +3,17 @@
     <div class="intro">
       <div>
         <h1>Hi 👋 I’m Matthew Stone!</h1>
-        <h2>I’m a software engineer at Bolt and graduate of the University of Central Florida</h2>
+        <h2>I’m a Computer Science graduate from the University of Central Florida looking to further my knowledge
+            in everything tech!
+
+        </h2>
       </div>
 
 
       <div class="container-1">
         <div class="Exp">
           <p>🎓B.S. Computer Science @ University of Central Florida</p>
-          <p class="p2">📍 Grew up in Central Florida</p>
+          <p class="p2">📍 Grew up in Florida</p>
           <p>💪 Love to workout, game, and trade stocks</p>
           <p class="p2">💻️ There are some simple web apps on this website that I built while learning different aspects of Vue.js and web development!</p>
         </div>
