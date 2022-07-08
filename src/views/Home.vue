@@ -115,12 +115,10 @@ export default {
     return {
       images: {
         profile: require('../images/profile.jpg'),
-        deadlift: require('../images/deadlift.jpeg'),
-        calculator: require('../images/calculator.png'),
       }
     }
   },
-  
+
 
 
 };
