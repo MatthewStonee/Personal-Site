@@ -1,5 +1,5 @@
 # personal-site
-Personal website made using the Vue.js framework and Vuetify UI library.
+Personal website at https://www.matthewstone.co made using the Vue.js framework and Vuetify UI library.
 
 
 ## Project setup
