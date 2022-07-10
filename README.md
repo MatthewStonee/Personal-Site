@@ -1,4 +1,6 @@
 # personal-site
+Personal website made using the Vue.js framework and Vuetify UI library.
+
 
 ## Project setup
 ```
