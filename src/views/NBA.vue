@@ -3,6 +3,9 @@
       <v-card
           elevation="15"
       >
+        <div class="header">
+          Pick a date to see the NBA games played and their final score!
+        </div>
         <v-row>
 
           <v-col
@@ -166,6 +169,11 @@ export default {
   text-align: center;
 }
 
+.header {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
 .scoreText {
   text-align: center;
 }
@@ -179,6 +187,7 @@ export default {
 }
 
 .right {
+  justify: right;
   text-align: right;
 
 }
