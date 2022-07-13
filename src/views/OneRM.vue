@@ -5,7 +5,7 @@
           :width="width"
           elevation="10"
       >
-        <v-card-title id="title">One Rep Max Calculator</v-card-title>
+        <v-card-title id="title">1 Rep Max Calculator</v-card-title>
         <p id="cap">Enter a weight and the maximum amount of reps you can do to find out your one rep max!</p>
 
         <div class="reps">
@@ -130,6 +130,7 @@ export default {
   text-align: center;
   min-height: 100vh;
   margin-top: 30px;
+  padding: 15px;
 }
 
 .text {
@@ -152,6 +153,9 @@ export default {
 
 #title {
   font-size: 30px;
+  align-content: center;
+  text-align: center;
+  white-space: normal;
 }
 
 #cap {
