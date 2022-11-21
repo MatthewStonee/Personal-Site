@@ -62,6 +62,16 @@ const routes = [
     name: 'NBA',
     component: () => import('../views/NBA'),
   },
+  {
+    path: '/user',
+    name: 'User Create',
+    component: () => import('../components/UserCreate'),
+  },
+  {
+    path: '/edit/:id',
+    name: 'Edit',
+    component: () => import('../components/Edit'),
+  },
 ]
 
 const router = new VueRouter( {
