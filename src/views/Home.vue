@@ -23,7 +23,7 @@
               color="grey lighten-1"
               rounded
               elevation="8"
-              max-width="325"
+              max-width="345"
           >
             <v-img :src="images.profile"></v-img>
           </v-sheet>
