@@ -41,7 +41,7 @@
   width: 100%;
   padding: 45px;
   max-width: 815px;
-  text-align: justify;
+  text-align: left;
   font-family: Prompt, monospace;
 }
 
@@ -74,14 +74,14 @@ p{
 .p2 {
   color:white;
   font-size: 17px;
-  margin-top: 50px;
+  margin-top: 10px;
   text-align: justify;
 }
 
 @media (min-width: 700px) {
   .container-1 {
     display: flex;
-    margin-top: 30px;
+    margin-top: 25px;
   }
 
 }
@@ -89,7 +89,8 @@ p{
 .Exp {
   flex:2;
   padding-right: 35px;
-  margin-bottom: 30px;
+  margin-top: 10px;
+  margin-bottom: 25px;
 }
 
 .image {
