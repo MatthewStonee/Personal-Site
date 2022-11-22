@@ -89,7 +89,7 @@ p{
 .Exp {
   flex:2;
   padding-right: 35px;
-  margin-top: 10px;
+  margin-top: 40px;
   margin-bottom: 25px;
 }
 
