@@ -63,7 +63,7 @@ h1 {
 h2{
   color:white;
   font-size: 27px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 p{
@@ -81,7 +81,6 @@ p{
 @media (min-width: 700px) {
   .container-1 {
     display: flex;
-    margin-top: 25px;
   }
 
 }
@@ -89,7 +88,7 @@ p{
 .Exp {
   flex:2;
   padding-right: 35px;
-  margin-top: 40px;
+  margin-top: 55px;
   margin-bottom: 25px;
 }
 
