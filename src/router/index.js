@@ -72,6 +72,11 @@ const routes = [
     name: 'Edit',
     component: () => import('../components/Edit'),
   },
+  {
+    path: '/AI',
+    name: 'AI',
+    component: () => import('../views/AI'),
+  },
 ]
 
 const router = new VueRouter( {

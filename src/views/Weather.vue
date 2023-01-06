@@ -59,7 +59,7 @@ export default {
 
   data: () => {
     return {
-      api_key: '2b45cad984142d1d3b9d6583e5bf55bd',
+      apiKey: process.env.VUE_APP_OPENWEATHER_KEY,
       url_base: 'https://api.openweathermap.org/data/2.5/',
       default: 'Orlando',
       query: '',
@@ -79,7 +79,7 @@ export default {
   created() {
     document.title = "Weather";
 
-    fetch(`${this.url_base}weather?q=orlando&units=imperial&APPID=${this.api_key}`)
+    fetch(`${this.url_base}weather?q=orlando&units=imperial&APPID=${this.apiKey}`)
         .then(res => {
           return res.json();
         }).then(this.setResults);
@@ -113,7 +113,7 @@ export default {
       pos.lon = position.coords.longitude;
 
 
-      fetch(`${this.url_base}weather?lat=${pos.lat}&lon=${pos.lon}&units=imperial&APPID=${this.api_key}`)
+      fetch(`${this.url_base}weather?lat=${pos.lat}&lon=${pos.lon}&units=imperial&APPID=${this.apiKey}`)
           .then(res => {
             return res.json();
           }).then(this.setResults);
@@ -126,7 +126,7 @@ export default {
 
     fetchWeather (e) {
       if (e.key === "Enter") {
-        fetch(`${this.url_base}weather?q=${this.query}&units=imperial&APPID=${this.api_key}`)
+        fetch(`${this.url_base}weather?q=${this.query}&units=imperial&APPID=${this.apiKey}`)
             .then(res => {
               return res.json();
             }).then(this.setResults);
