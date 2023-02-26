@@ -1,68 +1,107 @@
 <template>
-  <div class="cards">
+  <v-container>
+    <div class="cards">
+        <v-card
+            max-height="525"
+            :width="width"
+            elevation="10"
+        >
+          <v-card-title id="title">1 Rep Max Calculator</v-card-title>
+          <p id="cap">Enter a weight and the maximum amount of reps you can do to find out your one rep max!</p>
+
+          <div class="reps">
+            <v-row  no-gutters
+            >
+              <v-col cols="9" class="text">
+                <v-text-field
+                    label="Lift"
+                    type="number"
+                    v-model.number.trim="lift"
+                    outlined
+                    placeholder="185"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="3">
+                <v-select
+                    v-model="units"
+                    :items="items"
+                    label="Unit"
+                    outlined
+                    :menu-props="{offsetY: true }"
+                ></v-select>
+              </v-col>
+            </v-row>
+          </div>
+
+          <div class="reps">
+            <v-text-field
+                label="Repetitions"
+                type="number"
+                v-model.number.trim="repetitions"
+                v-on:keypress.enter="result"
+                outlined
+                placeholder="3"
+            ></v-text-field>
+          </div>
+
+
+          <div id="render" class="answer">
+            <h2>{{ answer }}</h2>
+          </div>
+
+          <v-btn
+              @click="result"
+              large
+              color="blue"
+              class="white--text btn"
+          >
+            Calculate One Rep Max
+          </v-btn>
+
+        </v-card>
+
+    </div>
+
+    <div class="cards2">
       <v-card
-          max-height="525"
+          max-height="425"
           :width="width"
           elevation="10"
       >
-        <v-card-title id="title">1 Rep Max Calculator</v-card-title>
-        <p id="cap">Enter a weight and the maximum amount of reps you can do to find out your one rep max!</p>
-
-        <div class="reps">
-          <v-row  no-gutters
-          >
-            <v-col cols="9" class="text">
-              <v-text-field
-                  label="Lift"
-                  type="number"
-                  v-model.number.trim="lift"
-                  outlined
-                  placeholder="185"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="3">
-              <v-select
-                  v-model="units"
-                  :items="items"
-                  label="Unit"
-                  outlined
-                  :menu-props="{offsetY: true }"
-              ></v-select>
-            </v-col>
-          </v-row>
-        </div>
+        <v-card-title id="title">Kilo Plates to lbs Converter</v-card-title>
+        <p id="cap">Enter the total kilo weight of the plates on one half of the bar</p>
 
         <div class="reps">
           <v-text-field
-              label="Repetitions"
+              label="Kilos"
               type="number"
-              v-model.number.trim="repetitions"
-              v-on:keypress.enter="result"
+              v-model.number.trim="kilos"
+              v-on:keypress.enter="convert"
               outlined
-              placeholder="3"
+              placeholder="30.5"
           ></v-text-field>
         </div>
 
 
         <div id="render" class="answer">
-          <h2>{{ answer }}</h2>
+          <h2>{{ conversion }}</h2>
         </div>
 
         <v-btn
-            @click="result"
+            @click="convert"
             large
-            color="blue"
+            color="red"
             class="white--text btn"
         >
-          Calculate One Rep Max
+          Calculate Weight in lbs
         </v-btn>
 
       </v-card>
 
+    </div>
 
-  </div>
 
-
+  </v-container>
 </template>
 
 <script>
@@ -83,6 +122,8 @@ export default {
     repetitions: "",
     answer: "",
     items: ["kg", "lbs"],
+    kilos:"",
+    conversion:""
   }),
 
   computed: {
@@ -115,6 +156,14 @@ export default {
       }
     },
 
+    convert() {
+
+      this.conversion = Math.round(parseFloat(this.kilos) / 0.45359237 * 2 + 44 )
+
+      this.conversion = this.conversion + " lbs is on the bar"
+
+    },
+
   },
 
 
@@ -131,6 +180,16 @@ export default {
   min-height: 100vh;
   margin-top: 30px;
   padding: 15px;
+}
+
+.cards2 {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  min-height: 100vh;
+  padding: 15px;
+  margin-top: -500px;
+
 }
 
 .text {

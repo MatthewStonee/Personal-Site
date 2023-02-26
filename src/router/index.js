@@ -76,7 +76,7 @@ const routes = [
     path: '/AI',
     name: 'AI',
     component: () => import('../views/AI'),
-  },
+  }
 ]
 
 const router = new VueRouter( {
