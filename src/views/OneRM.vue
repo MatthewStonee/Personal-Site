@@ -70,6 +70,7 @@
       >
         <v-card-title id="title">Kilo Plates to lbs Converter</v-card-title>
         <p id="cap">Enter the total kilo weight of the plates on one half of the bar</p>
+        <p id="cap">This converter converts the entered kilo weight to lbs, doubles it, and then adds another 44lbs for the weight of the bar</p>
 
         <div class="reps">
           <v-text-field
