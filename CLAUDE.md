@@ -92,6 +92,13 @@ VUE_APP_FIREBASE_MEASUREMENT_ID=
 - **Pinia state management** — Replace ad-hoc component state with Pinia as the app grows
 - **TypeScript** — Would catch runtime bugs (wrong method names, typos) at compile time
 
+### Calculator (`CalcComponent.vue`) Improvements
+- **Remove `Calc.vue` wrapper** — It only sets `document.title`; move that into `CalcComponent.vue` directly
+- **Fix `append` blocking `0`** — Current logic prevents typing numbers like `10`, `20`, `100`; only leading zeros should be blocked
+- **Fix `clear` not resetting full state** — `C` button only clears `current`; should also reset `previous`, `operator`, and `operatorClicked`
+- **Add divide-by-zero protection** — `5 ÷ 0` currently displays `Infinity`; should show `Error`
+- **Replace `<div>` buttons with `<button>` elements** — Current `<div @click>` buttons are inaccessible to keyboard users and screen readers
+
 ## Known Remaining Issues
 - **`fb.js`** — Firebase SDK initialized incorrectly (uses old `.firestore()` method instead of `getFirestore()`); `deleteUser()` should be `delete()`; `snapshot.doc` should be `snapshot.docs`
 - **`Edit.vue`** — Component is empty, edit user page is non-functional

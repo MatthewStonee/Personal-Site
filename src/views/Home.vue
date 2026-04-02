@@ -114,7 +114,7 @@ export default {
   data() {
     return {
       images: {
-        profile: require('../images/profile.jpg'),
+        profile: require('../images/profile3.jpg'),
       }
     }
   },
