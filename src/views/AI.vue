@@ -30,7 +30,6 @@
 
     methods: {
       async generateText() {
-        console.log("Api key is " + this.apiKey);
         try {
           const response = await axios({
             method: 'post',

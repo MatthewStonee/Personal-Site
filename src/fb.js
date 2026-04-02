@@ -5,16 +5,14 @@ import { ref, onUnmounted} from "vue";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "AIzaSyA2IynnroNh-2GUlm9O-jB2-P7KSu8gOkE",
-    authDomain: "personal-site-5bca5.firebaseapp.com",
-    projectId: "personal-site-5bca5",
-    storageBucket: "personal-site-5bca5.appspot.com",
-    messagingSenderId: "284455794578",
-    appId: "1:284455794578:web:57c466e29980d7cb0bb34b",
-    measurementId: "G-QX0DDF2Z0V"
+    apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
+    authDomain: process.env.VUE_APP_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.VUE_APP_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.VUE_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.VUE_APP_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.VUE_APP_FIREBASE_APP_ID,
+    measurementId: process.env.VUE_APP_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase

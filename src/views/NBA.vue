@@ -96,7 +96,6 @@ export default {
 
   data: () => {
     return {
-      api_key: 'ed88420268msh8ad778ec7682163p11d092jsn1ca842f5f5cb',
       url_base: 'https://api-nba-v1.p.rapidapi.com/games?date=',
       games: {},
       home: [],
@@ -127,7 +126,7 @@ export default {
         "method": "GET",
         "headers": {
           "x-rapidapi-host": "api-nba-v1.p.rapidapi.com",
-          "x-rapidapi-key": "ed88420268msh8ad778ec7682163p11d092jsn1ca842f5f5cb"
+          "x-rapidapi-key": process.env.VUE_APP_RAPIDAPI_KEY
         }})
           .then(res => {
             return res.json();
