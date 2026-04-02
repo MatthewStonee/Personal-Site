@@ -1,7 +1,7 @@
 # Personal Site — CLAUDE.md
 
 ## Project Overview
-Matthew Stone's personal website — a Vue.js 2 SPA hosted on Firebase. Showcases projects/tools including a fitness calculator, weather app, NBA scores, todo list, calculator, and AI text generator.
+Matthew Stone's personal website — a Vue.js 2 SPA hosted on Firebase. Showcases projects/tools including a fitness calculator, weather app, NBA scores, todo list, and calculator.
 
 Live site: https://www.matthewstone.co
 
@@ -92,6 +92,14 @@ VUE_APP_FIREBASE_MEASUREMENT_ID=
 - **Pinia state management** — Replace ad-hoc component state with Pinia as the app grows
 - **TypeScript** — Would catch runtime bugs (wrong method names, typos) at compile time
 
+### NBA (`NBA.vue`) Remaining Improvements
+- **Empty state** — No message shown when no games played on selected date
+- **Error handling** — API failures only log to console; should show on-screen error message
+- **`url_base`** — Defined in data but never used; fetch call hardcodes the URL
+
+### NBA (`NBA.vue`) Notes
+- API stores games in UTC; NBA games played in ET evening become the next day in UTC. Date sent to API is always +1 day from the selected date to compensate.
+
 ### Calculator (`CalcComponent.vue`) Improvements
 - **Remove `Calc.vue` wrapper** — It only sets `document.title`; move that into `CalcComponent.vue` directly
 - **Fix `append` blocking `0`** — Current logic prevents typing numbers like `10`, `20`, `100`; only leading zeros should be blocked
@@ -103,6 +111,5 @@ VUE_APP_FIREBASE_MEASUREMENT_ID=
 - **`fb.js`** — Firebase SDK initialized incorrectly (uses old `.firestore()` method instead of `getFirestore()`); `deleteUser()` should be `delete()`; `snapshot.doc` should be `snapshot.docs`
 - **`Edit.vue`** — Component is empty, edit user page is non-functional
 - **`UserList.vue:16`** — Malformed router-link has extra `}` generating broken URLs
-- **`AI.vue`** — OpenAI endpoint `/v1/text_generations` is deprecated; needs updating to `/v1/chat/completions`
 - **`OneRM.vue:149`** — Validation uses `||` instead of `&&`
-- Minor dead code in `NBA.vue`, `Table.vue`, `AppBar.vue`, `Stocks.vue`, `Todo.vue`
+- Minor dead code in `Table.vue`, `AppBar.vue`, `Stocks.vue`, `Todo.vue`

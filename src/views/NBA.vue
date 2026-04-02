@@ -53,34 +53,18 @@
               <v-progress-circular indeterminate color="primary"></v-progress-circular>
             </div>
             <div v-else>
-            <v-list class="scoreText">
-              <v-list-item
-                  v-for="item in games" :key="item.teams.home.code"
+              <div
+                v-for="item in games" :key="item.teams.home.code"
+                class="score-row"
               >
-                  <v-img
-                      :src="require(`../assets/Teams/${item.teams.home.code}.png`)"
-                      max-height="40"
-                      max-width="40"></v-img>
-                  <h3 class="left">
-                    &nbsp; {{ item.teams.home.code }} &nbsp;
-                  </h3>
-                  <h2 class="left">
-                    &nbsp; {{ item.scores.home.points }} &nbsp;
-                  </h2>
-                  <h2>-</h2>
-                  <h2 class="right">
-                    &nbsp; {{ item.scores.visitors.points }} &nbsp;
-                  </h2>
-                  <h3 class="right">
-                    &nbsp; {{ item.teams.visitors.code }} &nbsp;
-                  </h3>
-                  <v-img
-                    :src="require(`../assets/Teams/${item.teams.visitors.code}.png`)"
-                    max-height="60"
-                    max-width="60"></v-img>
-
-              </v-list-item>
-            </v-list>
+                <v-img :src="require(`../assets/Teams/${item.teams.home.code}.png`)" max-height="60" max-width="60" class="team-logo"></v-img>
+                <span class="team-code">{{ item.teams.home.code }}</span>
+                <span class="score score-home">{{ item.scores.home.points }}</span>
+                <span class="dash">-</span>
+                <span class="score score-away">{{ item.scores.visitors.points }}</span>
+                <span class="team-code">{{ item.teams.visitors.code }}</span>
+                <v-img :src="require(`../assets/Teams/${item.teams.visitors.code}.png`)" max-height="60" max-width="60" class="team-logo"></v-img>
+              </div>
             </div>
           </v-card-text>
           </v-col>
@@ -117,7 +101,9 @@ export default {
     fetchGames() {
       this.loading = true;
 
-      fetch(`https://api-nba-v1.p.rapidapi.com/games?date=${this.date}`, {
+      const apiDate = moment(this.date).add(1, 'days').format('YYYY-MM-DD');
+
+      fetch(`https://api-nba-v1.p.rapidapi.com/games?date=${apiDate}`, {
         "method": "GET",
         "headers": {
           "x-rapidapi-host": "api-nba-v1.p.rapidapi.com",
@@ -155,22 +141,46 @@ export default {
   padding-bottom: 10px;
 }
 
-.scoreText {
-  text-align: center;
-}
 .calendar {
   margin: 0 auto;
 }
 
-.left {
-  text-align: left;
-
+.score-row {
+  display: grid;
+  grid-template-columns: 60px 50px 60px 30px 60px 50px 60px;
+  align-items: center;
+  justify-content: center;
+  margin: 10px auto;
+  width: fit-content;
 }
 
-.right {
-  justify: right;
-  text-align: right;
+.team-logo {
+  justify-self: center;
+}
 
+.team-code {
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.score {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.score-home {
+  text-align: right;
+}
+
+.score-away {
+  text-align: left;
+}
+
+.dash {
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
 }
 
 
