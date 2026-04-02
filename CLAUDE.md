@@ -112,6 +112,8 @@ VUE_APP_FIREBASE_MEASUREMENT_ID=
 
 ### NBA (`NBA.vue`) Notes
 - API stores games in UTC; NBA games played in ET evening become the next day in UTC. Date sent to API is always +1 day from the selected date to compensate.
+- Score row uses CSS grid with `60px 1fr 1fr 20px 1fr 1fr 60px` columns — logo columns must match `max-width` on `v-img` (currently 60px)
+- Date picker uses `onDateSelected` method to reliably close menu and fetch games
 
 ### Calculator (`CalcComponent.vue`) Improvements
 - **Remove `Calc.vue` wrapper** — It only sets `document.title`; move that into `CalcComponent.vue` directly
