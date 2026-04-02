@@ -3,7 +3,7 @@
     <div class="intro">
       <div>
         <h1>Hi 👋 I’m Matthew Stone!</h1>
-        <h2>I’m a Computer Science graduate from the University of Central Florida and currently Senior Systems Engineer for CPE ST3, looking to further my knowledge
+        <h2>I’m a Computer Science graduate from the University of Central Florida and currently a Senior Systems Engineer for CPE ST3, looking to further my knowledge
             in everything tech!
 
         </h2>
