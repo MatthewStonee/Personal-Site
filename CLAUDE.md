@@ -73,7 +73,8 @@ VUE_APP_FIREBASE_MEASUREMENT_ID=
 - **CI/CD:** GitHub Actions auto-deploys to Firebase Hosting on every push to `master`
 - **Manual:** `npm run deploy` (requires `firebase login`)
 - **Docker:** `docker build -t personal-site . && docker run -p 8080:8080 personal-site`
-- GitHub Actions also uses `--legacy-peer-deps` in the workflow files
+- GitHub Actions uses `--legacy-peer-deps` in the workflow files
+- All `VUE_APP_*` environment variables must be added as **GitHub Actions secrets** (Settings → Secrets and variables → Actions) for the live site to function — they are injected into the build via `firebase-hosting-merge.yml`
 
 ## Conventions
 - Views go in `src/views/`, reusable components in `src/components/`
