@@ -147,11 +147,12 @@ export default {
 
 .score-row {
   display: grid;
-  grid-template-columns: 60px 50px 60px 30px 60px 50px 60px;
+  grid-template-columns: 40px 1fr 1fr 20px 1fr 1fr 40px;
   align-items: center;
   justify-content: center;
   margin: 10px auto;
-  width: fit-content;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .team-logo {

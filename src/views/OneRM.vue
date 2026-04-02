@@ -1,17 +1,13 @@
 <template>
   <v-container>
-    <div class="cards">
-        <v-card
-            max-height="525"
-            :width="width"
-            elevation="10"
-        >
+    <v-row justify="center" class="mt-4">
+      <v-col cols="12" sm="6" class="d-flex justify-center">
+        <v-card width="100%" max-width="600" elevation="10">
           <v-card-title id="title">1 Rep Max Calculator</v-card-title>
           <p id="cap">Enter a weight and the maximum amount of reps you can do to find out your one rep max!</p>
 
           <div class="reps">
-            <v-row  no-gutters
-            >
+            <v-row no-gutters>
               <v-col cols="9" class="text">
                 <v-text-field
                     label="Lift"
@@ -27,7 +23,7 @@
                     :items="items"
                     label="Unit"
                     outlined
-                    :menu-props="{offsetY: true }"
+                    :menu-props="{offsetY: true}"
                 ></v-select>
               </v-col>
             </v-row>
@@ -44,64 +40,57 @@
             ></v-text-field>
           </div>
 
-
-          <div id="render" class="answer">
+          <div class="answer">
             <h2>{{ answer }}</h2>
           </div>
 
-          <v-btn
-              @click="result"
-              large
-              color="blue"
-              class="white--text btn"
-          >
-            Calculate One Rep Max
-          </v-btn>
-
+          <v-card-actions class="justify-center pb-4">
+            <v-btn
+                @click="result"
+                large
+                color="blue"
+                class="white--text"
+            >
+              Calculate One Rep Max
+            </v-btn>
+          </v-card-actions>
         </v-card>
+      </v-col>
 
-    </div>
+      <v-col cols="12" sm="6" class="d-flex justify-center">
+        <v-card width="100%" max-width="600" elevation="10">
+          <v-card-title id="title">Kilo Plates to lbs Converter</v-card-title>
+          <p id="cap">Enter the total kilo weight of the plates on one half of the bar</p>
+          <p id="cap">This converter converts the entered kilo weight to lbs, doubles it, and then adds another 44lbs for the weight of the bar</p>
 
-    <div class="cards2">
-      <v-card
-          max-height="425"
-          :width="width"
-          elevation="10"
-      >
-        <v-card-title id="title">Kilo Plates to lbs Converter</v-card-title>
-        <p id="cap">Enter the total kilo weight of the plates on one half of the bar</p>
-        <p id="cap">This converter converts the entered kilo weight to lbs, doubles it, and then adds another 44lbs for the weight of the bar</p>
+          <div class="reps">
+            <v-text-field
+                label="Kilos"
+                type="number"
+                v-model.number.trim="kilos"
+                v-on:keypress.enter="convert"
+                outlined
+                placeholder="30.5"
+            ></v-text-field>
+          </div>
 
-        <div class="reps">
-          <v-text-field
-              label="Kilos"
-              type="number"
-              v-model.number.trim="kilos"
-              v-on:keypress.enter="convert"
-              outlined
-              placeholder="30.5"
-          ></v-text-field>
-        </div>
+          <div class="answer">
+            <h2>{{ conversion }}</h2>
+          </div>
 
-
-        <div id="render" class="answer">
-          <h2>{{ conversion }}</h2>
-        </div>
-
-        <v-btn
-            @click="convert"
-            large
-            color="red"
-            class="white--text btn"
-        >
-          Calculate Weight in lbs
-        </v-btn>
-
-      </v-card>
-
-    </div>
-
-
+          <v-card-actions class="justify-center pb-4">
+            <v-btn
+                @click="convert"
+                large
+                color="red"
+                class="white--text"
+            >
+              Calculate Weight in lbs
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -127,18 +116,6 @@ export default {
     conversion:""
   }),
 
-  computed: {
-    width () {
-      switch (this.$vuetify.breakpoint.name) {
-        case 'xs': return 480
-        case 'sm': return 500
-        case 'md': return 500
-        case 'lg': return 600
-        case 'xl': return 650
-      }
-      return 480;
-    },
-  },
 
   methods: {
 
@@ -174,24 +151,6 @@ export default {
 
 <style scoped>
 
-.cards {
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  min-height: 100vh;
-  margin-top: 30px;
-  padding: 15px;
-}
-
-.cards2 {
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  min-height: 100vh;
-  padding: 15px;
-  margin-top: -500px;
-
-}
 
 .text {
   padding: 20px;
@@ -205,6 +164,9 @@ export default {
 
 .btn {
   margin-top: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .reps {
@@ -212,10 +174,15 @@ export default {
 }
 
 #title {
-  font-size: 30px;
-  align-content: center;
+  font-size: clamp(18px, 4vw, 30px);
+  font-weight: 800;
+  letter-spacing: 0.5px;
   text-align: center;
   white-space: normal;
+  word-break: break-word;
+  border-bottom: 2px solid rgba(0,0,0,0.1);
+  padding-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 #cap {
