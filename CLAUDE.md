@@ -87,7 +87,8 @@ VUE_APP_FIREBASE_MEASUREMENT_ID=
 
 ## To-Do / Future Improvements
 - **Fix Firebase SDK** — `fb.js` mixes v8 and v9 modular SDK; migrate fully to v9 (`getFirestore`, `collection`, `doc`, etc.)
-- **Vue 2 → Vue 3** — Vue 2 is end-of-life (Dec 2023); migrate to Vue 3 for security updates and better performance
+- **Vue 2 → Vue 3** — Vue 2 is end-of-life (Dec 2023); migrate to Vue 3 for security updates and better performance. Do this before fixing the ESLint peer dep conflict as the full toolchain upgrade will resolve it as a byproduct
+- **Remove `--legacy-peer-deps`** — After Vue 3 migration, remove flag from Dockerfile and GitHub Actions workflows. Root cause is `eslint@^7.0.0` conflicting with `@vue/cli-plugin-eslint@5.0.8` which requires `>=7.5.0`
 - **Move API calls to a backend** — API keys are currently bundled into the frontend build and visible in the browser; use Firebase Cloud Functions as a proxy
 - **Remove Bootstrap** — Vuetify already handles all UI; remove Bootstrap to reduce bundle size
 - **Pinia state management** — Replace ad-hoc component state with Pinia as the app grows
