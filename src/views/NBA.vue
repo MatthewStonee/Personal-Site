@@ -34,7 +34,7 @@
               </template>
               <v-date-picker
                   v-model="date"
-                  @input="menu2 = false, fetchGames()"
+                  @input="onDateSelected"
               ></v-date-picker>
             </v-menu>
           </v-col>
@@ -98,6 +98,11 @@ export default {
 
   methods: {
 
+    onDateSelected() {
+      this.menu2 = false;
+      this.fetchGames();
+    },
+
     fetchGames() {
       this.loading = true;
 
@@ -147,9 +152,10 @@ export default {
 
 .score-row {
   display: grid;
-  grid-template-columns: 40px 1fr 1fr 20px 1fr 1fr 40px;
+  grid-template-columns: 60px 1fr 1fr 20px 1fr 1fr 60px;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   margin: 10px auto;
   max-width: 100%;
   overflow-x: hidden;
