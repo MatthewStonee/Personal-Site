@@ -49,7 +49,10 @@
           >
           <v-card-text
           >
-            <div>
+            <div v-if="loading" class="text-center py-4">
+              <v-progress-circular indeterminate color="primary"></v-progress-circular>
+            </div>
+            <div v-else>
             <v-list class="scoreText">
               <v-list-item
                   v-for="item in games" :key="item.teams.home.code"
@@ -98,29 +101,21 @@ export default {
     return {
       url_base: 'https://api-nba-v1.p.rapidapi.com/games?date=',
       games: {},
-      home: [],
-      visitors: [],
-      numofResults: '',
-      date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-      menu: false,
-      modal: false,
+      date: moment(new Date()).format('YYYY-MM-DD'),
       menu2: false,
-
+      loading: false,
     }
   },
 
   created() {
-
     document.title = "NBA";
-
-    this.date = moment(new Date()).format('YYYY-MM-DD');
-
-
+    this.fetchGames();
   },
 
   methods: {
 
     fetchGames() {
+      this.loading = true;
 
       fetch(`https://api-nba-v1.p.rapidapi.com/games?date=${this.date}`, {
         "method": "GET",
@@ -128,26 +123,13 @@ export default {
           "x-rapidapi-host": "api-nba-v1.p.rapidapi.com",
           "x-rapidapi-key": process.env.VUE_APP_RAPIDAPI_KEY
         }})
-          .then(res => {
-            return res.json();
-          })
+          .then(res => res.json())
           .then(this.setResults)
-          .catch(error => console.log('error', error));
-
-
+          .catch(error => console.log('error', error))
+          .finally(() => { this.loading = false; });
     },
     setResults(results) {
-      const obj = results;
-      this.numofResults = obj.results;
-
-      this.games = {};
-
-      for(let i = 0; i < this.numofResults; i++)
-      {
-        this.games[i] = obj.response[i];
-
-      }
-
+      this.games = results.response;
     },
 
   }
