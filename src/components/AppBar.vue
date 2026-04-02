@@ -58,7 +58,8 @@
             text
             large
             class="text2"
-            @click="() => window.open('https://github.com/MatthewStonee','_blank')"
+            href="https://github.com/MatthewStonee"
+            target="_blank"
         >
           <span class="git">GitHub</span>
           <v-icon dense>mdi-open-in-new</v-icon>
@@ -130,7 +131,7 @@
 
           </v-list-item>
 
-        <v-list-item @click="() => window.open('https://github.com/MatthewStonee','_blank')">
+        <v-list-item href="https://github.com/MatthewStonee" target="_blank">
           <v-list-item-title class="text2">
             GitHub
             <v-icon color="white">mdi-open-in-new</v-icon>
