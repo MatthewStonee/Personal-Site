@@ -108,9 +108,3 @@ VUE_APP_FIREBASE_MEASUREMENT_ID=
 - **Add divide-by-zero protection** — `5 ÷ 0` currently displays `Infinity`; should show `Error`
 - **Replace `<div>` buttons with `<button>` elements** — Current `<div @click>` buttons are inaccessible to keyboard users and screen readers
 
-## Known Remaining Issues
-- **`fb.js`** — Firebase SDK initialized incorrectly (uses old `.firestore()` method instead of `getFirestore()`); `deleteUser()` should be `delete()`; `snapshot.doc` should be `snapshot.docs`
-- **`Edit.vue`** — Component is empty, edit user page is non-functional
-- **`UserList.vue:16`** — Malformed router-link has extra `}` generating broken URLs
-- **`OneRM.vue:149`** — Validation uses `||` instead of `&&`
-- Minor dead code in `Table.vue`, `AppBar.vue`, `Stocks.vue`, `Todo.vue`
