@@ -135,12 +135,12 @@ export default {
     setResults (results) {
       this.weather = results;
 
-
       if(this.weather.name == undefined)
         this.alert = true;
       else
         this.alert = false;
 
+      if (!this.weather.weather || !this.weather.weather[0]) return;
 
       switch (this.weather.weather[0].main)
       {
@@ -162,8 +162,13 @@ export default {
         case "Snow":
           this.icon = "mdi-snowflake";
           break;
-        case "Fog" || "Mist" || "Haze":
+        case "Fog":
+        case "Mist":
+        case "Haze":
           this.icon = "mdi-weather-fog";
+          break;
+        default:
+          this.icon = "mdi-weather-cloudy";
       }
 
 
