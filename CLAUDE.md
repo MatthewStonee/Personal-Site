@@ -100,6 +100,11 @@ VUE_APP_FIREBASE_MEASUREMENT_ID=
 - **Pinia state management** — Replace ad-hoc component state with Pinia as the app grows
 - **TypeScript** — Would catch runtime bugs (wrong method names, typos) at compile time
 
+### Mobile Remaining Improvements
+- **Home page** — `padding: 45px` on `.intro` is too large on small screens; consider reducing on mobile
+- **Weather page** — `font-size: 102px` temperature text is very large on small screens
+- **Calculator** — Fixed `width: 360px` leaves no margin on phones narrower than 375px
+
 ### NBA (`NBA.vue`) Remaining Improvements
 - **Empty state** — No message shown when no games played on selected date
 - **Error handling** — API failures only log to console; should show on-screen error message
