@@ -87,7 +87,13 @@ VUE_APP_FIREBASE_MEASUREMENT_ID=
 
 ## To-Do / Future Improvements
 - **Fix Firebase SDK** — `fb.js` mixes v8 and v9 modular SDK; migrate fully to v9 (`getFirestore`, `collection`, `doc`, etc.)
-- **Vue 2 → Vue 3** — Vue 2 is end-of-life (Dec 2023); migrate to Vue 3 for security updates and better performance. Do this before fixing the ESLint peer dep conflict as the full toolchain upgrade will resolve it as a byproduct
+- **Vue 2 → Vue 3** — Vue 2 is end-of-life (Dec 2023); migrate to Vue 3 for security updates and better performance. Do this before fixing the ESLint peer dep conflict as the full toolchain upgrade will resolve it as a byproduct. Recommended approach:
+  1. Create a new branch for the migration
+  2. Upgrade Vue 3 core and Vue Router 4 first — `new Vue()` → `createApp()`, `new VueRouter()` → `createRouter()`, `Vue.use()`/`Vue.prototype.$http` need updating
+  3. Get the app running before touching Vuetify
+  4. Upgrade Vuetify 2 → Vuetify 3 separately — most components have breaking changes (`v-list-item-group` removed, theme config changed, `$vuetify.breakpoint` → `useDisplay()`)
+  5. Fix components one page at a time and test as you go
+  6. Reference: https://v3-migration.vuejs.org and https://vuetifyjs.com/en/getting-started/upgrade-guide
 - **Remove `--legacy-peer-deps`** — After Vue 3 migration, remove flag from Dockerfile and GitHub Actions workflows. Root cause is `eslint@^7.0.0` conflicting with `@vue/cli-plugin-eslint@5.0.8` which requires `>=7.5.0`
 - **Move API calls to a backend** — API keys are currently bundled into the frontend build and visible in the browser; use Firebase Cloud Functions as a proxy
 - **Remove Bootstrap** — Vuetify already handles all UI; remove Bootstrap to reduce bundle size
