@@ -13,7 +13,7 @@
                     label="Lift"
                     type="number"
                     v-model.number.trim="lift"
-                    outlined
+                    variant="outlined"
                     placeholder="185"
                 ></v-text-field>
               </v-col>
@@ -22,8 +22,7 @@
                     v-model="units"
                     :items="items"
                     label="Unit"
-                    outlined
-                    :menu-props="{offsetY: true}"
+                    variant="outlined"
                 ></v-select>
               </v-col>
             </v-row>
@@ -47,9 +46,9 @@
           <v-card-actions class="justify-center pb-4">
             <v-btn
                 @click="result"
-                large
+                size="large"
                 color="blue"
-                class="white--text"
+                class="text-white"
             >
               Calculate One Rep Max
             </v-btn>
@@ -81,9 +80,9 @@
           <v-card-actions class="justify-center pb-4">
             <v-btn
                 @click="convert"
-                large
+                size="large"
                 color="red"
-                class="white--text"
+                class="text-white"
             >
               Calculate Weight in lbs
             </v-btn>

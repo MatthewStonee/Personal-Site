@@ -100,6 +100,7 @@ p{
 </style>
 
 <script>
+import profileImg from '../images/profile3.jpg'
 
 export default {
   name: 'Home',
@@ -114,7 +115,7 @@ export default {
   data() {
     return {
       images: {
-        profile: require('../images/profile3.jpg'),
+        profile: profileImg,
       }
     }
   },

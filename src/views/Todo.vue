@@ -12,7 +12,7 @@
     <v-row>
       <v-col cols="12">
         <v-form v-on:submit.prevent="addTodo">
-          <v-text-field v-model="todoText" placeholder="What needs to be done?" solo></v-text-field>
+          <v-text-field v-model="todoText" placeholder="What needs to be done?" variant="solo"></v-text-field>
           <v-btn type="submit">Add Todo</v-btn>
         </v-form>
       </v-col>

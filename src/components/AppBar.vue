@@ -1,40 +1,39 @@
 <template>
   <div>
     <v-app-bar
-        color='#1C1C21'
+        color="#1C1C21"
         elevate-on-scroll
-        dark
         flat
     >
 
-      <v-app-bar-nav-icon @click="drawer = true"
-                          class="d-flex d-sm-none"
+      <v-app-bar-nav-icon
+          @click="drawer = true"
+          class="d-flex d-sm-none"
       ></v-app-bar-nav-icon>
 
 
-      <v-toolbar-items
-          class="d-none d-sm-flex">
+      <div class="d-none d-sm-flex">
         <v-btn
-            text
-            large
+            variant="text"
+            size="large"
             class="text"
             @click="clickMethod()"
         >
-            <span class="font-weight-bold">
-              matthewstone
-            </span>
+          <span class="font-weight-bold">
+            matthewstone
+          </span>
         </v-btn>
 
-        <v-menu offset-y open-on-click open-on-hover close-on-content-click>
-          <template v-slot:activator="{ on, attrs }">
+        <v-menu offset-y open-on-hover close-on-content-click>
+          <template v-slot:activator="{ props }">
             <v-btn
-                v-bind="attrs" v-on="on"
-                large
-                text
+                v-bind="props"
+                size="large"
+                variant="text"
                 class="text2"
             >
-                Web Projects
-              <v-icon large>mdi-menu-down</v-icon>
+              Web Projects
+              <v-icon size="large">mdi-menu-down</v-icon>
             </v-btn>
           </template>
 
@@ -42,43 +41,38 @@
             <v-list-item
                 v-for="item in barMenu"
                 :key="item.title"
-                :icon="item.icon"
-                router
                 :to="item.route"
             >
-              <v-icon class="mr-2">{{ item.icon }}</v-icon>
-              <v-list-item-title>{{
-                  item.title
-                }}</v-list-item-title>
+              <template v-slot:prepend>
+                <v-icon>{{ item.icon }}</v-icon>
+              </template>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
 
         <v-btn
-            text
-            large
+            variant="text"
+            size="large"
             class="text2"
             href="https://github.com/MatthewStonee"
             target="_blank"
         >
           <span class="git">GitHub</span>
-          <v-icon dense>mdi-open-in-new</v-icon>
-
+          <v-icon size="small">mdi-open-in-new</v-icon>
         </v-btn>
 
         <v-btn
-            text
-            large
+            variant="text"
+            size="large"
             class="text2"
             href="Matthew Stone Resume.pdf"
-            download>
+            download
+        >
           <span class="git">Resume</span>
-          <v-icon dense>mdi-download</v-icon>
-
+          <v-icon size="small">mdi-download</v-icon>
         </v-btn>
-
-
-      </v-toolbar-items>
+      </div>
 
       <v-spacer></v-spacer>
 
@@ -88,48 +82,23 @@
     <v-navigation-drawer
         v-model="drawer"
         color="#33333D"
-        absolute
         temporary
     >
-      <v-list
-          nav
-      >
-        <v-list-item-group
-            v-model="group"
-            active-class="white--text"
+      <v-list nav>
+        <v-list-item @click="clickMethod()">
+          <v-list-item-title class="text">matthewstone</v-list-item-title>
+        </v-list-item>
+
+        <v-list-item
+            v-for="item in barMenu"
+            :key="item.title"
+            :to="item.route"
         >
-          <v-list-item @click="clickMethod()">
-            <v-list-item-title class="text">matthewstone</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item>
-
-            <v-menu offset-y open-on-click open-on-hover>
-              <template v-slot:activator="{ on, attrs }" class="btn">
-                <v-list-item-title v-bind="attrs" v-on="on" class="text2">
-                  Web Projects
-                  <v-icon color="white">mdi-menu-down</v-icon>
-                </v-list-item-title>
-              </template>
-
-              <v-list>
-                <v-list-item
-                    v-for="item in barMenu"
-                    :key="item.title"
-                    :icon="item.icon"
-                    router
-                    :to="item.route"
-                    active-class="darken-1--text"
-                >
-                  <v-icon class="mr-2">{{ item.icon }}</v-icon>
-                  <v-list-item-title class="darken-1--text">{{
-                      item.title
-                    }}</v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
-
-          </v-list-item>
+          <template v-slot:prepend>
+            <v-icon color="white">{{ item.icon }}</v-icon>
+          </template>
+          <v-list-item-title class="text2">{{ item.title }}</v-list-item-title>
+        </v-list-item>
 
         <v-list-item href="https://github.com/MatthewStonee" target="_blank">
           <v-list-item-title class="text2">
@@ -138,22 +107,16 @@
           </v-list-item-title>
         </v-list-item>
 
-          <v-list-item href="Matthew Stone Resume.pdf"
-                       download>
-            <v-list-item-title class="text2">
-              Resume
-              <v-icon color="white">mdi-download</v-icon>
-            </v-list-item-title>
-          </v-list-item>
-
-        </v-list-item-group>
-
+        <v-list-item href="Matthew Stone Resume.pdf" download>
+          <v-list-item-title class="text2">
+            Resume
+            <v-icon color="white">mdi-download</v-icon>
+          </v-list-item-title>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
   </div>
-
-
 </template>
 
 <script>
@@ -165,14 +128,15 @@
         {
           icon: "mdi-weight-lifter",
           title: "One Rep Max Calculator",
-          route: "/OneRM",
+          route: "/onerm",
         },
         {
           icon: "mdi-weather-partly-cloudy",
           title: "Weather App",
           route: "/weather"
         },
-        { icon: "mdi-calculator",
+        {
+          icon: "mdi-calculator",
           title: "Simple Calculator",
           route: "/calculator",
         },
@@ -183,26 +147,15 @@
         },
       ],
       drawer: false,
-      group: null,
-  }),
+    }),
 
     methods: {
       clickMethod() {
-        this.$router.push({ name: "home" }).catch(err => {console.log("Redundant Navigation, error: " + err)})
+        this.$router.push({ name: "home" }).catch(err => {
+          console.log("Redundant Navigation, error: " + err)
+        })
       },
-      isMobile() {
-        if(this.$vuetify.breakpoint.xsOnly)
-        {
-          return true;
-        }
-        else
-          return this.isLarge();
-      },
-      isLarge() {
-        return true;
-      }
     }
-
   };
 </script>
 
