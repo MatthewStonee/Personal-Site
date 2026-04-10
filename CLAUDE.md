@@ -85,40 +85,10 @@ VUE_APP_FIREBASE_MEASUREMENT_ID=
 - No Vuex — local component state or Firebase for persistence
 - External links use `href` + `target="_blank"` on Vuetify components (not `window.open`)
 
-## To-Do / Future Improvements
-- **Fix Firebase SDK** — `fb.js` mixes v8 and v9 modular SDK; migrate fully to v9 (`getFirestore`, `collection`, `doc`, etc.)
-- **Vue 2 → Vue 3** — Vue 2 is end-of-life (Dec 2023); migrate to Vue 3 for security updates and better performance. Do this before fixing the ESLint peer dep conflict as the full toolchain upgrade will resolve it as a byproduct. Recommended approach:
-  1. Create a new branch for the migration
-  2. Upgrade Vue 3 core and Vue Router 4 first — `new Vue()` → `createApp()`, `new VueRouter()` → `createRouter()`, `Vue.use()`/`Vue.prototype.$http` need updating
-  3. Get the app running before touching Vuetify
-  4. Upgrade Vuetify 2 → Vuetify 3 separately — most components have breaking changes (`v-list-item-group` removed, theme config changed, `$vuetify.breakpoint` → `useDisplay()`)
-  5. Fix components one page at a time and test as you go
-  6. Reference: https://v3-migration.vuejs.org and https://vuetifyjs.com/en/getting-started/upgrade-guide
-- **Remove `--legacy-peer-deps`** — After Vue 3 migration, remove flag from Dockerfile and GitHub Actions workflows. Root cause is `eslint@^7.0.0` conflicting with `@vue/cli-plugin-eslint@5.0.8` which requires `>=7.5.0`
-- **Move API calls to a backend** — API keys are currently bundled into the frontend build and visible in the browser; use Firebase Cloud Functions as a proxy
-- **Remove Bootstrap** — Vuetify already handles all UI; remove Bootstrap to reduce bundle size
-- **Pinia state management** — Replace ad-hoc component state with Pinia as the app grows
-- **TypeScript** — Would catch runtime bugs (wrong method names, typos) at compile time
-
-### Mobile Remaining Improvements
-- **Home page** — `padding: 45px` on `.intro` is too large on small screens; consider reducing on mobile
-- **Weather page** — `font-size: 102px` temperature text is very large on small screens
-- **Calculator** — Fixed `width: 360px` leaves no margin on phones narrower than 375px
-
-### NBA (`NBA.vue`) Remaining Improvements
-- **Empty state** — No message shown when no games played on selected date
-- **Error handling** — API failures only log to console; should show on-screen error message
-- **`url_base`** — Defined in data but never used; fetch call hardcodes the URL
-
-### NBA (`NBA.vue`) Notes
+## NBA (`NBA.vue`) Notes
 - API stores games in UTC; NBA games played in ET evening become the next day in UTC. Date sent to API is always +1 day from the selected date to compensate.
 - Score row uses CSS grid with `60px 1fr 1fr 20px 1fr 1fr 60px` columns — logo columns must match `max-width` on `v-img` (currently 60px)
 - Date picker uses `onDateSelected` method to reliably close menu and fetch games
 
-### Calculator (`CalcComponent.vue`) Improvements
-- **Remove `Calc.vue` wrapper** — It only sets `document.title`; move that into `CalcComponent.vue` directly
-- **Fix `append` blocking `0`** — Current logic prevents typing numbers like `10`, `20`, `100`; only leading zeros should be blocked
-- **Fix `clear` not resetting full state** — `C` button only clears `current`; should also reset `previous`, `operator`, and `operatorClicked`
-- **Add divide-by-zero protection** — `5 ÷ 0` currently displays `Infinity`; should show `Error`
-- **Replace `<div>` buttons with `<button>` elements** — Current `<div @click>` buttons are inaccessible to keyboard users and screen readers
+> To-Do / Future Improvements have been moved to Notion: https://www.notion.so/33def31f8222815594fac792c259d669
 
