@@ -1,16 +1,9 @@
-import Vue from 'vue'
+import { createApp } from 'vue'
 import App from './App.vue'
-import vuetify from './plugins/vuetify'
 import router from './router'
-import moment from 'moment'
-import axios from 'axios'
+import vuetify from './plugins/vuetify'
 
-Vue.prototype.moment = moment
-Vue.prototype.$http = axios
-Vue.config.productionTip = false
-
-new Vue({
-  vuetify,
-  router,
-  render: h => h(App)
-}).$mount('#app')
+const app = createApp(App)
+app.use(router)
+app.use(vuetify)
+app.mount('#app')

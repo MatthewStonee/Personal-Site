@@ -1,20 +1,5 @@
-import Vue from 'vue';
-import Vuetify from 'vuetify/lib/framework';
-
-Vue.use(Vuetify);
-
-export default new Vuetify({
-
-    icons: {
-        iconfont: 'mdi', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
-    },
-
-    theme: {
-        primary: '#1C1C21',
-        backgroundColor: '#1C1C21',
-        error: '#FF5252',
-        info: '#2196F3',
-        success: '#4CAF50',
-        warning: '#FFC107',
-    }
-});
+// Phase A stub — Vuetify 2 is not compatible with Vue 3.
+// Phase B replaces this with createVuetify from Vuetify 3.
+export default {
+  install() {},
+}
