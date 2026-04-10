@@ -20,12 +20,12 @@
 
         <div class="image">
           <v-sheet
-              color="grey lighten-1"
+              color="grey-lighten-1"
               rounded
               elevation="8"
-              max-width="345"
+              max-width="420"
           >
-            <v-img :src="images.profile"></v-img>
+            <v-img :src="images.profile" width="100%" aspect-ratio="1"></v-img>
           </v-sheet>
         </div>
       </div>
