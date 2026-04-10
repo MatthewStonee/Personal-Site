@@ -56,13 +56,13 @@
                 v-for="item in games" :key="item.teams.home.code"
                 class="score-row"
               >
-                <v-img :src="teamLogo(item.teams.home.code)" max-height="60" max-width="60" class="team-logo"></v-img>
+                <v-img :src="teamLogo(item.teams.home.code)" width="60" aspect-ratio="1" class="team-logo"></v-img>
                 <span class="team-code">{{ item.teams.home.code }}</span>
                 <span class="score score-home">{{ item.scores.home.points }}</span>
                 <span class="dash">-</span>
                 <span class="score score-away">{{ item.scores.visitors.points }}</span>
                 <span class="team-code">{{ item.teams.visitors.code }}</span>
-                <v-img :src="teamLogo(item.teams.visitors.code)" max-height="60" max-width="60" class="team-logo"></v-img>
+                <v-img :src="teamLogo(item.teams.visitors.code)" width="60" aspect-ratio="1" class="team-logo"></v-img>
               </div>
             </div>
           </v-card-text>
