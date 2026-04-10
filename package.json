@@ -13,9 +13,7 @@
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
-    "@popperjs/core": "^2.11.4",
     "axios": "^1.2.2",
-    "bootstrap": "^5.1.3",
     "firebase": "^9.9.0",
     "moment": "^2.29.3",
     "vue": "^3.5.13",
@@ -45,7 +43,10 @@
       "ecmaVersion": "latest",
       "sourceType": "module"
     },
-    "rules": {}
+    "rules": {
+      "vue/multi-word-component-names": "off",
+      "vue/no-reserved-component-names": "off"
+    }
   },
   "browserslist": [
     "> 1%",

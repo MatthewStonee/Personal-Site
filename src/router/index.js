@@ -35,11 +35,6 @@ const routes = [
     }
   },
   {
-    path: '/helloworld',
-    name: 'HelloWorld',
-    component: () => import('../components/HelloWorld.vue'),
-  },
-  {
     path: '/todo',
     name: 'ToDo List',
     component: () => import('../views/Todo.vue'),
