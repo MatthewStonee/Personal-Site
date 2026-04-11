@@ -9,9 +9,11 @@ name: Deploy to Firebase Hosting on merge
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
-      - uses: actions/checkout@v2
-      - run: npm install && npm run build
+      - uses: actions/checkout@v4
+      - run: npm install --legacy-peer-deps && npm run build
         env:
           VUE_APP_OPENWEATHER_KEY: ${{ secrets.VUE_APP_OPENWEATHER_KEY }}
           VUE_APP_RAPIDAPI_KEY: ${{ secrets.VUE_APP_RAPIDAPI_KEY }}
