@@ -4,7 +4,7 @@
 
       <v-alert
           class="alert"
-          dense
+          density="compact"
           v-model="alert"
           type="error"
       >Please enter a valid city name. Ex: Atlanta</v-alert>
@@ -26,7 +26,7 @@
             @keypress="fetchWeather"
             @focus="$event.target.select()"
             height="50"
-            solo
+            variant="solo"
         ></v-text-field>
       </v-row>
 
@@ -59,7 +59,7 @@ export default {
 
   data: () => {
     return {
-      apiKey: process.env.VUE_APP_OPENWEATHER_KEY,
+      apiKey: import.meta.env.VUE_APP_OPENWEATHER_KEY,
       url_base: 'https://api.openweathermap.org/data/2.5/',
       default: 'Orlando',
       query: '',

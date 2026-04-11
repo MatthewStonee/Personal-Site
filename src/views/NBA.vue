@@ -22,19 +22,18 @@
                 offset-y
                 min-width="auto"
             >
-              <template v-slot:activator="{ on, attrs }">
+              <template v-slot:activator="{ props }">
                 <v-text-field
-                    v-model="date"
+                    :model-value="date"
                     label="Pick a Date"
                     prepend-icon="mdi-calendar"
                     readonly
-                    v-bind="attrs"
-                    v-on="on"
+                    v-bind="props"
                 ></v-text-field>
               </template>
               <v-date-picker
-                  v-model="date"
-                  @input="onDateSelected"
+                  v-model="pickerDate"
+                  @update:model-value="onDateSelected"
               ></v-date-picker>
             </v-menu>
           </v-col>
@@ -57,13 +56,13 @@
                 v-for="item in games" :key="item.teams.home.code"
                 class="score-row"
               >
-                <v-img :src="require(`../assets/Teams/${item.teams.home.code}.png`)" max-height="60" max-width="60" class="team-logo"></v-img>
+                <v-img :src="teamLogo(item.teams.home.code)" width="60" aspect-ratio="1" class="team-logo"></v-img>
                 <span class="team-code">{{ item.teams.home.code }}</span>
                 <span class="score score-home">{{ item.scores.home.points }}</span>
                 <span class="dash">-</span>
                 <span class="score score-away">{{ item.scores.visitors.points }}</span>
                 <span class="team-code">{{ item.teams.visitors.code }}</span>
-                <v-img :src="require(`../assets/Teams/${item.teams.visitors.code}.png`)" max-height="60" max-width="60" class="team-logo"></v-img>
+                <v-img :src="teamLogo(item.teams.visitors.code)" width="60" aspect-ratio="1" class="team-logo"></v-img>
               </div>
             </div>
           </v-card-text>
@@ -77,6 +76,8 @@
 <script>
 import moment from 'moment'
 
+const teamLogos = import.meta.glob('../assets/Teams/*.png', { eager: true, import: 'default' })
+
 export default {
 
   name: "NBA",
@@ -85,10 +86,16 @@ export default {
     return {
       url_base: 'https://api-nba-v1.p.rapidapi.com/games?date=',
       games: {},
-      date: moment(new Date()).format('YYYY-MM-DD'),
+      pickerDate: new Date(),
       menu2: false,
       loading: false,
     }
+  },
+
+  computed: {
+    date() {
+      return moment(this.pickerDate).format('YYYY-MM-DD')
+    },
   },
 
   created() {
@@ -98,6 +105,10 @@ export default {
 
   methods: {
 
+    teamLogo(code) {
+      return teamLogos[`../assets/Teams/${code}.png`]
+    },
+
     onDateSelected() {
       this.menu2 = false;
       this.fetchGames();
@@ -106,13 +117,13 @@ export default {
     fetchGames() {
       this.loading = true;
 
-      const apiDate = moment(this.date).add(1, 'days').format('YYYY-MM-DD');
+      const apiDate = moment(this.pickerDate).add(1, 'days').format('YYYY-MM-DD');
 
       fetch(`https://api-nba-v1.p.rapidapi.com/games?date=${apiDate}`, {
         "method": "GET",
         "headers": {
           "x-rapidapi-host": "api-nba-v1.p.rapidapi.com",
-          "x-rapidapi-key": process.env.VUE_APP_RAPIDAPI_KEY
+          "x-rapidapi-key": import.meta.env.VUE_APP_RAPIDAPI_KEY
         }})
           .then(res => res.json())
           .then(this.setResults)

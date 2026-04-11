@@ -1,30 +1,33 @@
 # Personal Site — CLAUDE.md
 
 ## Project Overview
-Matthew Stone's personal website — a Vue.js 2 SPA hosted on Firebase. Showcases projects/tools including a fitness calculator, weather app, NBA scores, todo list, and calculator.
+Matthew Stone's personal website — a Vue.js 3 SPA hosted on Firebase. Showcases projects/tools including a fitness calculator, weather app, NBA scores, todo list, and calculator.
 
 Live site: https://www.matthewstone.co
 
 ## Tech Stack
-- **Vue 2.6** with Vue Router 3 (history mode, lazy-loaded routes)
-- **Vuetify 2.6** — primary UI framework (Material Design, dark theme)
-- **Firebase 9.9** — Firestore (user CRUD) + Hosting
-- **Axios** — HTTP client (available globally as `this.$http`)
-- **Moment.js** — date utils (available globally as `this.moment`)
+- **Vue 3.5** with Vue Router 4 (history mode, lazy-loaded routes)
+- **Vuetify 3** — primary UI framework (Material Design, dark theme)
+- **Firebase 9** — Firestore (user CRUD) + Hosting
+- **Axios** — HTTP client (imported directly in components that need it)
+- **Moment.js** — date utils (imported directly in components that need it)
 - **SASS** — CSS preprocessor
-- **Vue CLI 5** / Webpack — build tooling
+- **Vite 5** — build tooling (replaces Vue CLI 5 / Webpack as of the Vue 3 migration)
 
 ## Project Structure
 ```
+index.html        # Vite entry point (at repo root, not in public/)
+vite.config.js    # Vite config — plugins, alias, envPrefix
 src/
   views/          # Page-level routed components
   components/     # Reusable components (AppBar, CalcComponent, etc.)
   router/         # Vue Router config (index.js)
   plugins/        # Vuetify setup (vuetify.js)
-  fb.js           # Firebase init + Firestore CRUD helpers
-  main.js         # App entry point
+  fb.js           # Firebase init + Firestore CRUD helpers (v9 modular SDK)
+  main.js         # App entry point (createApp)
 public/
-  index.html
+  _redirects
+  favicon.ico
   Matthew Stone Resume.pdf
 .github/workflows/
   firebase-hosting-merge.yml       # Auto-deploys to live site on push to master
@@ -47,11 +50,12 @@ public/
 
 ## Dev Commands
 ```bash
-npm install --legacy-peer-deps   # Install dependencies (--legacy-peer-deps required due to peer dep conflicts)
-npm run serve                    # Dev server (localhost:8080, or 8081 if 8080 is in use)
-npm run build                    # Production build → dist/
-npm run lint                     # ESLint
-npm run deploy                   # Build + firebase deploy
+npm install        # Install dependencies (no flags required)
+npm run serve      # Vite dev server on localhost:8080
+npm run build      # Production build → dist/
+npm run preview    # Serve the production build locally
+npm run lint       # ESLint
+npm run deploy     # Build + firebase deploy
 ```
 
 ## Environment Variables
@@ -69,56 +73,28 @@ VUE_APP_FIREBASE_APP_ID=
 VUE_APP_FIREBASE_MEASUREMENT_ID=
 ```
 
+`vite.config.js` sets `envPrefix: ['VITE_', 'VUE_APP_']`, so existing `VUE_APP_*` keys continue to work without renaming GitHub Actions secrets. New variables should prefer the `VITE_` prefix. Access env vars via `import.meta.env.VUE_APP_FOO` — `process.env` is not defined in the browser.
+
 ## Deployment
 - **CI/CD:** GitHub Actions auto-deploys to Firebase Hosting on every push to `master`
 - **Manual:** `npm run deploy` (requires `firebase login`)
 - **Docker:** `docker build -t personal-site . && docker run -p 8080:8080 personal-site`
-- GitHub Actions uses `--legacy-peer-deps` in the workflow files
 - All `VUE_APP_*` environment variables must be added as **GitHub Actions secrets** (Settings → Secrets and variables → Actions) for the live site to function — they are injected into the build via `firebase-hosting-merge.yml`
 
 ## Conventions
 - Views go in `src/views/`, reusable components in `src/components/`
-- Vuetify components preferred for UI; Bootstrap classes exist in older components
+- Vuetify 3 components handle all UI (no Bootstrap)
 - Scoped CSS (`<style scoped>`) in all components
-- Static images imported via `require('../images/...')`
-- NBA team logos at `src/assets/Teams/{code}.png`
-- No Vuex — local component state or Firebase for persistence
+- Static images imported at the top of the `<script>` block (`import foo from '../images/foo.jpg'`) — dynamic `require()` does not work in Vite
+- NBA team logos at `src/assets/Teams/{code}.png`, loaded via `import.meta.glob`
+- No Vuex / Pinia — local component state or Firebase for persistence
 - External links use `href` + `target="_blank"` on Vuetify components (not `window.open`)
+- Options API is the default; `<script setup>` is acceptable when it makes composables (e.g. `useDisplay()`) meaningfully cleaner
+- Relative `.vue` imports must include the `.vue` extension (Vite does not auto-resolve it)
 
-## To-Do / Future Improvements
-- **Fix Firebase SDK** — `fb.js` mixes v8 and v9 modular SDK; migrate fully to v9 (`getFirestore`, `collection`, `doc`, etc.)
-- **Vue 2 → Vue 3** — Vue 2 is end-of-life (Dec 2023); migrate to Vue 3 for security updates and better performance. Do this before fixing the ESLint peer dep conflict as the full toolchain upgrade will resolve it as a byproduct. Recommended approach:
-  1. Create a new branch for the migration
-  2. Upgrade Vue 3 core and Vue Router 4 first — `new Vue()` → `createApp()`, `new VueRouter()` → `createRouter()`, `Vue.use()`/`Vue.prototype.$http` need updating
-  3. Get the app running before touching Vuetify
-  4. Upgrade Vuetify 2 → Vuetify 3 separately — most components have breaking changes (`v-list-item-group` removed, theme config changed, `$vuetify.breakpoint` → `useDisplay()`)
-  5. Fix components one page at a time and test as you go
-  6. Reference: https://v3-migration.vuejs.org and https://vuetifyjs.com/en/getting-started/upgrade-guide
-- **Remove `--legacy-peer-deps`** — After Vue 3 migration, remove flag from Dockerfile and GitHub Actions workflows. Root cause is `eslint@^7.0.0` conflicting with `@vue/cli-plugin-eslint@5.0.8` which requires `>=7.5.0`
-- **Move API calls to a backend** — API keys are currently bundled into the frontend build and visible in the browser; use Firebase Cloud Functions as a proxy
-- **Remove Bootstrap** — Vuetify already handles all UI; remove Bootstrap to reduce bundle size
-- **Pinia state management** — Replace ad-hoc component state with Pinia as the app grows
-- **TypeScript** — Would catch runtime bugs (wrong method names, typos) at compile time
-
-### Mobile Remaining Improvements
-- **Home page** — `padding: 45px` on `.intro` is too large on small screens; consider reducing on mobile
-- **Weather page** — `font-size: 102px` temperature text is very large on small screens
-- **Calculator** — Fixed `width: 360px` leaves no margin on phones narrower than 375px
-
-### NBA (`NBA.vue`) Remaining Improvements
-- **Empty state** — No message shown when no games played on selected date
-- **Error handling** — API failures only log to console; should show on-screen error message
-- **`url_base`** — Defined in data but never used; fetch call hardcodes the URL
-
-### NBA (`NBA.vue`) Notes
+## NBA (`NBA.vue`) Notes
 - API stores games in UTC; NBA games played in ET evening become the next day in UTC. Date sent to API is always +1 day from the selected date to compensate.
 - Score row uses CSS grid with `60px 1fr 1fr 20px 1fr 1fr 60px` columns — logo columns must match `max-width` on `v-img` (currently 60px)
-- Date picker uses `onDateSelected` method to reliably close menu and fetch games
+- `v-date-picker` v-models a JS `Date` object (not a string). A computed derives the `YYYY-MM-DD` display string via moment. `onDateSelected` closes the menu and refetches games.
 
-### Calculator (`CalcComponent.vue`) Improvements
-- **Remove `Calc.vue` wrapper** — It only sets `document.title`; move that into `CalcComponent.vue` directly
-- **Fix `append` blocking `0`** — Current logic prevents typing numbers like `10`, `20`, `100`; only leading zeros should be blocked
-- **Fix `clear` not resetting full state** — `C` button only clears `current`; should also reset `previous`, `operator`, and `operatorClicked`
-- **Add divide-by-zero protection** — `5 ÷ 0` currently displays `Infinity`; should show `Error`
-- **Replace `<div>` buttons with `<button>` elements** — Current `<div @click>` buttons are inaccessible to keyboard users and screen readers
-
+> To-Do / Future Improvements have been moved to Notion: https://www.notion.so/33def31f8222815594fac792c259d669

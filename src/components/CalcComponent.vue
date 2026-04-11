@@ -143,6 +143,7 @@ export default {
 }
 
 .btn {
+  color: black;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;

@@ -10,7 +10,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # install project dependencies
-RUN npm install --legacy-peer-deps
+RUN npm install
 
 # declare build-time API key arguments
 ARG VUE_APP_OPENWEATHER_KEY

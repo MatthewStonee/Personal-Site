@@ -3,10 +3,7 @@
     <div class="intro">
       <div>
         <h1>Hi 👋 I’m Matthew Stone!</h1>
-        <h2>I’m a Computer Science graduate from the University of Central Florida and currently a Senior Systems Engineer for CPE ST3, looking to further my knowledge
-            in everything tech!
-
-        </h2>
+        <h2>I’m a Computer Science graduate from the University of Central Florida and currently a Senior Systems Engineer for CPE ST3, looking to further my knowledge in everything tech!</h2>
       </div>
 
 
@@ -20,12 +17,12 @@
 
         <div class="image">
           <v-sheet
-              color="grey lighten-1"
+              color="grey-lighten-1"
               rounded
               elevation="8"
-              max-width="345"
+              max-width="420"
           >
-            <v-img :src="images.profile"></v-img>
+            <v-img :src="images.profile" width="100%" aspect-ratio="1"></v-img>
           </v-sheet>
         </div>
       </div>
@@ -42,7 +39,7 @@
   padding: 45px;
   max-width: 815px;
   text-align: left;
-  font-family: Prompt, monospace;
+  font-family: Prompt, sans-serif;
 }
 
 .header {
@@ -62,44 +59,47 @@ h1 {
 
 h2{
   color:white;
-  font-size: 27px;
-  margin-bottom: 5px;
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 1.65;
+  margin-bottom: 20px;
 }
 
 p{
   color:white;
   font-size: 17px;
-  text-align: justify;
+  text-align: left;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 .p2 {
   color:white;
   font-size: 17px;
   margin-top: 10px;
-  text-align: justify;
+  text-align: left;
 }
 
 @media (min-width: 700px) {
   .container-1 {
     display: flex;
+    align-items: center;
   }
 
 }
 
 .Exp {
-  flex:2;
+  flex: 1;
   padding-right: 35px;
-  margin-top: 55px;
-  margin-bottom: 25px;
 }
 
 .image {
   flex: 1;
-  margin-right: 55px;
 }
 
 </style>
 
 <script>
+import profileImg from '../images/profile3.jpg'
 
 export default {
   name: 'Home',
@@ -114,7 +114,7 @@ export default {
   data() {
     return {
       images: {
-        profile: require('../images/profile3.jpg'),
+        profile: profileImg,
       }
     }
   },

@@ -1,8 +1,5 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
-
-Vue.use(VueRouter)
 
 const routes = [
   {
@@ -16,7 +13,7 @@ const routes = [
   {
     path: '/about',
     name: 'about',
-    component: () => import('../views/About'),
+    component: () => import('../views/About.vue'),
     meta: {
       title: 'About'
     }
@@ -24,7 +21,7 @@ const routes = [
   {
     path: '/onerm',
     name: 'onerm',
-    component: () => import('../views/OneRM'),
+    component: () => import('../views/OneRM.vue'),
     meta: {
       title: 'OneRm'
     }
@@ -32,52 +29,46 @@ const routes = [
   {
     path: '/stocks',
     name: 'stocks',
-    component: () => import('../views/Stocks'),
+    component: () => import('../views/Stocks.vue'),
     meta: {
       title: 'Stocks'
     }
   },
   {
-    path: '/helloworld',
-    name: 'HelloWorld',
-    component: () => import('../components/HelloWorld'),
-  },
-  {
     path: '/todo',
     name: 'ToDo List',
-    component: () => import('../views/Todo'),
+    component: () => import('../views/Todo.vue'),
   },
   {
     path: '/calculator',
     name: 'Calculator',
-    component: () => import('../views/Calc'),
+    component: () => import('../views/Calc.vue'),
   },
   {
     path: '/weather',
     name: 'Weather',
-    component: () => import('../views/Weather'),
+    component: () => import('../views/Weather.vue'),
   },
   {
     path: '/NBA',
     name: 'NBA',
-    component: () => import('../views/NBA'),
+    component: () => import('../views/NBA.vue'),
   },
   {
     path: '/user',
     name: 'User Create',
-    component: () => import('../components/UserCreate'),
+    component: () => import('../components/UserCreate.vue'),
   },
   {
     path: '/edit/:id',
     name: 'Edit',
-    component: () => import('../components/Edit'),
+    component: () => import('../components/Edit.vue'),
   },
 ]
 
-const router = new VueRouter( {
-  mode: 'history',
-  routes
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes,
 })
 
 export default router
-
