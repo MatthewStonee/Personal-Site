@@ -51,18 +51,26 @@
             <div v-if="loading" class="text-center py-4">
               <v-progress-circular indeterminate color="primary"></v-progress-circular>
             </div>
+            <div v-else-if="error" class="no-games error-msg">
+              {{ error }}
+            </div>
             <div v-else>
-              <div
-                v-for="item in games" :key="item.teams.home.code"
-                class="score-row"
-              >
-                <v-img :src="teamLogo(item.teams.home.code)" width="60" aspect-ratio="1" class="team-logo"></v-img>
-                <span class="team-code">{{ item.teams.home.code }}</span>
-                <span class="score score-home">{{ item.scores.home.points }}</span>
-                <span class="dash">-</span>
-                <span class="score score-away">{{ item.scores.visitors.points }}</span>
-                <span class="team-code">{{ item.teams.visitors.code }}</span>
-                <v-img :src="teamLogo(item.teams.visitors.code)" width="60" aspect-ratio="1" class="team-logo"></v-img>
+              <div v-if="games && games.length > 0">
+                <div
+                  v-for="item in games" :key="item.teams.home.code"
+                  class="score-row"
+                >
+                  <v-img :src="teamLogo(item.teams.home.code)" width="60" aspect-ratio="1" class="team-logo"></v-img>
+                  <span class="team-code">{{ item.teams.home.code }}</span>
+                  <span class="score score-home">{{ item.scores.home.points }}</span>
+                  <span class="dash">-</span>
+                  <span class="score score-away">{{ item.scores.visitors.points }}</span>
+                  <span class="team-code">{{ item.teams.visitors.code }}</span>
+                  <v-img :src="teamLogo(item.teams.visitors.code)" width="60" aspect-ratio="1" class="team-logo"></v-img>
+                </div>
+              </div>
+              <div v-else class="no-games">
+                No games played on this date.
               </div>
             </div>
           </v-card-text>
@@ -84,11 +92,11 @@ export default {
 
   data: () => {
     return {
-      url_base: 'https://api-nba-v1.p.rapidapi.com/games?date=',
-      games: {},
+      games: [],
       pickerDate: new Date(),
       menu2: false,
       loading: false,
+      error: null,
     }
   },
 
@@ -116,6 +124,7 @@ export default {
 
     fetchGames() {
       this.loading = true;
+      this.error = null;
 
       const apiDate = moment(this.pickerDate).add(1, 'days').format('YYYY-MM-DD');
 
@@ -127,7 +136,7 @@ export default {
         }})
           .then(res => res.json())
           .then(this.setResults)
-          .catch(error => console.log('error', error))
+          .catch(() => { this.error = 'Failed to load games. Please try again.'; })
           .finally(() => { this.loading = false; });
     },
     setResults(results) {
@@ -199,6 +208,16 @@ export default {
   font-size: 24px;
   font-weight: 700;
   text-align: center;
+}
+
+.no-games {
+  text-align: center;
+  padding: 24px 0;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.error-msg {
+  color: #ef5350;
 }
 
 
