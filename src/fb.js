@@ -8,6 +8,9 @@ import {
   updateDoc,
   deleteDoc,
   onSnapshot,
+  query,
+  orderBy,
+  limit,
 } from 'firebase/firestore'
 import { ref, onUnmounted } from 'vue'
 
@@ -36,9 +39,10 @@ export const updateUser = (id, user) => updateDoc(doc(db, 'users', id), user)
 
 export const deleteUser = (id) => deleteDoc(doc(db, 'users', id))
 
-export const useLoadUsers = () => {
+export const useLoadUsers = ({ pageSize = 50 } = {}) => {
   const users = ref([])
-  const close = onSnapshot(usersCollection, (snapshot) => {
+  const q = query(usersCollection, orderBy('name'), limit(pageSize))
+  const close = onSnapshot(q, (snapshot) => {
     users.value = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }))
   })
   onUnmounted(close)

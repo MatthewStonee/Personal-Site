@@ -84,7 +84,7 @@
 <script>
 import moment from 'moment'
 
-const teamLogos = import.meta.glob('../assets/Teams/*.png', { eager: true, import: 'default' })
+const teamLogos = import.meta.glob('../assets/Teams/*.png', { import: 'default' })
 
 export default {
 
@@ -97,6 +97,7 @@ export default {
       menu2: false,
       loading: false,
       error: null,
+      logoUrls: {},
     }
   },
 
@@ -114,7 +115,24 @@ export default {
   methods: {
 
     teamLogo(code) {
-      return teamLogos[`../assets/Teams/${code}.png`]
+      if (this.logoUrls[code] !== undefined) return this.logoUrls[code]
+      const loader = teamLogos[`../assets/Teams/${code}.png`]
+      if (!loader) return ''
+      this.logoUrls[code] = ''
+      loader().then((url) => { this.logoUrls[code] = url })
+      return ''
+    },
+
+    loadLogos(codes) {
+      const tasks = []
+      for (const code of codes) {
+        if (this.logoUrls[code]) continue
+        const loader = teamLogos[`../assets/Teams/${code}.png`]
+        if (!loader) continue
+        this.logoUrls[code] = ''
+        tasks.push(loader().then((url) => { this.logoUrls[code] = url }))
+      }
+      return Promise.all(tasks)
     },
 
     onDateSelected() {
@@ -122,25 +140,36 @@ export default {
       this.fetchGames();
     },
 
-    fetchGames() {
+    async fetchGames() {
       this.loading = true;
       this.error = null;
 
       const apiDate = moment(this.pickerDate).add(1, 'days').format('YYYY-MM-DD');
 
-      fetch(`https://api-nba-v1.p.rapidapi.com/games?date=${apiDate}`, {
-        "method": "GET",
-        "headers": {
-          "x-rapidapi-host": "api-nba-v1.p.rapidapi.com",
-          "x-rapidapi-key": import.meta.env.VUE_APP_RAPIDAPI_KEY
-        }})
-          .then(res => res.json())
-          .then(this.setResults)
-          .catch(() => { this.error = 'Failed to load games. Please try again.'; })
-          .finally(() => { this.loading = false; });
+      try {
+        const res = await fetch(`https://api-nba-v1.p.rapidapi.com/games?date=${apiDate}`, {
+          "method": "GET",
+          "headers": {
+            "x-rapidapi-host": "api-nba-v1.p.rapidapi.com",
+            "x-rapidapi-key": import.meta.env.VUE_APP_RAPIDAPI_KEY
+          }
+        });
+        const results = await res.json();
+        await this.setResults(results);
+      } catch {
+        this.error = 'Failed to load games. Please try again.';
+      } finally {
+        this.loading = false;
+      }
     },
-    setResults(results) {
-      this.games = results.response;
+    async setResults(results) {
+      this.games = results.response || [];
+      const codes = new Set();
+      for (const game of this.games) {
+        codes.add(game.teams.home.code);
+        codes.add(game.teams.visitors.code);
+      }
+      await this.loadLogos(codes);
     },
 
   }
