@@ -42,7 +42,7 @@ const routes = [
   {
     path: '/calculator',
     name: 'Calculator',
-    component: () => import('../views/Calc.vue'),
+    component: () => import('../components/CalcComponent.vue'),
   },
   {
     path: '/weather',
