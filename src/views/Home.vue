@@ -36,7 +36,7 @@
 
 .intro {
   width: 100%;
-  padding: 45px;
+  padding: 24px;
   max-width: 815px;
   text-align: left;
   font-family: Prompt, sans-serif;
@@ -79,21 +79,32 @@ p{
   text-align: left;
 }
 
-@media (min-width: 700px) {
-  .container-1 {
-    display: flex;
-    align-items: center;
-  }
-
+.container-1 {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 20px;
 }
 
 .Exp {
   flex: 1;
-  padding-right: 35px;
 }
 
 .image {
   flex: 1;
+}
+
+@media (min-width: 700px) {
+  .container-1 {
+    flex-direction: row;
+    align-items: center;
+    gap: 0;
+  }
+  .Exp {
+    padding-right: 35px;
+  }
+  .intro {
+    padding: 45px;
+  }
 }
 
 </style>
