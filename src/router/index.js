@@ -38,11 +38,13 @@ const routes = [
     path: '/todo',
     name: 'ToDo List',
     component: () => import('../views/Todo.vue'),
+    meta: { title: 'ToDo List' }
   },
   {
     path: '/calculator',
     name: 'Calculator',
     component: () => import('../components/CalcComponent.vue'),
+    meta: { title: 'Calculator' }
   },
   {
     path: '/weather',
@@ -56,6 +58,7 @@ const routes = [
     path: '/NBA',
     name: 'NBA',
     component: () => import('../views/NBA.vue'),
+    meta: { title: 'NBA' }
   },
   {
     path: '/user',

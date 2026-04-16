@@ -151,9 +151,7 @@
 
     methods: {
       clickMethod() {
-        this.$router.push({ name: "home" }).catch(err => {
-          console.log("Redundant Navigation, error: " + err)
-        })
+        this.$router.push({ name: "home" }).catch(() => {})
       },
     }
   };
