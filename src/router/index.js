@@ -48,6 +48,9 @@ const routes = [
     path: '/weather',
     name: 'Weather',
     component: () => import('../views/Weather.vue'),
+    meta: {
+      title: 'Weather'
+    }
   },
   {
     path: '/NBA',

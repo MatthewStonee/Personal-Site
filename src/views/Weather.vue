@@ -7,7 +7,7 @@
           density="compact"
           v-model="alert"
           type="error"
-      >Please enter a valid city name. Ex: Atlanta</v-alert>
+      >{{ alertMessage }}</v-alert>
 
       <v-row class="solo">
         <div class="me">
@@ -31,10 +31,10 @@
       </v-row>
 
 
-      <div class="weather-wrap" v-if="typeof  weather.main != 'undefined'">
+      <div class="weather-wrap" v-if="typeof weather.main != 'undefined'">
         <div class="location-box">
-          <div class="location">{{ weather.name}}, {{ weather.sys.country}}</div>
-          <div class="date">{{  dateBuilder() }}</div>
+          <div class="location">{{ weather.name }}, {{ weather.sys?.country }}</div>
+          <div class="date">{{ dateBuilder() }}</div>
         </div>
 
         <div class="weather-box">
@@ -42,7 +42,7 @@
          <div>
            <v-icon size="125" color="white">{{ icon }}</v-icon>
          </div>
-          <div class="weather">{{ weather.weather[0].main}}</div>
+          <div class="weather">{{ weather.weather[0].main }}</div>
         </div>
 
       </div>
@@ -71,74 +71,81 @@ export default {
       loading: false,
 
       alert: false,
-
+      alertMessage: '',
+      currentController: null,
     }
   },
 
 
   created() {
     document.title = "Weather";
-
-    fetch(`${this.url_base}weather?q=orlando&units=imperial&APPID=${this.apiKey}`)
-        .then(res => {
-          return res.json();
-        }).then(this.setResults);
-
+    this.doFetch(`${this.url_base}weather?q=orlando&units=imperial&APPID=${this.apiKey}`);
   },
 
   methods: {
 
-    getCoords () {
+    async doFetch(url) {
+      this.currentController?.abort();
+      this.currentController = new AbortController();
+      try {
+        const res = await fetch(url, { signal: this.currentController.signal });
+        if (!res.ok) throw new Error(`API error: ${res.status}`);
+        const data = await res.json();
+        this.setResults(data);
+      } catch (e) {
+        if (e.name === 'AbortError') return;
+        this.alertMessage = 'Could not fetch weather data. Please try again.';
+        this.alert = true;
+      } finally {
+        this.currentController = null;
+      }
+    },
 
-      //do we support geolocation
-      if(!("geolocation" in navigator)) {
-        console.log('Geolocation is not available.');
+    getCoords() {
+      if (!('geolocation' in navigator)) {
+        this.alertMessage = 'Geolocation is not available in your browser.';
+        this.alert = true;
+        return null;
+      }
+      return new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject);
+      });
+    },
+
+    async defaultWeather() {
+      const l = this.loader;
+      this[l] = !this[l];
+      try {
+        const position = await this.getCoords();
+        if (!position) return;
+        const { latitude: lat, longitude: lon } = position.coords;
+        await this.doFetch(`${this.url_base}weather?lat=${lat}&lon=${lon}&units=imperial&APPID=${this.apiKey}`);
+        this.query = 'My Location';
+      } catch (e) {
+        this.alertMessage = 'Could not get your location. Please allow location access.';
+        this.alert = true;
+      } finally {
+        this[l] = false;
+        this.loader = null;
+      }
+    },
+
+    fetchWeather(e) {
+      if (e.key === 'Enter') {
+        this.doFetch(`${this.url_base}weather?q=${this.query}&units=imperial&APPID=${this.apiKey}`);
+      }
+    },
+
+    setResults(results) {
+      this.weather = results;
+
+      if (this.weather.name == undefined) {
+        this.alertMessage = 'Please enter a valid city name. Ex: Atlanta';
+        this.alert = true;
         return;
       }
 
-      return new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject)
-      })
-
-    },
-
-    async defaultWeather () {
-
-      const l = this.loader
-      this[l] = !this[l]
-
-      let pos = {};
-      let position = await this.getCoords();
-      pos.lat = position.coords.latitude;
-      pos.lon = position.coords.longitude;
-
-
-      fetch(`${this.url_base}weather?lat=${pos.lat}&lon=${pos.lon}&units=imperial&APPID=${this.apiKey}`)
-          .then(res => {
-            return res.json();
-          }).then(this.setResults);
-
-     this[l] = false;
-     this.loader = null;
-
-     this.query = 'My Location'
-    },
-
-    fetchWeather (e) {
-      if (e.key === "Enter") {
-        fetch(`${this.url_base}weather?q=${this.query}&units=imperial&APPID=${this.apiKey}`)
-            .then(res => {
-              return res.json();
-            }).then(this.setResults);
-      }
-    },
-    setResults (results) {
-      this.weather = results;
-
-      if(this.weather.name == undefined)
-        this.alert = true;
-      else
-        this.alert = false;
+      this.alert = false;
 
       if (!this.weather.weather || !this.weather.weather[0]) return;
 
@@ -170,10 +177,9 @@ export default {
         default:
           this.icon = "mdi-weather-cloudy";
       }
-
-
     },
-    dateBuilder () {
+
+    dateBuilder() {
       let d = new Date();
       let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
       let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -184,8 +190,6 @@ export default {
       return `${day} ${month} ${date}, ${year}`;
     }
   },
-
-
 
 
 }
@@ -293,7 +297,7 @@ main {
   display: inline-block;
   padding: 10px 25px;
   color: white;
-  font-size: 102px;
+  font-size: clamp(48px, 12vw, 102px);
   font-weight: 900;
 
   text-shadow: 3px 6px rgba(0,0,0,0.25);
@@ -330,5 +334,3 @@ main {
 
 
 </style>
-
-
