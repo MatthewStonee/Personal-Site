@@ -54,49 +54,24 @@
           </div>
         </v-card>
       </v-col>
+    </v-row>
 
-      <v-col cols="12" sm="6" class="d-flex justify-center">
-        <v-card width="100%" max-width="600" elevation="10">
-          <v-card-title id="title">Kilo Plates to lbs Converter</v-card-title>
-          <p id="cap">Enter the total kilo weight of the plates on one half of the bar</p>
-          <p id="cap">This converter converts the entered kilo weight to lbs, doubles it, and then adds another 44lbs for the weight of the bar</p>
-
-          <div class="reps">
-            <v-text-field
-                label="Kilos"
-                type="number"
-                v-model.number="kilos"
-                v-on:keypress.enter="convert"
-                variant="outlined"
-                placeholder="30.5"
-            ></v-text-field>
-          </div>
-
-          <v-card-actions class="justify-center pb-4">
-            <v-btn
-                @click="convert"
-                size="large"
-                color="blue"
-            >
-              Convert
-            </v-btn>
-          </v-card-actions>
-
-          <div class="answer">
-            <h2>{{ conversion }}</h2>
-          </div>
-        </v-card>
+    <v-row justify="center" class="mt-4">
+      <v-col cols="12">
+        <BarbellVisualizer />
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
+import BarbellVisualizer from '../components/BarbellVisualizer.vue'
 
 export default {
   name: 'OneRM',
 
   components: {
+    BarbellVisualizer,
   },
 
   created() {
@@ -109,13 +84,9 @@ export default {
     repetitions: "",
     answer: "",
     items: ["kg", "lbs"],
-    kilos:"",
-    conversion:""
   }),
 
-
   methods: {
-
     result() {
       if(parseInt(this.lift) >= 0 && parseInt(this.repetitions) >= 0)
       {
@@ -127,24 +98,12 @@ export default {
         this.answer = "Enter lift weight and repetitions."
       }
     },
-
-    convert() {
-
-      this.conversion = Math.round(parseFloat(this.kilos) / 0.45359237 * 2 + 44 )
-
-      this.conversion = this.conversion + " lbs is on the bar"
-
-    },
-
   },
-
-
 };
 </script>
 
 
 <style scoped>
-
 
 .text {
   padding: 20px;
@@ -153,13 +112,6 @@ export default {
 .answer {
   padding: 15px;
   text-align: center;
-}
-
-.btn {
-  margin-top: 20px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .reps {
@@ -183,4 +135,3 @@ export default {
 }
 
 </style>
-
