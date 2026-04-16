@@ -117,7 +117,7 @@ export default {
   methods: {
 
     result() {
-      if(parseInt(this.lift) >= 0 || parseInt(this.repetitions) >= 0)
+      if(parseInt(this.lift) >= 0 && parseInt(this.repetitions) >= 0)
       {
         this.answer = Math.round(parseInt(this.lift) / (1.0278 - (0.0278 * parseInt(this.repetitions))));
         this.answer = "Your one rep max is " + this.answer + " " + this.units;
