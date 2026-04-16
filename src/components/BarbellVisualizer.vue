@@ -1,5 +1,5 @@
 <template>
-  <v-card width="100%" elevation="10">
+  <v-card width="100%" max-width="600" elevation="10" class="mx-auto">
     <v-card-title id="title">Kilo Plate Visualizer</v-card-title>
     <p id="cap">Click plates to add them to the bar. Click a plate on the bar to remove the outermost one. Or drag plates onto the bar (desktop). The kilos field syncs both ways.</p>
 
