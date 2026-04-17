@@ -32,12 +32,30 @@
 </template>
 
 <script>
-import { useLoadUsers, deleteUser} from "@/fb";
+import { subscribeToUsers, deleteUser } from "@/fb";
 
 export default {
-  setup() {
-    const users = useLoadUsers()
-    return { users, deleteUser }
-  }
+  data() {
+    return {
+      users: [],
+      unsubscribeUsers: null,
+    };
+  },
+
+  created() {
+    this.unsubscribeUsers = subscribeToUsers((users) => {
+      this.users = users;
+    });
+  },
+
+  beforeUnmount() {
+    if (this.unsubscribeUsers) {
+      this.unsubscribeUsers();
+    }
+  },
+
+  methods: {
+    deleteUser,
+  },
 }
 </script>

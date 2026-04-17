@@ -13,11 +13,6 @@
   </v-container>
 </template>
 
-<style>
-
-
-</style>
-
 <script>
 
 //import { API } from '../services/stocks'

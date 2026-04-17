@@ -67,6 +67,9 @@
 <script>
 import BarbellVisualizer from '../components/BarbellVisualizer.vue'
 
+const BRZYCKI_BASE_COEFFICIENT = 1.0278
+const BRZYCKI_REPS_COEFFICIENT = 0.0278
+
 export default {
   name: 'OneRM',
 
@@ -86,7 +89,11 @@ export default {
     result() {
       if(parseInt(this.lift) >= 0 && parseInt(this.repetitions) >= 0)
       {
-        this.answer = Math.round(parseInt(this.lift) / (1.0278 - (0.0278 * parseInt(this.repetitions))));
+        // Brzycki formula for estimating one-rep max from reps performed.
+        this.answer = Math.round(
+          parseInt(this.lift) /
+          (BRZYCKI_BASE_COEFFICIENT - (BRZYCKI_REPS_COEFFICIENT * parseInt(this.repetitions)))
+        );
         this.answer = "Your one rep max is " + this.answer + " " + this.units;
       }
       else

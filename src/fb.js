@@ -39,12 +39,19 @@ export const updateUser = (id, user) => updateDoc(doc(db, 'users', id), user)
 
 export const deleteUser = (id) => deleteDoc(doc(db, 'users', id))
 
+export const subscribeToUsers = (callback, { pageSize = 50 } = {}) => {
+  const q = query(usersCollection, orderBy('name'), limit(pageSize))
+
+  return onSnapshot(q, (snapshot) => {
+    callback(snapshot.docs.map((d) => ({ id: d.id, ...d.data() })))
+  })
+}
+
 export const useLoadUsers = ({ pageSize = 50 } = {}) => {
   const users = ref([])
-  const q = query(usersCollection, orderBy('name'), limit(pageSize))
-  const close = onSnapshot(q, (snapshot) => {
-    users.value = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }))
-  })
+  const close = subscribeToUsers((loadedUsers) => {
+    users.value = loadedUsers
+  }, { pageSize })
   onUnmounted(close)
   return users
 }

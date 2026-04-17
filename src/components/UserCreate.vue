@@ -25,20 +25,24 @@
 
 <script>
 import { createUser } from "@/fb";
-import { reactive } from 'vue';
 
 export default {
-  setup() {
-    const form = reactive({ name: '', email: ''})
+  data() {
+    return {
+      form: {
+        name: '',
+        email: '',
+      },
+    };
+  },
 
-    const onSubmit = async () => {
-      await createUser({...form})
-      form.name = ''
-      form.email = ''
-    }
-
-    return { form, onSubmit }
-  }
+  methods: {
+    async onSubmit() {
+      await createUser({ ...this.form });
+      this.form.name = '';
+      this.form.email = '';
+    },
+  },
 }
 
 </script>

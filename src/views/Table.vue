@@ -26,10 +26,6 @@
   </v-row>
 </template>
 
-<style>
-
-</style>
-
 <script>
 import { useDisplay } from 'vuetify'
 
