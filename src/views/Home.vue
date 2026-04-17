@@ -1,112 +1,331 @@
 <template>
-  <div class="header">
-    <div class="intro">
-      <div>
-        <h1>Hi 👋 I’m Matthew Stone!</h1>
-        <h2>I’m a Computer Science graduate from the University of Central Florida and currently a Senior Systems Engineer for CPE ST3, looking to further my knowledge in everything tech!</h2>
-      </div>
+  <section class="home-hero">
+    <div class="hero-shell">
+      <div class="hero-copy">
+        <p class="hero-kicker hero-animate hero-animate-1">Matthew Stone</p>
+        <h1 class="hero-title hero-animate hero-animate-2">
+          Engineer looking to further my knowledge in everything tech!
+        </h1>
+        <p class="hero-summary hero-animate hero-animate-3">
+          There are some simple web apps on this website that were built while learning different aspects of Vue.js and web development!
+        </p>
 
-
-      <div class="container-1">
-        <div class="Exp">
-          <p>🎓B.S. Computer Science @ University of Central Florida</p>
-          <p class="p2">📍 Grew up in Florida</p>
-          <p>💪 Love to workout, game, and trade stocks</p>
-          <p class="p2">💻️ There are some simple web apps on this website that I built while learning different aspects of Vue.js and web development!</p>
-        </div>
-
-        <div class="image">
-          <v-sheet
-              color="grey-lighten-1"
-              rounded
-              elevation="8"
-              max-width="420"
+        <div class="hero-actions hero-animate hero-animate-4">
+          <v-btn
+            class="cta-secondary"
+            href="https://github.com/MatthewStonee"
+            rel="noreferrer"
+            size="large"
+            rounded="pill"
+            target="_blank"
+            variant="text"
           >
-            <v-img :src="images.profile" width="100%" aspect-ratio="1"></v-img>
-          </v-sheet>
+            View GitHub
+          </v-btn>
         </div>
+
+        <ul class="proof-list hero-animate hero-animate-5">
+          <li class="proof-item">
+            <span class="proof-label">Role</span>
+            <span class="proof-value">Senior Systems Engineer at CPE ST3</span>
+          </li>
+          <li class="proof-item">
+            <span class="proof-label">Education</span>
+            <span class="proof-value">B.S. Computer Science, UCF</span>
+          </li>
+          <li class="proof-item">
+            <span class="proof-label">Base</span>
+            <span class="proof-value">Florida</span>
+          </li>
+        </ul>
       </div>
 
+      <figure class="hero-portrait hero-animate hero-animate-3">
+        <div class="portrait-frame">
+          <v-img
+            :src="profileImage"
+            alt="Portrait of Matthew Stone"
+            class="portrait-image"
+            cover
+          />
+        </div>
+      </figure>
     </div>
-  </div>
-
+  </section>
 </template>
 
 <style scoped>
-
-.intro {
-  width: 100%;
-  padding: 24px;
-  max-width: 815px;
-  text-align: left;
-  font-family: Prompt, sans-serif;
-}
-
-.header {
+.home-hero {
+  position: relative;
+  min-height: calc(100svh - var(--app-bar-height));
+  padding: clamp(28px, 5vw, 56px) clamp(20px, 5vw, 64px) clamp(36px, 6vw, 72px);
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  text-align: center;
-  min-height: 100vh;
+  overflow: clip;
 }
 
-h1 {
+.home-hero::before,
+.home-hero::after {
+  content: "";
+  position: absolute;
+  inset: auto;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.home-hero::before {
+  top: 8%;
+  right: -10%;
+  width: min(36vw, 460px);
+  height: min(36vw, 460px);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(124, 143, 184, 0.12) 0%, rgba(124, 143, 184, 0) 72%);
+  filter: blur(18px);
+}
+
+.home-hero::after {
+  bottom: -18%;
+  left: -8%;
+  width: min(26vw, 300px);
+  height: min(26vw, 300px);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(124, 143, 184, 0.14) 0%, rgba(124, 143, 184, 0) 74%);
+  filter: blur(22px);
+}
+
+.hero-shell {
+  position: relative;
+  z-index: 1;
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  display: grid;
+  gap: clamp(28px, 4vw, 72px);
+  align-items: center;
+}
+
+.hero-copy {
+  max-width: 620px;
+}
+
+.hero-kicker {
+  margin: 0 0 16px;
+  color: var(--accent-color);
+  font-family: "Bebas Neue", sans-serif;
+  font-size: clamp(1.05rem, 1.5vw, 1.35rem);
+  letter-spacing: 0.12em;
+}
+
+.hero-title {
+  margin: 0;
   color: white;
-  margin-bottom: 25px;
-  font-size: 45px;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: clamp(2.7rem, 7vw, 4.9rem);
+  line-height: 0.98;
+  letter-spacing: 0.015em;
+  text-wrap: balance;
 }
 
-h2{
-  color:white;
-  font-size: 19px;
-  font-weight: 400;
-  line-height: 1.65;
-  margin-bottom: 20px;
+.hero-summary {
+  margin: 20px 0 0;
+  max-width: 38rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-family: Prompt, sans-serif;
+  font-size: clamp(0.98rem, 1.5vw, 1.08rem);
+  line-height: 1.68;
 }
 
-p{
-  color:white;
-  font-size: 17px;
-  text-align: left;
-  margin-top: 0;
-  margin-bottom: 0;
-}
-.p2 {
-  color:white;
-  font-size: 17px;
-  margin-top: 10px;
-  text-align: left;
-}
-
-.container-1 {
+.hero-actions {
+  margin-top: 22px;
   display: flex;
-  flex-direction: column-reverse;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
-.Exp {
-  flex: 1;
+.cta-secondary {
+  min-width: 150px;
+  min-height: 46px;
+  letter-spacing: 0.02em;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease,
+    border-color 180ms ease;
+  touch-action: manipulation;
 }
 
-.image {
-  flex: 1;
+.cta-secondary {
+  padding-inline: 0;
+  color: var(--accent-color);
+  font-family: Prompt, sans-serif;
+  font-weight: 600;
 }
 
-@media (min-width: 700px) {
-  .container-1 {
-    flex-direction: row;
-    align-items: center;
-    gap: 0;
+.cta-secondary :deep(.v-btn__overlay) {
+  opacity: 0;
+}
+
+.cta-secondary :deep(.v-ripple__container) {
+  display: none;
+}
+
+.cta-secondary:hover {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.cta-secondary:hover {
+  transform: translateY(-2px);
+}
+
+.cta-secondary:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 4px;
+}
+
+.proof-list {
+  margin: 34px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 14px;
+}
+
+.proof-item {
+  padding-top: 14px;
+  display: grid;
+  gap: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.proof-label {
+  color: var(--accent-color);
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.12em;
+}
+
+.proof-value {
+  color: white;
+  font-family: Prompt, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.hero-portrait {
+  margin: 0;
+  position: relative;
+  justify-self: center;
+  width: min(100%, 500px);
+}
+
+.portrait-frame {
+  position: relative;
+  aspect-ratio: 0.82;
+  overflow: hidden;
+  border-radius: 32px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.04) 100%);
+  box-shadow:
+    0 30px 70px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.portrait-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(9, 10, 14, 0) 48%, rgba(9, 10, 14, 0.34) 100%);
+}
+
+.portrait-image {
+  width: 100%;
+  height: 100%;
+  transform: scale(1.03);
+  animation: portraitFloat 7s ease-in-out infinite;
+  will-change: transform;
+}
+
+.hero-animate {
+  opacity: 0;
+  transform: translateY(18px);
+  animation: heroReveal 700ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.hero-animate-1 {
+  animation-delay: 80ms;
+}
+
+.hero-animate-2 {
+  animation-delay: 150ms;
+}
+
+.hero-animate-3 {
+  animation-delay: 240ms;
+}
+
+.hero-animate-4 {
+  animation-delay: 320ms;
+}
+
+.hero-animate-5 {
+  animation-delay: 400ms;
+}
+
+@keyframes heroReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  .Exp {
-    padding-right: 35px;
+}
+
+@keyframes portraitFloat {
+  0%,
+  100% {
+    transform: scale(1.03) translateY(0);
   }
-  .intro {
-    padding: 45px;
+
+  50% {
+    transform: scale(1.05) translateY(-10px);
   }
 }
 
+@media (min-width: 880px) {
+  .hero-shell {
+    grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.92fr);
+  }
+
+  .proof-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+}
+
+@media (max-width: 879px) {
+  .home-hero {
+    padding-top: 24px;
+    align-items: start;
+  }
+
+  .hero-portrait {
+    order: -1;
+    width: min(100%, 420px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-animate,
+  .portrait-image,
+  .cta-primary,
+  .cta-secondary {
+    animation: none;
+    transition: none;
+    transform: none;
+    opacity: 1;
+  }
+}
 </style>
 
 <script>
@@ -115,22 +334,14 @@ import profileImg from '../images/profile3.jpg'
 export default {
   name: 'Home',
 
-  components: {
-  },
-
   created() {
-    document.title = "Home";
+    document.title = 'Matthew Stone | Home'
   },
 
   data() {
     return {
-      images: {
-        profile: profileImg,
-      }
+      profileImage: profileImg,
     }
   },
-
-
-
-};
+}
 </script>
