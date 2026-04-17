@@ -110,7 +110,7 @@
 
 .hero-title {
   margin: 0;
-  color: white;
+  color: var(--page-foreground);
   font-family: "Bebas Neue", sans-serif;
   font-size: clamp(2.7rem, 7vw, 4.9rem);
   line-height: 0.98;
@@ -121,7 +121,7 @@
 .hero-summary {
   margin: 20px 0 0;
   max-width: 38rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--page-muted);
   font-family: Prompt, sans-serif;
   font-size: clamp(0.98rem, 1.5vw, 1.08rem);
   line-height: 1.68;
@@ -155,8 +155,8 @@
 }
 
 .cta-secondary:hover {
-  color: white;
-  border-color: white;
+  color: var(--page-foreground);
+  border-color: var(--page-foreground);
   background-color: rgba(124, 143, 184, 0.1);
   transform: translateY(-2px);
 }
@@ -178,7 +178,7 @@
   padding-top: 14px;
   display: grid;
   gap: 6px;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-top: 1px solid var(--surface-border);
 }
 
 .proof-label {
@@ -189,7 +189,7 @@
 }
 
 .proof-value {
-  color: white;
+  color: var(--page-foreground);
   font-family: Prompt, sans-serif;
   font-size: 1rem;
   line-height: 1.5;
@@ -315,10 +315,6 @@ import profileImg from '../images/profile3.jpg'
 
 export default {
   name: 'Home',
-
-  created() {
-    document.title = 'Matthew Stone | Home'
-  },
 
   data() {
     return {
