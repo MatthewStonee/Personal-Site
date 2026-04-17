@@ -14,7 +14,22 @@ function normalizeTheme(name) {
 
 function setStoredTheme(name) {
   if (typeof window === 'undefined') return
-  window.localStorage.setItem(THEME_STORAGE_KEY, name)
+
+  try {
+    window.localStorage.setItem(THEME_STORAGE_KEY, name)
+  } catch (_error) {
+    // Storage can be unavailable in privacy-restricted browsers or webviews.
+  }
+}
+
+function getStoredTheme() {
+  if (typeof window === 'undefined') return 'dark'
+
+  try {
+    return window.localStorage.getItem(THEME_STORAGE_KEY)
+  } catch (_error) {
+    return 'dark'
+  }
 }
 
 function syncDocumentTheme(name) {
@@ -33,9 +48,7 @@ export function setTheme(name) {
 }
 
 export function initializeTheme() {
-  const storedTheme = typeof window === 'undefined'
-    ? 'dark'
-    : window.localStorage.getItem(THEME_STORAGE_KEY)
+  const storedTheme = getStoredTheme()
 
   setTheme(storedTheme || 'dark')
 }

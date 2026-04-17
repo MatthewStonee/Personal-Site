@@ -76,9 +76,7 @@ export default {
     }
   },
 
-
   created() {
-    document.title = "Weather";
     this.doFetch(`${this.url_base}weather?q=orlando&units=imperial&APPID=${this.apiKey}`);
   },
 

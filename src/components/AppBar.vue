@@ -111,7 +111,7 @@
           @click="drawer = false"
         >
           <template #prepend>
-            <v-icon color="white">{{ item.icon }}</v-icon>
+            <v-icon class="mobile-link-icon">{{ item.icon }}</v-icon>
           </template>
           <v-list-item-title class="mobile-link">{{ item.title }}</v-list-item-title>
         </v-list-item>
@@ -261,6 +261,10 @@ export default {
 .mobile-link {
   color: var(--page-foreground);
   font-family: Prompt, sans-serif;
+}
+
+.mobile-link-icon {
+  color: var(--page-foreground);
 }
 
 .mobile-link-accent {
