@@ -33,8 +33,8 @@
             <span class="proof-value">B.S. Computer Science, UCF</span>
           </li>
           <li class="proof-item">
-            <span class="proof-label">Base</span>
-            <span class="proof-value">Florida</span>
+            <span class="proof-label">Home</span>
+            <span class="proof-value">Orlando, FL</span>
           </li>
         </ul>
       </div>
