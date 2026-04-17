@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="36" y1="24" x2="214" y2="236" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1E2634" />
+      <stop offset="1" stop-color="#0D121A" />
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(182 70) rotate(132.456) scale(122.522)">
+      <stop stop-color="#8EA6D5" stop-opacity=".28" />
+      <stop offset="1" stop-color="#8EA6D5" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="panel" x1="40" y1="36" x2="216" y2="220" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#252F41" />
+      <stop offset="1" stop-color="#131A24" />
+    </linearGradient>
+    <filter id="shadow" x="18" y="16" width="220" height="224" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feFlood flood-opacity="0" result="BackgroundImageFix" />
+      <feColorMatrix in="SourceAlpha" result="hardAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" />
+      <feOffset dy="10" />
+      <feGaussianBlur stdDeviation="12" />
+      <feComposite in2="hardAlpha" operator="out" />
+      <feColorMatrix values="0 0 0 0 0.01 0 0 0 0 0.03 0 0 0 0 0.08 0 0 0 0.45 0" />
+      <feBlend in2="BackgroundImageFix" result="effect1_dropShadow_1_3" />
+      <feBlend in="SourceGraphic" in2="effect1_dropShadow_1_3" result="shape" />
+    </filter>
+  </defs>
+
+  <rect width="256" height="256" rx="64" fill="url(#bg)" />
+  <rect width="256" height="256" rx="64" fill="url(#glow)" />
+
+  <g filter="url(#shadow)">
+    <rect x="28" y="28" width="200" height="200" rx="52" fill="url(#panel)" />
+    <rect x="28.75" y="28.75" width="198.5" height="198.5" rx="51.25" stroke="#D6E4FF" stroke-opacity=".12" />
+  </g>
+
+  <g transform="translate(48 36) scale(1.82)">
+    <path d="M44 0H23.4L44 48.6V0Z" fill="#5DA8FF" />
+    <path d="M44 62.8V101L0 14.7H23L44 62.8Z" fill="#95D1FF" />
+    <path d="M44 0H64.6L44 48.6V0Z" fill="#2F79D9" />
+    <path d="M65 14.7H88L44 101V62.8L65 14.7Z" fill="#D7EBFF" />
+  </g>
+</svg>
