@@ -2,8 +2,7 @@
   <section class="home-hero">
     <div class="hero-shell">
       <div class="hero-copy">
-        <p class="hero-kicker hero-animate hero-animate-1">Matthew Stone</p>
-        <h1 class="hero-title hero-animate hero-animate-2">
+        <h1 class="hero-title hero-animate hero-animate-1">
           Engineer looking to further my knowledge in everything tech!
         </h1>
         <p class="hero-summary hero-animate hero-animate-3">
@@ -107,14 +106,6 @@
 
 .hero-copy {
   max-width: 620px;
-}
-
-.hero-kicker {
-  margin: 0 0 16px;
-  color: var(--accent-color);
-  font-family: "Bebas Neue", sans-serif;
-  font-size: clamp(1.05rem, 1.5vw, 1.35rem);
-  letter-spacing: 0.12em;
 }
 
 .hero-title {
