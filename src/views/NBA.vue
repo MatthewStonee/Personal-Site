@@ -48,8 +48,20 @@
           >
           <v-card-text
           >
-            <div v-if="loading" class="text-center py-4">
-              <v-progress-circular indeterminate color="primary"></v-progress-circular>
+            <div v-if="loading" class="games-skeleton">
+              <div
+                v-for="index in 4"
+                :key="index"
+                class="score-row skeleton-row"
+              >
+                <v-skeleton-loader class="logo-skeleton" type="avatar"></v-skeleton-loader>
+                <v-skeleton-loader type="text"></v-skeleton-loader>
+                <v-skeleton-loader type="text"></v-skeleton-loader>
+                <v-skeleton-loader type="text"></v-skeleton-loader>
+                <v-skeleton-loader type="text"></v-skeleton-loader>
+                <v-skeleton-loader type="text"></v-skeleton-loader>
+                <v-skeleton-loader class="logo-skeleton" type="avatar"></v-skeleton-loader>
+              </div>
             </div>
             <div v-else-if="error" class="no-games error-msg">
               {{ error }}
@@ -108,7 +120,6 @@ export default {
   },
 
   created() {
-    document.title = "NBA";
     this.fetchGames();
   },
 
@@ -249,7 +260,19 @@ export default {
   color: #ef5350;
 }
 
+.games-skeleton {
+  display: grid;
+  gap: 12px;
+}
+
+.skeleton-row {
+  padding: 6px 0;
+}
+
+.logo-skeleton {
+  max-width: 60px;
+}
+
 
 
 </style>
-

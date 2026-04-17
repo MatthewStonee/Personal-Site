@@ -30,10 +30,6 @@
 
 <script>
 export default {
-  created() {
-    document.title = "Calculator";
-  },
-
   data() {
     return {
       previous: null,

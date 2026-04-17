@@ -2,7 +2,7 @@ import 'vuetify/styles'
 import '@mdi/font/css/materialdesignicons.css'
 import { createVuetify } from 'vuetify'
 
-export default createVuetify({
+const vuetify = createVuetify({
   theme: {
     defaultTheme: 'dark',
     themes: {
@@ -18,6 +18,20 @@ export default createVuetify({
           warning: '#FFC107',
         },
       },
+      light: {
+        dark: false,
+        colors: {
+          primary: '#516B9B',
+          background: '#F4F6FB',
+          surface: '#FFFFFF',
+          error: '#B3261E',
+          info: '#2563EB',
+          success: '#2E7D32',
+          warning: '#F59E0B',
+        },
+      },
     },
   },
 })
+
+export default vuetify

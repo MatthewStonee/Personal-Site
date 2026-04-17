@@ -74,10 +74,6 @@ export default {
     BarbellVisualizer,
   },
 
-  created() {
-    document.title = "One Rep Max Calculator";
-  },
-
   data: () => ({
     lift: "",
     units: "lbs",

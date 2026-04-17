@@ -2,7 +2,7 @@
   <div>
     <v-app-bar
       class="site-nav"
-      color="rgba(28, 28, 33, 0.82)"
+      :color="appBarColor"
       flat
     >
       <div class="nav-shell">
@@ -52,6 +52,16 @@
         <v-spacer />
 
         <v-btn
+          :aria-label="themeLabel"
+          class="theme-toggle d-none d-sm-inline-flex"
+          icon
+          variant="text"
+          @click="toggleTheme"
+        >
+          <v-icon>{{ themeIcon }}</v-icon>
+        </v-btn>
+
+        <v-btn
           class="nav-resume d-none d-sm-inline-flex"
           download
           href="/Matthew Stone Resume.pdf"
@@ -66,7 +76,7 @@
 
     <v-navigation-drawer
       v-model="drawer"
-      color="#17181d"
+      :color="drawerColor"
       temporary
     >
       <v-list nav>
@@ -87,6 +97,13 @@
 
         <v-list-subheader class="mobile-subheader">Projects</v-list-subheader>
 
+        <v-list-item @click="toggleTheme(); drawer = false">
+          <template #prepend>
+            <v-icon class="mobile-accent-icon">{{ themeIcon }}</v-icon>
+          </template>
+          <v-list-item-title class="mobile-link">{{ themeActionText }}</v-list-item-title>
+        </v-list-item>
+
         <v-list-item
           v-for="item in barMenu"
           :key="item.title"
@@ -104,8 +121,30 @@
 </template>
 
 <script>
+import { computed } from 'vue'
+import { useSiteTheme } from '../composables/useSiteTheme'
+
 export default {
-  name: "AppBar",
+  name: 'AppBar',
+
+  setup() {
+    const { themeActionText, themeIcon, themeLabel, themeName, toggleTheme } = useSiteTheme()
+
+    const appBarColor = computed(() => themeName.value === 'dark'
+      ? 'rgba(28, 28, 33, 0.82)'
+      : 'rgba(244, 246, 251, 0.88)')
+
+    const drawerColor = computed(() => themeName.value === 'dark' ? '#17181d' : '#ffffff')
+
+    return {
+      appBarColor,
+      drawerColor,
+      themeActionText,
+      themeIcon,
+      themeLabel,
+      toggleTheme,
+    }
+  },
 
   data: () => ({
     barMenu: [
@@ -137,7 +176,7 @@ export default {
 
 <style scoped>
 .site-nav {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--surface-border);
   backdrop-filter: blur(18px);
 }
 
@@ -155,12 +194,13 @@ export default {
 }
 
 .nav-toggle {
-  color: white;
+  color: var(--page-foreground);
 }
 
 .brand-link,
 .nav-link,
-.nav-resume {
+.nav-resume,
+.theme-toggle {
   text-transform: none;
   letter-spacing: 0.01em;
 }
@@ -168,7 +208,7 @@ export default {
 .brand-link {
   display: inline-flex;
   align-items: center;
-  color: white;
+  color: var(--page-foreground);
   font-family: "Bebas Neue", sans-serif;
   font-size: 1.45rem;
   letter-spacing: 0.1em;
@@ -177,7 +217,7 @@ export default {
 }
 
 .brand-link:hover {
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--page-foreground);
 }
 
 .nav-links {
@@ -186,11 +226,15 @@ export default {
 }
 
 .nav-link {
-  color: rgba(255, 255, 255, 0.76);
+  color: var(--page-muted);
 }
 
 .nav-link:hover {
-  color: white;
+  color: var(--page-foreground);
+}
+
+.theme-toggle {
+  color: var(--page-foreground);
 }
 
 .nav-resume {
@@ -208,14 +252,14 @@ export default {
 }
 
 .mobile-brand {
-  color: white;
+  color: var(--page-foreground);
   font-family: "Bebas Neue", sans-serif;
   font-size: 1.4rem;
   letter-spacing: 0.08em;
 }
 
 .mobile-link {
-  color: white;
+  color: var(--page-foreground);
   font-family: Prompt, sans-serif;
 }
 
@@ -228,7 +272,7 @@ export default {
 }
 
 .mobile-subheader {
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--page-muted);
   font-family: "Bebas Neue", sans-serif;
   letter-spacing: 0.12em;
 }
