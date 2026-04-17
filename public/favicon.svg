@@ -32,10 +32,10 @@
     <rect x="28.75" y="28.75" width="198.5" height="198.5" rx="51.25" stroke="#D6E4FF" stroke-opacity=".12" />
   </g>
 
-  <g transform="translate(48 36) scale(1.82)">
-    <path d="M44 0H23.4L44 48.6V0Z" fill="#5DA8FF" />
-    <path d="M44 62.8V101L0 14.7H23L44 62.8Z" fill="#95D1FF" />
-    <path d="M44 0H64.6L44 48.6V0Z" fill="#2F79D9" />
-    <path d="M65 14.7H88L44 101V62.8L65 14.7Z" fill="#D7EBFF" />
+  <g transform="translate(54 48) scale(1.55)">
+    <path d="M0 104V0H18L48 48V104H0Z" fill="#5DA8FF" />
+    <path d="M18 0H36L48 20V48L18 0Z" fill="#95D1FF" />
+    <path d="M96 104V0H78L48 48V104H96Z" fill="#2F79D9" />
+    <path d="M60 0H78L48 48V20L60 0Z" fill="#D7EBFF" />
   </g>
 </svg>
