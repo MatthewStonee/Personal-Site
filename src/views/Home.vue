@@ -18,7 +18,7 @@
             size="large"
             rounded="pill"
             target="_blank"
-            variant="text"
+            variant="outlined"
           >
             View GitHub
           </v-btn>
@@ -157,25 +157,16 @@
 }
 
 .cta-secondary {
-  padding-inline: 0;
   color: var(--accent-color);
+  border-color: var(--accent-color);
   font-family: Prompt, sans-serif;
   font-weight: 600;
 }
 
-.cta-secondary :deep(.v-btn__overlay) {
-  opacity: 0;
-}
-
-.cta-secondary :deep(.v-ripple__container) {
-  display: none;
-}
-
 .cta-secondary:hover {
-  color: rgba(255, 255, 255, 0.88);
-}
-
-.cta-secondary:hover {
+  color: white;
+  border-color: white;
+  background-color: rgba(124, 143, 184, 0.1);
   transform: translateY(-2px);
 }
 

@@ -52,12 +52,14 @@ body {
 
 @font-face {
   font-family: "Bebas Neue";
+  font-display: swap;
   src: local("Bebas Neue"),
   url(./fonts/BebasNeue-Regular.ttf) format("truetype");
 }
 
 @font-face {
   font-family: "Prompt";
+  font-display: swap;
   src: local("Prompt"),
   url(./fonts/prompt/Prompt-Regular.ttf) format("truetype");
 }
