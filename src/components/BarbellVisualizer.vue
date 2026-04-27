@@ -109,7 +109,7 @@ export default {
     platesOnBar: [],
     kilosInput: '',
     draggingKg: null,
-    _suppressWatch: false,
+    suppressWatch: false,
   }),
 
   computed: {
@@ -124,20 +124,20 @@ export default {
   watch: {
     platesOnBar: {
       handler(val) {
-        if (this._suppressWatch) return
-        this._suppressWatch = true
+        if (this.suppressWatch) return
+        this.suppressWatch = true
         const total = val.reduce((s, k) => s + k, 0)
         this.kilosInput = total > 0 ? String(total) : ''
-        this.$nextTick(() => { this._suppressWatch = false })
+        this.$nextTick(() => { this.suppressWatch = false })
       },
       deep: true,
     },
     kilosInput(val) {
-      if (this._suppressWatch) return
+      if (this.suppressWatch) return
       const n = parseFloat(val)
-      this._suppressWatch = true
+      this.suppressWatch = true
       this.platesOnBar = (!isNaN(n) && n > 0) ? this.decompose(n) : []
-      this.$nextTick(() => { this._suppressWatch = false })
+      this.$nextTick(() => { this.suppressWatch = false })
     },
   },
 

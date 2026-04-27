@@ -53,6 +53,11 @@
 </template>
 
 <script>
+import { resetPageChrome, setPageChrome } from '../composables/usePageChrome'
+
+const COOL_WEATHER_APP_BAR_BACKGROUND = 'dodgerblue'
+const WARM_WEATHER_APP_BAR_BACKGROUND = 'firebrick'
+
 export default {
 
   name: 'Weather',
@@ -77,10 +82,29 @@ export default {
   },
 
   created() {
+    this.syncAppBarBackground();
     this.doFetch(`${this.url_base}weather?q=orlando&units=imperial&APPID=${this.apiKey}`);
   },
 
+  beforeUnmount() {
+    resetPageChrome();
+  },
+
   methods: {
+    syncAppBarBackground() {
+      setPageChrome({
+        appBarBackground: this.isWarmWeather()
+          ? WARM_WEATHER_APP_BAR_BACKGROUND
+          : COOL_WEATHER_APP_BAR_BACKGROUND,
+        appBarBorderColor: 'rgba(255, 255, 255, 0.22)',
+        appBarForeground: '#ffffff',
+        appBarMuted: 'rgba(255, 255, 255, 0.86)',
+      });
+    },
+
+    isWarmWeather() {
+      return typeof this.weather.main !== 'undefined' && this.weather.main.temp > 70;
+    },
 
     async doFetch(url) {
       this.currentController?.abort();
@@ -136,6 +160,7 @@ export default {
 
     setResults(results) {
       this.weather = results;
+      this.syncAppBarBackground();
 
       if (this.weather.name == undefined) {
         this.alertMessage = 'Please enter a valid city name. Ex: Atlanta';
