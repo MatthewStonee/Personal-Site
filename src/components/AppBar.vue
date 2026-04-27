@@ -4,6 +4,7 @@
       class="site-nav"
       :color="appBarColor"
       flat
+      :style="appBarStyles"
     >
       <div class="nav-shell">
         <v-app-bar-nav-icon
@@ -20,7 +21,16 @@
         </router-link>
 
         <div class="nav-links d-none d-sm-flex">
-          <v-menu offset-y open-on-hover close-on-content-click>
+          <v-menu
+            close-on-content-click
+            location="bottom start"
+            offset="8"
+            open-on-hover
+            origin="top start"
+            :close-delay="80"
+            :open-delay="0"
+            transition="fade-transition"
+          >
             <template #activator="{ props }">
               <v-btn
                 v-bind="props"
@@ -33,7 +43,12 @@
               </v-btn>
             </template>
 
-            <v-list>
+            <v-list
+              class="projects-menu-list"
+              :bg-color="projectsMenuColor"
+              density="comfortable"
+              :style="projectsMenuStyles"
+            >
               <v-list-item
                 v-for="item in barMenu"
                 :key="item.title"
@@ -122,23 +137,53 @@
 
 <script>
 import { computed } from 'vue'
+import { usePageChrome } from '../composables/usePageChrome'
 import { useSiteTheme } from '../composables/useSiteTheme'
 
 export default {
   name: 'AppBar',
 
   setup() {
+    const { appBarBackground, appBarBorderColor, appBarForeground, appBarMuted } = usePageChrome()
     const { themeActionText, themeIcon, themeLabel, themeName, toggleTheme } = useSiteTheme()
 
-    const appBarColor = computed(() => themeName.value === 'dark'
+    const defaultAppBarColor = computed(() => themeName.value === 'dark'
       ? 'rgba(28, 28, 33, 0.82)'
       : 'rgba(244, 246, 251, 0.88)')
+    const appBarColor = computed(() => appBarBackground.value || defaultAppBarColor.value)
+    const appBarStyles = computed(() => ({
+      '--app-bar-background': appBarBackground.value || defaultAppBarColor.value,
+      '--app-bar-border': appBarBorderColor.value || 'var(--surface-border)',
+      '--app-bar-foreground': appBarForeground.value || 'var(--page-foreground)',
+      '--app-bar-muted': appBarMuted.value || 'var(--page-muted)',
+    }))
 
     const drawerColor = computed(() => themeName.value === 'dark' ? '#17181d' : '#ffffff')
+    const projectsMenuColor = computed(() => themeName.value === 'dark'
+      ? 'rgba(28, 28, 33, 0.96)'
+      : 'rgba(244, 246, 251, 0.98)')
+    const projectsMenuStyles = computed(() => themeName.value === 'dark'
+      ? {
+        '--projects-menu-accent': '#7c8fb8',
+        '--projects-menu-border': 'rgba(255, 255, 255, 0.1)',
+        '--projects-menu-foreground': '#ffffff',
+        '--projects-menu-hover': 'rgba(124, 143, 184, 0.14)',
+        '--projects-menu-shadow': '0 18px 42px rgba(0, 0, 0, 0.22)',
+      }
+      : {
+        '--projects-menu-accent': '#516B9B',
+        '--projects-menu-border': 'rgba(16, 20, 27, 0.1)',
+        '--projects-menu-foreground': '#10141b',
+        '--projects-menu-hover': 'rgba(81, 107, 155, 0.12)',
+        '--projects-menu-shadow': '0 18px 42px rgba(16, 20, 27, 0.14)',
+      })
 
     return {
       appBarColor,
+      appBarStyles,
       drawerColor,
+      projectsMenuColor,
+      projectsMenuStyles,
       themeActionText,
       themeIcon,
       themeLabel,
@@ -176,8 +221,13 @@ export default {
 
 <style scoped>
 .site-nav {
-  border-bottom: 1px solid var(--surface-border);
+  background: var(--app-bar-background) !important;
+  border-bottom: 1px solid var(--app-bar-border);
   backdrop-filter: blur(18px);
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
 }
 
 .site-nav :deep(.v-toolbar__content) {
@@ -194,7 +244,7 @@ export default {
 }
 
 .nav-toggle {
-  color: var(--page-foreground);
+  color: var(--app-bar-foreground);
 }
 
 .brand-link,
@@ -208,7 +258,7 @@ export default {
 .brand-link {
   display: inline-flex;
   align-items: center;
-  color: var(--page-foreground);
+  color: var(--app-bar-foreground);
   font-family: "Bebas Neue", sans-serif;
   font-size: 1.45rem;
   letter-spacing: 0.1em;
@@ -217,7 +267,7 @@ export default {
 }
 
 .brand-link:hover {
-  color: var(--page-foreground);
+  color: var(--app-bar-foreground);
 }
 
 .nav-links {
@@ -226,15 +276,49 @@ export default {
 }
 
 .nav-link {
-  color: var(--page-muted);
+  color: var(--app-bar-muted);
 }
 
 .nav-link:hover {
-  color: var(--page-foreground);
+  color: var(--app-bar-foreground);
+}
+
+.projects-menu-list {
+  min-width: 260px;
+  padding: 6px;
+  border: 1px solid var(--projects-menu-border);
+  border-radius: 8px;
+  box-shadow: var(--projects-menu-shadow);
+  backdrop-filter: blur(18px);
+  color: var(--projects-menu-foreground);
+}
+
+.projects-menu-list :deep(.v-list-item) {
+  min-height: 44px;
+  border-radius: 6px;
+  color: var(--projects-menu-foreground);
+  font-family: Prompt, sans-serif;
+  transition:
+    background-color 120ms ease,
+    color 120ms ease;
+}
+
+.projects-menu-list :deep(.v-list-item:hover),
+.projects-menu-list :deep(.v-list-item--active) {
+  background-color: var(--projects-menu-hover);
+}
+
+.projects-menu-list :deep(.v-list-item__prepend > .v-icon) {
+  color: var(--projects-menu-accent);
+  opacity: 0.9;
+}
+
+.projects-menu-list :deep(.v-list-item-title) {
+  font-size: 0.95rem;
 }
 
 .theme-toggle {
-  color: var(--page-foreground);
+  color: var(--app-bar-foreground);
 }
 
 .nav-resume {
