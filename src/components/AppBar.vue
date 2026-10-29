@@ -213,6 +213,11 @@ export default {
         title: "NBA Game Scores",
         route: "/NBA",
       },
+      {
+        icon: "mdi-floor-plan",
+        title: "3D Apartment Tour",
+        route: "/walkthrough",
+      },
     ],
     drawer: false,
   }),
