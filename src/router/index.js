@@ -61,6 +61,12 @@ const routes = [
     meta: { title: 'NBA' }
   },
   {
+    path: '/walkthrough',
+    name: 'walkthrough',
+    component: () => import('../views/Walkthrough.vue'),
+    meta: { title: '3D Apartment Walkthrough' }
+  },
+  {
     path: '/user',
     name: 'User Create',
     component: () => import('../components/UserCreate.vue'),

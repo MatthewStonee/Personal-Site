@@ -1,7 +1,7 @@
 # Personal Site — AGENTS.md
 
 ## Project Overview
-Matthew Stone's personal website — a Vue.js 3 SPA hosted on Firebase. Showcases projects/tools including a fitness calculator, weather app, NBA scores, todo list, and calculator.
+Matthew Stone's personal website — a Vue.js 3 SPA hosted on Firebase. Showcases projects/tools including a fitness calculator, weather app, NBA scores, todo list, calculator, and a 3D apartment walkthrough.
 
 Live site: https://www.matthewstone.co
 
@@ -27,6 +27,7 @@ src/
   main.js         # App entry point (createApp)
 public/
   _redirects
+  apartment-walkthrough.html  # Standalone Three.js walkthrough, iframed by /walkthrough
   favicon.ico
   Matthew Stone Resume.pdf
 .github/workflows/
@@ -45,6 +46,7 @@ public/
 | `/todo` | Todo.vue | Todo list (localStorage) |
 | `/weather` | Weather.vue | Weather via OpenWeather API + geolocation |
 | `/NBA` | NBA.vue | NBA scores via RapidAPI |
+| `/walkthrough` | Walkthrough.vue | First-person 3D apartment walkthrough (iframe) |
 | `/user` | UserCreate.vue | Firebase user creation |
 | `/edit/:id` | Edit.vue | Firebase user editing |
 
@@ -96,5 +98,11 @@ VUE_APP_FIREBASE_MEASUREMENT_ID=
 - API stores games in UTC; NBA games played in ET evening become the next day in UTC. Date sent to API is always +1 day from the selected date to compensate.
 - Score row uses CSS grid with `60px 1fr 1fr 20px 1fr 1fr 60px` columns — logo columns must match `max-width` on `v-img` (currently 60px)
 - `v-date-picker` v-models a JS `Date` object (not a string). A computed derives the `YYYY-MM-DD` display string via moment. `onDateSelected` closes the menu and refetches games.
+
+## Walkthrough (`Walkthrough.vue`) Notes
+- The walkthrough is a self-contained static page, `public/apartment-walkthrough.html`: Three.js 0.160.0 from jsDelivr via an importmap, textures generated in code, no assets. Vite copies it to `dist/` untouched — edit it directly.
+- Floor plans are JSON in its `<script type="application/json" id="plan-data">` block (feet; origin at the NW corner, +x east, +z south). In its console, `__wt.selfTest()` reports areas and any rooms unreachable from the front door.
+- `Walkthrough.vue` only iframes it, passing the site theme as `#theme=dark|light`. A hash change restyles the HUD without reloading the 3D scene.
+- Don't name the static file after the route: Firebase serves static files before the SPA rewrite, and the Workbox precache resolves `/walkthrough` to `walkthrough.html`, so the Vue view would be bypassed.
 
 > To-Do / Future Improvements have been moved to Notion: https://www.notion.so/33def31f8222815594fac792c259d669
