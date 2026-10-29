@@ -2278,12 +2278,13 @@ function exitMap(to) {
   const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(player.pitch, player.yaw, 0, 'YXZ'));
   const pos = new THREE.Vector3(player.x * FT, EYE * FT, player.z * FT);
   ui.mapBtn.setAttribute('aria-pressed', 'false');
+  // Set before startTween: with reduced motion it completes synchronously, and its callback sets 'walk'.
+  mode = 'transition';
   startTween(pos, q, walkFov(), () => {
     mode = 'walk'; syncHud();
     if (!started) ui.start.hidden = false;
     else if (!isTouch && !lockFailed) { ui.paused.hidden = false; }
   });
-  mode = 'transition';
   syncHud();
 }
 ui.mapBtn.addEventListener('click', () => toggleMap());
