@@ -2,23 +2,23 @@
   <v-container>
       <div class="calculator">
 
-        <div class="display"> {{current || '0'}} </div>
+        <div class="display" aria-live="polite"> {{calc.current || '0'}} </div>
         <button @click="clear" class="btn">C</button>
         <button @click="sign" class="btn">+/-</button>
         <button @click="percent" class="btn">%</button>
-        <button @click="divide" class="btn operator">÷</button>
+        <button @click="operate('÷')" class="btn operator">÷</button>
         <button @click="append('7')" class="btn">7</button>
         <button @click="append('8')" class="btn">8</button>
         <button @click="append('9')" class="btn">9</button>
-        <button @click="times" class="btn operator">×</button>
+        <button @click="operate('×')" class="btn operator">×</button>
         <button @click="append('4')" class="btn">4</button>
         <button @click="append('5')" class="btn">5</button>
         <button @click="append('6')" class="btn">6</button>
-        <button @click="minus" class="btn operator">−</button>
+        <button @click="operate('−')" class="btn operator">−</button>
         <button @click="append('1')" class="btn">1</button>
         <button @click="append('2')" class="btn">2</button>
         <button @click="append('3')" class="btn">3</button>
-        <button @click="add" class="btn operator">+</button>
+        <button @click="operate('+')" class="btn operator">+</button>
         <button @click="append('0')" class="btn zero">0</button>
         <button @click="dot" class="btn">.</button>
         <button @click="equal" class="btn operator">=</button>
@@ -29,88 +29,42 @@
 </template>
 
 <script>
+import * as calculator from '../utils/calculator.js'
+
 export default {
   data() {
     return {
-      previous: null,
-      current: '',
-      operator: null,
-      operatorClicked: false,
+      calc: calculator.initialState(),
     }
   },
 
   methods: {
     clear() {
-      this.current = '';
-      this.previous = null;
-      this.operator = null;
-      this.operatorClicked = false;
+      this.calc = calculator.initialState();
     },
 
     sign() {
-      if (!(this.current === 0 || this.current === ''))
-        this.current = this.current.charAt(0) === '-' ?
-          this.current.slice(1) : `-${this.current}`;
+      this.calc = calculator.toggleSign(this.calc);
     },
 
     percent() {
-      if (!(this.current === ''))
-        this.current = `${parseFloat(this.current) / 100}`
+      this.calc = calculator.percent(this.calc);
     },
 
-    append(number) {
-      if (this.operatorClicked) {
-        this.current = '';
-        this.operatorClicked = false;
-      }
-      if (this.current.length === 16) return;
-      if (this.current === '0' && number !== '.') {
-        this.current = `${number}`;
-      } else {
-        this.current = `${this.current}${number}`;
-      }
+    append(digit) {
+      this.calc = calculator.inputDigit(this.calc, digit);
     },
 
     dot() {
-      if (this.current.indexOf('.') === -1) {
-        this.append('.');
-      }
+      this.calc = calculator.inputDot(this.calc);
     },
 
-    setPrevious() {
-      this.previous = this.current;
-      this.operatorClicked = true;
-    },
-
-    divide() {
-      this.operator = (a, b) => a / b;
-      this.setPrevious();
-    },
-
-    times() {
-      this.operator = (a, b) => a * b;
-      this.setPrevious();
-    },
-
-    minus() {
-      this.operator = (a, b) => a - b;
-      this.setPrevious();
-    },
-
-    add() {
-      this.operator = (a, b) => a + b;
-      this.setPrevious();
+    operate(operator) {
+      this.calc = calculator.chooseOperator(this.calc, operator);
     },
 
     equal() {
-      if (this.previous !== null) {
-        const result = this.operator(
-          parseFloat(this.previous),
-          parseFloat(this.current)
-        );
-        this.current = isFinite(result) ? `${result}` : 'Error';
-      }
-      this.previous = null;
+      this.calc = calculator.equals(this.calc);
     },
 
   }
@@ -137,6 +91,8 @@ export default {
   color: white;
   text-align: right;
   padding-right: 10px;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 .zero
 {
