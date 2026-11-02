@@ -1,5 +1,5 @@
 <template>
-  <v-app id="grad" :data-theme="themeName">
+  <v-app id="grad">
     <a class="skip-link" href="#main-content">Skip to content</a>
     <AppBar />
     <v-main id="main-content" tabindex="-1">
@@ -10,26 +10,9 @@
 </template>
 
 <style>
+/* Theme tokens live on :root (useSiteTheme sets data-theme there) so html and body match the theme too. */
 :root {
   color-scheme: dark;
-}
-
-:root[data-theme='light'] {
-  color-scheme: light;
-}
-
-html,
-body,
-#app {
-  min-height: 100%;
-  background-color: var(--page-background, rgb(28, 28, 33));
-  color: var(--page-foreground, white);
-  transition:
-    background-color 180ms ease,
-    color 180ms ease;
-}
-
-#grad {
   --accent-color: #7c8fb8;
   --app-bar-height: 64px;
   --page-background: rgb(28, 28, 33);
@@ -37,6 +20,29 @@ body,
   --page-foreground: #ffffff;
   --page-muted: rgba(255, 255, 255, 0.76);
   --surface-border: rgba(255, 255, 255, 0.1);
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --page-background: #f4f6fb;
+  --page-background-alt: #eef2f8;
+  --page-foreground: #10141b;
+  --page-muted: rgba(16, 20, 27, 0.72);
+  --surface-border: rgba(16, 20, 27, 0.1);
+}
+
+html,
+body,
+#app {
+  min-height: 100%;
+  background-color: var(--page-background);
+  color: var(--page-foreground);
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+#grad {
   background:
     linear-gradient(180deg, var(--page-background) 0%, var(--page-background-alt) 100%);
   color: var(--page-foreground);
@@ -44,14 +50,6 @@ body,
   transition:
     background-color 180ms ease,
     color 180ms ease;
-}
-
-#grad[data-theme='light'] {
-  --page-background: #f4f6fb;
-  --page-background-alt: #eef2f8;
-  --page-foreground: #10141b;
-  --page-muted: rgba(16, 20, 27, 0.72);
-  --surface-border: rgba(16, 20, 27, 0.1);
 }
 
 #main-content {
@@ -93,7 +91,7 @@ body,
 }
 
 @media (max-width: 599px) {
-  #grad {
+  :root {
     --app-bar-height: 56px;
   }
 }
@@ -102,7 +100,6 @@ body,
 <script>
 import AppBar from './components/AppBar.vue'
 import GlobalErrorToast from './components/GlobalErrorToast.vue'
-import { useSiteTheme } from './composables/useSiteTheme'
 
 export default {
   name: 'App',
@@ -110,14 +107,6 @@ export default {
   components: {
     AppBar,
     GlobalErrorToast,
-  },
-
-  setup() {
-    const { themeName } = useSiteTheme()
-
-    return {
-      themeName,
-    }
   },
 }
 </script>
