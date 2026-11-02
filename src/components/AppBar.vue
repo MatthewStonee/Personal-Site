@@ -62,6 +62,14 @@
             </v-list>
           </v-menu>
 
+          <v-btn
+            class="nav-link"
+            size="large"
+            variant="text"
+            :to="{ name: 'about' }"
+          >
+            About
+          </v-btn>
         </div>
 
         <v-spacer />
@@ -99,6 +107,13 @@
           <v-list-item-title class="mobile-brand">matthewstone</v-list-item-title>
         </v-list-item>
 
+        <v-list-item :to="{ name: 'about' }" @click="drawer = false">
+          <template #prepend>
+            <v-icon class="mobile-link-icon">mdi-account-outline</v-icon>
+          </template>
+          <v-list-item-title class="mobile-link">About</v-list-item-title>
+        </v-list-item>
+
         <v-list-item
           download
           href="/Matthew Stone Resume.pdf"
@@ -110,14 +125,14 @@
           <v-list-item-title class="mobile-link mobile-link-accent">Resume</v-list-item-title>
         </v-list-item>
 
-        <v-list-subheader class="mobile-subheader">Projects</v-list-subheader>
-
         <v-list-item @click="toggleTheme(); drawer = false">
           <template #prepend>
             <v-icon class="mobile-accent-icon">{{ themeIcon }}</v-icon>
           </template>
           <v-list-item-title class="mobile-link">{{ themeActionText }}</v-list-item-title>
         </v-list-item>
+
+        <v-list-subheader class="mobile-subheader">Projects</v-list-subheader>
 
         <v-list-item
           v-for="item in barMenu"
@@ -207,6 +222,11 @@ export default {
         icon: "mdi-calculator",
         title: "Simple Calculator",
         route: "/calculator",
+      },
+      {
+        icon: "mdi-format-list-checks",
+        title: "Todo List",
+        route: "/todo",
       },
       {
         icon: "mdi-basketball",
