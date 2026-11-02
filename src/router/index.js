@@ -27,14 +27,6 @@ const routes = [
     }
   },
   {
-    path: '/stocks',
-    name: 'stocks',
-    component: () => import('../views/Stocks.vue'),
-    meta: {
-      title: 'Stocks'
-    }
-  },
-  {
     path: '/todo',
     name: 'ToDo List',
     component: () => import('../views/Todo.vue'),
