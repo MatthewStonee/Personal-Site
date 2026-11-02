@@ -52,14 +52,25 @@ test('seo assets advertise the site and public routes', () => {
   assert.match(html, /name="twitter:card"/);
   assert.match(html, /rel="canonical"/);
 
-  assert.match(robots, /Sitemap:\s*https:\/\/www\.matthewstone\.co\/sitemap\.xml/);
+  assert.match(robots, /Sitemap:\s*https:\/\/matthewstone\.co\/sitemap\.xml/);
 
-  assert.match(sitemap, /https:\/\/www\.matthewstone\.co\/about/);
-  assert.match(sitemap, /https:\/\/www\.matthewstone\.co\/onerm/);
-  assert.match(sitemap, /https:\/\/www\.matthewstone\.co\/calculator/);
-  assert.match(sitemap, /https:\/\/www\.matthewstone\.co\/todo/);
-  assert.match(sitemap, /https:\/\/www\.matthewstone\.co\/weather/);
-  assert.match(sitemap, /https:\/\/www\.matthewstone\.co\/NBA/);
+  assert.match(sitemap, /https:\/\/matthewstone\.co\/about/);
+  assert.match(sitemap, /https:\/\/matthewstone\.co\/onerm/);
+  assert.match(sitemap, /https:\/\/matthewstone\.co\/calculator/);
+  assert.match(sitemap, /https:\/\/matthewstone\.co\/todo/);
+  assert.match(sitemap, /https:\/\/matthewstone\.co\/weather/);
+  assert.match(sitemap, /https:\/\/matthewstone\.co\/NBA/);
+});
+
+test('each page gets its own canonical URL on the apex host and the 404 page is noindexed', () => {
+  const router = read('src/router/index.js');
+  const html = read('index.html');
+
+  assert.match(html, /rel="canonical" href="https:\/\/matthewstone\.co\/"/);
+  assert.doesNotMatch(html, /www\.matthewstone\.co/);
+  assert.match(router, /const SITE_ORIGIN = 'https:\/\/matthewstone\.co'/);
+  assert.match(router, /link\[rel="canonical"\]/);
+  assert.match(router, /to\.name === 'NotFound'[\s\S]*'noindex'/);
 });
 
 test('theme state is centralized and exposed through the app bar', () => {

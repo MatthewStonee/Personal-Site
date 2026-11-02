@@ -40,5 +40,5 @@ test('no static file shadows the /walkthrough route', () => {
 });
 
 test('sitemap lists the walkthrough page', () => {
-  assert.match(read('public/sitemap.xml'), /https:\/\/www\.matthewstone\.co\/walkthrough</);
+  assert.match(read('public/sitemap.xml'), /https:\/\/matthewstone\.co\/walkthrough</);
 });
