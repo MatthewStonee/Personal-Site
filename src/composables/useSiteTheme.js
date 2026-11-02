@@ -42,7 +42,7 @@ export function setTheme(name) {
   const nextTheme = normalizeTheme(name)
 
   themeState.name = nextTheme
-  vuetify.theme.global.name.value = nextTheme
+  vuetify.theme.change(nextTheme)
   syncDocumentTheme(nextTheme)
   setStoredTheme(nextTheme)
 }
