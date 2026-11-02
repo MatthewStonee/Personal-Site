@@ -1,5 +1,5 @@
 <template>
-  <div id="focus" :class="typeof weather.main != 'undefined' && weather.main.temp > 70 ? 'warm' : ''">
+  <div id="focus" :class="{ warm: isWarmWeather }">
     <main>
 
       <v-alert
@@ -12,9 +12,10 @@
       <v-row class="solo">
         <div class="me">
           <v-btn height="50"
+                 aria-label="Use my location"
                  :loading="loading"
                  :disabled="loading"
-                 @click="loader = 'loading', defaultWeather()"
+                 @click="defaultWeather"
           >
             <v-icon color="blue">mdi-crosshairs-gps</v-icon>
           </v-btn>
@@ -23,15 +24,21 @@
             label="Search a City"
             placeholder="Orlando"
             v-model="query"
-            @keypress="fetchWeather"
+            @keydown.enter="fetchWeather"
             @focus="$event.target.select()"
             height="50"
             variant="solo"
         ></v-text-field>
       </v-row>
 
+      <v-skeleton-loader
+          v-if="fetching && !hasWeather"
+          class="weather-skeleton"
+          color="transparent"
+          type="heading, text, image, heading"
+      ></v-skeleton-loader>
 
-      <div class="weather-wrap" v-if="typeof weather.main != 'undefined'">
+      <div class="weather-wrap" v-if="hasWeather">
         <div class="location-box">
           <div class="location">{{ weather.name }}, {{ weather.sys?.country }}</div>
           <div class="date">{{ dateBuilder() }}</div>
@@ -66,34 +73,46 @@ export default {
     return {
       apiKey: import.meta.env.VUE_APP_OPENWEATHER_KEY,
       url_base: 'https://api.openweathermap.org/data/2.5/',
-      default: 'Orlando',
       query: '',
       weather: {},
       icon: 'mdi-weather-sunny',
-      code: '',
 
-      loader: null,
       loading: false,
+      fetching: false,
 
       alert: false,
       alertMessage: '',
       currentController: null,
+      unmounted: false,
     }
+  },
+
+  computed: {
+    hasWeather() {
+      return typeof this.weather.main !== 'undefined';
+    },
+
+    isWarmWeather() {
+      return this.hasWeather && this.weather.main.temp > 70;
+    },
   },
 
   created() {
     this.syncAppBarBackground();
-    this.doFetch(`${this.url_base}weather?q=orlando&units=imperial&APPID=${this.apiKey}`);
+    this.doFetch({ q: 'Orlando' });
   },
 
   beforeUnmount() {
+    // A response or location fix that arrives later must not recolor the next page's app bar.
+    this.unmounted = true;
+    this.currentController?.abort();
     resetPageChrome();
   },
 
   methods: {
     syncAppBarBackground() {
       setPageChrome({
-        appBarBackground: this.isWarmWeather()
+        appBarBackground: this.isWarmWeather
           ? WARM_WEATHER_APP_BAR_BACKGROUND
           : COOL_WEATHER_APP_BAR_BACKGROUND,
         appBarBorderColor: 'rgba(255, 255, 255, 0.22)',
@@ -102,72 +121,73 @@ export default {
       });
     },
 
-    isWarmWeather() {
-      return typeof this.weather.main !== 'undefined' && this.weather.main.temp > 70;
+    showAlert(message) {
+      this.alertMessage = message;
+      this.alert = true;
     },
 
-    async doFetch(url) {
+    // Resolves to true when new weather was shown.
+    async doFetch(params) {
       this.currentController?.abort();
-      this.currentController = new AbortController();
+      const controller = new AbortController();
+      this.currentController = controller;
+      this.fetching = true;
+      const search = new URLSearchParams({ ...params, units: 'imperial', APPID: this.apiKey });
       try {
-        const res = await fetch(url, { signal: this.currentController.signal });
+        const res = await fetch(`${this.url_base}weather?${search}`, { signal: controller.signal });
+        if (res.status === 404) {
+          this.showAlert('Please enter a valid city name. Ex: Atlanta');
+          return false;
+        }
         if (!res.ok) throw new Error(`API error: ${res.status}`);
         const data = await res.json();
+        if (controller.signal.aborted) return false;
         this.setResults(data);
+        return true;
       } catch (e) {
-        if (e.name === 'AbortError') return;
-        this.alertMessage = 'Could not fetch weather data. Please try again.';
-        this.alert = true;
+        if (e.name !== 'AbortError') this.showAlert('Could not fetch weather data. Please try again.');
+        return false;
       } finally {
-        this.currentController = null;
+        // Only the latest request may clear the shared controller and loading state.
+        if (this.currentController === controller) {
+          this.currentController = null;
+          this.fetching = false;
+        }
       }
     },
 
     getCoords() {
       if (!('geolocation' in navigator)) {
-        this.alertMessage = 'Geolocation is not available in your browser.';
-        this.alert = true;
+        this.showAlert('Geolocation is not available in your browser.');
         return null;
       }
       return new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject);
+        navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 10000, maximumAge: 600000 });
       });
     },
 
     async defaultWeather() {
-      const l = this.loader;
-      this[l] = !this[l];
+      this.loading = true;
       try {
         const position = await this.getCoords();
-        if (!position) return;
+        if (!position || this.unmounted) return;
         const { latitude: lat, longitude: lon } = position.coords;
-        await this.doFetch(`${this.url_base}weather?lat=${lat}&lon=${lon}&units=imperial&APPID=${this.apiKey}`);
-        this.query = 'My Location';
+        if (await this.doFetch({ lat, lon })) this.query = this.weather.name;
       } catch (e) {
-        this.alertMessage = 'Could not get your location. Please allow location access.';
-        this.alert = true;
+        this.showAlert('Could not get your location. Please allow location access.');
       } finally {
-        this[l] = false;
-        this.loader = null;
+        this.loading = false;
       }
     },
 
-    fetchWeather(e) {
-      if (e.key === 'Enter') {
-        this.doFetch(`${this.url_base}weather?q=${this.query}&units=imperial&APPID=${this.apiKey}`);
-      }
+    fetchWeather() {
+      const city = this.query.trim();
+      if (city) this.doFetch({ q: city });
     },
 
     setResults(results) {
       this.weather = results;
       this.syncAppBarBackground();
-
-      if (this.weather.name == undefined) {
-        this.alertMessage = 'Please enter a valid city name. Ex: Atlanta';
-        this.alert = true;
-        return;
-      }
-
       this.alert = false;
 
       if (!this.weather.weather || !this.weather.weather[0]) return;
@@ -227,10 +247,6 @@ export default {
   box-sizing: border-box;
 }
 
-body {
-  font-family: "Prompt";
-}
-
 #focus {
   background-image: linear-gradient(dodgerblue, lightsteelblue);
   background-size: cover;
@@ -259,42 +275,10 @@ main {
   margin-right: 5px;
 }
 
-.search-box {
-  width: 65%;
-  max-width: 700px;
-  margin: auto;
-  margin-bottom: 30px;
-  color: #070707;
-
+.weather-skeleton {
+  max-width: 500px;
+  margin: 30px auto 0;
 }
-
-.search-box .search-bar {
-  display: block;
-  width: 100%;
-  padding: 15px;
-
-  color: #070707;
-  font-size: 20px;
-
-  appearance: none;
-  border: none;
-  outline: none;
-  background: none;
-
-  box-shadow: 0px 0px 8px rgba(0,0,0,0.25);
-  background-color: rgba(255,255,255,0.5);
-  border-radius: 0px 16px 0px 16px;
-  transition: 0.4s;
-
-}
-
-.search-box .search-bar:focus {
-  color: #070707;
-  box-shadow: 0px 0px 16px rgba(0,0,0,0.25);
-  background-color: rgba(255,255,255,0.75);
-  border-radius: 16px 0px 16px 0px;
-}
-
 
 .location-box .location {
   color: white;
@@ -344,15 +328,6 @@ main {
   max-width: 700px;
   margin: auto;
   margin-bottom: 5px;
-}
-
-@keyframes loader {
-  from {
-    transform: rotate(0);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 
