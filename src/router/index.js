@@ -67,18 +67,6 @@ const routes = [
     meta: { title: '3D Apartment Walkthrough' }
   },
   {
-    path: '/user',
-    name: 'User Create',
-    component: () => import('../components/UserCreate.vue'),
-    meta: { title: 'Create User' }
-  },
-  {
-    path: '/edit/:id',
-    name: 'Edit',
-    component: () => import('../components/Edit.vue'),
-    meta: { title: 'Edit User' },
-  },
-  {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: () => import('../views/NotFound.vue'),

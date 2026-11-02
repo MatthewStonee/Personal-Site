@@ -6,24 +6,6 @@ function read(relativePath) {
   return readFileSync(new URL(`../${relativePath}`, import.meta.url), 'utf8');
 }
 
-test('user management components use the repo default Options API style', () => {
-  const userCreate = read('src/components/UserCreate.vue');
-  const userList = read('src/components/UserList.vue');
-  const firebaseModule = read('src/fb.js');
-
-  assert.doesNotMatch(userCreate, /setup\s*\(/);
-  assert.doesNotMatch(userCreate, /reactive\s*\(/);
-  assert.match(userCreate, /data\s*\(\)\s*\{/);
-  assert.match(userCreate, /methods:\s*\{/);
-  assert.match(userCreate, /async onSubmit\s*\(/);
-
-  assert.doesNotMatch(userList, /setup\s*\(/);
-  assert.match(userList, /data\s*\(\)\s*\{/);
-  assert.match(userList, /created\s*\(\)\s*\{/);
-  assert.match(userList, /beforeUnmount\s*\(\)\s*\{/);
-  assert.match(firebaseModule, /export const subscribeToUsers =/);
-});
-
 test('about page contains professional bio content instead of placeholder copy', () => {
   const about = read('src/views/About.vue');
 

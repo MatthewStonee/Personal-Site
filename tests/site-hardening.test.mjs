@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 
 function read(relativePath) {
   return readFileSync(new URL(`../${relativePath}`, import.meta.url), 'utf8');
@@ -11,10 +11,19 @@ test('router defines global titles and a catch-all 404 route', () => {
 
   assert.match(router, /path:\s*'\/:pathMatch\(\.\*\)\*'/);
   assert.match(router, /meta:\s*\{\s*title:\s*'Not Found'/);
-  assert.match(router, /path:\s*'\/user'[\s\S]*meta:\s*\{\s*title:\s*'Create User'/);
-  assert.match(router, /path:\s*'\/edit\/:id'[\s\S]*meta:\s*\{\s*title:\s*'Edit User'/);
   assert.match(router, /router\.afterEach\(\(to\)\s*=>/);
   assert.match(router, /document\.title\s*=\s*title\s*\?\s*`\$\{title\} \| Matthew Stone`\s*:\s*'Matthew Stone'/);
+});
+
+test('firebase user pages are gone and firestore denies all client access', () => {
+  const router = read('src/router/index.js');
+  const rules = read('firestore.rules');
+  const firebaseConfig = JSON.parse(read('firebase.json'));
+
+  assert.doesNotMatch(router, /'\/user'|'\/edit\/:id'/);
+  assert.equal(existsSync(new URL('../src/fb.js', import.meta.url)), false);
+  assert.match(rules, /allow read, write: if false;/);
+  assert.equal(firebaseConfig.firestore.rules, 'firestore.rules');
 });
 
 test('routed views rely on the global title hook instead of local document.title writes', () => {
