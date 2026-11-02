@@ -9,7 +9,9 @@ const vuetify = createVuetify({
       dark: {
         dark: true,
         colors: {
-          primary: '#1C1C21',
+          // The site accent; a primary matching the background made primary buttons vanish.
+          primary: '#7C8FB8',
+          'on-primary': '#10141B',
           background: '#1C1C21',
           surface: '#2A2730',
           error: '#FF5252',

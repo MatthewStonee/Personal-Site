@@ -3,8 +3,8 @@
     <v-row justify="center" class="mt-4">
       <v-col cols="12" sm="6" class="d-flex justify-center">
         <v-card width="100%" max-width="600" elevation="10">
-          <v-card-title id="title">1 Rep Max Calculator</v-card-title>
-          <p id="cap">Enter a weight and the maximum amount of reps you can do to find out your one rep max!</p>
+          <v-card-title class="card-title">1 Rep Max Calculator</v-card-title>
+          <p class="card-caption">Enter a weight and the maximum amount of reps you can do to find out your one rep max!</p>
 
           <div class="reps">
             <v-row no-gutters>
@@ -12,7 +12,9 @@
                 <v-text-field
                     label="Lift"
                     type="number"
+                    min="0"
                     v-model.number="lift"
+                    @keydown.enter="result"
                     variant="outlined"
                     placeholder="185"
                 ></v-text-field>
@@ -32,8 +34,10 @@
             <v-text-field
                 label="Repetitions"
                 type="number"
+                min="1"
+                :max="MAX_REPS"
                 v-model.number="repetitions"
-                v-on:keypress.enter="result"
+                @keydown.enter="result"
                 variant="outlined"
                 placeholder="3"
             ></v-text-field>
@@ -69,6 +73,8 @@ import BarbellVisualizer from '../components/BarbellVisualizer.vue'
 
 const BRZYCKI_BASE_COEFFICIENT = 1.0278
 const BRZYCKI_REPS_COEFFICIENT = 0.0278
+// The formula drifts badly past about a dozen reps and divides by zero near 37.
+const MAX_REPS = 12
 
 export default {
   name: 'OneRM',
@@ -83,23 +89,28 @@ export default {
     repetitions: "",
     answer: "",
     items: ["kg", "lbs"],
+    MAX_REPS,
   }),
 
   methods: {
     result() {
-      if(parseInt(this.lift) >= 0 && parseInt(this.repetitions) >= 0)
-      {
-        // Brzycki formula for estimating one-rep max from reps performed.
-        this.answer = Math.round(
-          parseInt(this.lift) /
-          (BRZYCKI_BASE_COEFFICIENT - (BRZYCKI_REPS_COEFFICIENT * parseInt(this.repetitions)))
-        );
-        this.answer = "Your one rep max is " + this.answer + " " + this.units;
+      const lift = parseFloat(this.lift);
+      const reps = Number(this.repetitions);
+
+      if (!(lift > 0) || !Number.isInteger(reps) || reps < 1) {
+        this.answer = "Enter a lift weight and the number of reps you completed.";
+        return;
       }
-      else
-      {
-        this.answer = "Enter lift weight and repetitions."
+      if (reps > MAX_REPS) {
+        this.answer = `Estimates are only reliable up to ${MAX_REPS} reps.`;
+        return;
       }
+
+      // Brzycki formula for estimating one-rep max from reps performed.
+      const oneRepMax = Math.round(
+        lift / (BRZYCKI_BASE_COEFFICIENT - (BRZYCKI_REPS_COEFFICIENT * reps))
+      );
+      this.answer = `Your one rep max is ${oneRepMax} ${this.units}`;
     },
   },
 };
@@ -121,7 +132,7 @@ export default {
   padding: 15px;
 }
 
-#title {
+.card-title {
   font-size: clamp(18px, 4vw, 30px);
   font-weight: 800;
   letter-spacing: 0.5px;
@@ -131,7 +142,7 @@ export default {
   margin-bottom: 4px;
 }
 
-#cap {
+.card-caption {
   text-align: justify;
   padding-left: 15px;
   padding-right: 15px;

@@ -1,4 +1,4 @@
-FROM node:22-alpine
+FROM node:24-alpine
 
 # install simple http server for serving static content
 RUN npm install -g http-server
@@ -6,34 +6,18 @@ RUN npm install -g http-server
 # make the 'app' folder the current working directory
 WORKDIR /app
 
-# copy both 'package.json' and 'package-lock.json' (if available)
+# copy both 'package.json' and 'package-lock.json'
 COPY package*.json ./
 
-# install project dependencies
-RUN npm install
+# install the exact dependency versions from the lockfile
+RUN npm ci
 
-# declare build-time API key arguments
+# build-time API keys; RUN steps see them as environment variables, and Vite inlines them into the bundle
 ARG VUE_APP_OPENWEATHER_KEY
 ARG VUE_APP_RAPIDAPI_KEY
-ARG VUE_APP_FIREBASE_API_KEY
-ARG VUE_APP_FIREBASE_AUTH_DOMAIN
-ARG VUE_APP_FIREBASE_PROJECT_ID
-ARG VUE_APP_FIREBASE_STORAGE_BUCKET
-ARG VUE_APP_FIREBASE_MESSAGING_SENDER_ID
-ARG VUE_APP_FIREBASE_APP_ID
-ARG VUE_APP_FIREBASE_MEASUREMENT_ID
 
-ENV VUE_APP_OPENWEATHER_KEY=$VUE_APP_OPENWEATHER_KEY
-ENV VUE_APP_RAPIDAPI_KEY=$VUE_APP_RAPIDAPI_KEY
-ENV VUE_APP_FIREBASE_API_KEY=$VUE_APP_FIREBASE_API_KEY
-ENV VUE_APP_FIREBASE_AUTH_DOMAIN=$VUE_APP_FIREBASE_AUTH_DOMAIN
-ENV VUE_APP_FIREBASE_PROJECT_ID=$VUE_APP_FIREBASE_PROJECT_ID
-ENV VUE_APP_FIREBASE_STORAGE_BUCKET=$VUE_APP_FIREBASE_STORAGE_BUCKET
-ENV VUE_APP_FIREBASE_MESSAGING_SENDER_ID=$VUE_APP_FIREBASE_MESSAGING_SENDER_ID
-ENV VUE_APP_FIREBASE_APP_ID=$VUE_APP_FIREBASE_APP_ID
-ENV VUE_APP_FIREBASE_MEASUREMENT_ID=$VUE_APP_FIREBASE_MEASUREMENT_ID
-
-# copy project files and folders to the current working directory (i.e. 'app' folder)
+# copy project files and folders to the current working directory (i.e. 'app' folder);
+# .dockerignore keeps .env, .git and node_modules out of the image
 COPY . .
 
 # build app for production with minification

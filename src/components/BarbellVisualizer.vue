@@ -1,23 +1,25 @@
 <template>
   <v-card width="100%" max-width="600" elevation="10" class="mx-auto">
-    <v-card-title id="title">Kilo Plate Visualizer</v-card-title>
-    <p id="cap">Click plates to add them to the bar. Click a plate on the bar to remove the outermost one. Or drag plates onto the bar (desktop). The kilos field syncs both ways.</p>
+    <v-card-title class="card-title">Kilo Plate Visualizer</v-card-title>
+    <p class="card-caption">Click plates to add them to the bar. Click a plate on the bar to remove the outermost one. Or drag plates onto the bar (desktop). The kilos field syncs both ways.</p>
 
     <div class="visualizer-body" @dragover.prevent @drop="onBarDrop">
       <!-- Plate rack -->
       <div class="plate-rack">
-        <div
+        <button
           v-for="p in PLATE_DENOMINATIONS"
           :key="p.kg"
+          type="button"
           class="rack-plate"
           :style="rackPlateStyle(p)"
           @click="addPlate(p.kg)"
           draggable="true"
           @dragstart="onRackDragStart($event, p.kg)"
           :title="p.kg + ' kg — click to add'"
+          :aria-label="`Add a ${p.kg} kg plate to each side`"
         >
           {{ p.kg }}
-        </div>
+        </button>
         <v-btn
           icon
           size="small"
@@ -32,18 +34,20 @@
 
       <!-- Barbell -->
       <div class="barbell-bar">
-        <!-- Left sleeve -->
-        <div class="sleeve sleeve-left">
-          <div
+        <!-- Left sleeve (mirrors the right one, so it's hidden from assistive tech) -->
+        <div class="sleeve sleeve-left" aria-hidden="true">
+          <button
             v-for="(kg, i) in [...platesOnBar].reverse()"
             :key="'L' + i"
+            type="button"
+            tabindex="-1"
             class="bar-plate"
             :style="barPlateStyle(kg)"
             @click="removePlate()"
             title="Click to remove outermost plate"
           >
             <span class="plate-label">{{ kg }}</span>
-          </div>
+          </button>
         </div>
 
         <div class="bar-collar"></div>
@@ -54,16 +58,18 @@
 
         <!-- Right sleeve -->
         <div class="sleeve sleeve-right">
-          <div
+          <button
             v-for="(kg, i) in platesOnBar"
             :key="'R' + i"
+            type="button"
             class="bar-plate"
             :style="barPlateStyle(kg)"
             @click="removePlate()"
             title="Click to remove outermost plate"
+            :aria-label="`${kg} kg plate. Remove the outermost plate`"
           >
             <span class="plate-label">{{ kg }}</span>
-          </div>
+          </button>
         </div>
       </div>
 
@@ -81,6 +87,7 @@
         ></v-text-field>
         <div class="result-text" v-if="platesOnBar.length > 0 || kilosInput">
           <strong>{{ totalLbs }} lbs</strong> on bar
+          <span v-if="overLimit" class="limit-note">Max {{ MAX_KG_PER_SIDE }} kg per side</span>
         </div>
         <div class="result-text hint" v-else>
           Click plates above to load the bar
@@ -101,15 +108,20 @@ const PLATE_DENOMINATIONS = [
   { kg: 1.25, color: '#78909C', rackHeight: 28, barHeight: 42,  width: 11 },
 ]
 
+// Well past any real lift; without a cap, a huge number renders millions of plates and freezes the tab.
+const MAX_KG_PER_SIDE = 250
+
 export default {
   name: 'BarbellVisualizer',
 
   data: () => ({
     PLATE_DENOMINATIONS,
+    MAX_KG_PER_SIDE,
     platesOnBar: [],
     kilosInput: '',
     draggingKg: null,
     suppressWatch: false,
+    overLimit: false,
   }),
 
   computed: {
@@ -126,6 +138,7 @@ export default {
       handler(val) {
         if (this.suppressWatch) return
         this.suppressWatch = true
+        this.overLimit = false
         const total = val.reduce((s, k) => s + k, 0)
         this.kilosInput = total > 0 ? String(total) : ''
         this.$nextTick(() => { this.suppressWatch = false })
@@ -136,7 +149,8 @@ export default {
       if (this.suppressWatch) return
       const n = parseFloat(val)
       this.suppressWatch = true
-      this.platesOnBar = (!isNaN(n) && n > 0) ? this.decompose(n) : []
+      this.overLimit = n > MAX_KG_PER_SIDE
+      this.platesOnBar = (!isNaN(n) && n > 0) ? this.decompose(Math.min(n, MAX_KG_PER_SIDE)) : []
       this.$nextTick(() => { this.suppressWatch = false })
     },
   },
@@ -163,6 +177,10 @@ export default {
     },
 
     addPlate(kg) {
+      if (this.oneSideKg + kg > MAX_KG_PER_SIDE) {
+        this.overLimit = true
+        return
+      }
       const idx = this.platesOnBar.findIndex(p => p < kg)
       if (idx === -1) {
         this.platesOnBar.push(kg)
@@ -210,7 +228,7 @@ export default {
 </script>
 
 <style scoped>
-#title {
+.card-title {
   font-size: clamp(18px, 4vw, 30px);
   font-weight: 800;
   letter-spacing: 0.5px;
@@ -220,7 +238,7 @@ export default {
   margin-bottom: 4px;
 }
 
-#cap {
+.card-caption {
   text-align: justify;
   padding-left: 15px;
   padding-right: 15px;
@@ -247,6 +265,19 @@ export default {
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   width: 100%;
+}
+
+.rack-plate,
+.bar-plate {
+  appearance: none;
+  padding: 0;
+  font-family: inherit;
+}
+
+.rack-plate:focus-visible,
+.bar-plate:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
 }
 
 .rack-plate {
@@ -372,5 +403,11 @@ export default {
 .result-text.hint {
   font-size: 14px;
   opacity: 0.5;
+}
+
+.limit-note {
+  display: block;
+  font-size: 13px;
+  opacity: 0.7;
 }
 </style>

@@ -1,5 +1,5 @@
 # personal-site
-Personal website at https://www.matthewstone.co made using the Vue.js framework and Vuetify UI library.
+Personal website at https://matthewstone.co, built with Vue 3, Vuetify 3 and Vite and hosted on Firebase Hosting.
 
 
 ## Project setup
@@ -7,20 +7,21 @@ Personal website at https://www.matthewstone.co made using the Vue.js framework 
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Development server (http://localhost:8080)
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Production build and local preview
 ```
 npm run build
+npm run preview
 ```
 
-### Lints and fixes files
+### Lint and test
 ```
 npm run lint
+npm test
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Project conventions, environment variables and deployment notes live in [AGENTS.md](AGENTS.md).

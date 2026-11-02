@@ -1,0 +1,11 @@
+# Keep secrets, git history and host-specific installs out of the image.
+.env
+.env.*
+.git
+.github
+.claude
+.firebase
+node_modules
+dist
+npm-debug.log*
+.DS_Store

@@ -6,7 +6,6 @@
       :src="frameSrc"
       title="3D apartment walkthrough"
       allow="fullscreen"
-      allowfullscreen
     />
   </section>
 </template>

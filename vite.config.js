@@ -15,10 +15,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: [
         'favicon.ico',
-        'favicon.png',
-        'favicon.svg',
-        'robots.txt',
-        'sitemap.xml',
+        'apple-touch-icon.png',
       ],
       manifest: {
         name: 'Matthew Stone',
@@ -30,16 +27,34 @@ export default defineConfig({
         theme_color: '#1c1c21',
         icons: [
           {
-            src: '/favicon.png',
-            sizes: '1024x1024',
+            src: '/icon-192.png',
+            sizes: '192x192',
             type: 'image/png',
-            purpose: 'any maskable',
+          },
+          {
+            src: '/favicon.png',
+            sizes: '512x512',
+            type: 'image/png',
           },
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2,ttf}'],
+        // Precache only the app shell; images and fonts are cached the first time a page uses them.
+        globPatterns: ['**/*.{js,css,html,woff2}'],
+        globIgnores: ['**/node_modules/**/*', 'apartment-walkthrough.html'],
+        runtimeCaching: [
+          {
+            urlPattern: ({ request, sameOrigin }) => sameOrigin && ['image', 'font'].includes(request.destination),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'media',
+              expiration: { maxEntries: 80, maxAgeSeconds: 60 * 60 * 24 * 30 },
+            },
+          },
+        ],
         navigateFallback: 'index.html',
+        // Navigations to real files (the resume PDF) must reach the network instead of the SPA shell.
+        navigateFallbackDenylist: [/^\/__\//, /\/[^/?]+\.[^/]+$/],
       },
     }),
   ],

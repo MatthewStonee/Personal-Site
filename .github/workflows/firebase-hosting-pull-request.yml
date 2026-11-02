@@ -5,14 +5,24 @@ name: Deploy to Firebase Hosting on PR
 'on': pull_request
 jobs:
   build_and_preview:
+    # Fork PRs never get secrets, so only same-repo branches build and deploy a preview.
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
-      - uses: actions/checkout@v4
-      - run: npm ci && npm run build
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+        env:
+          VUE_APP_OPENWEATHER_KEY: ${{ secrets.VUE_APP_OPENWEATHER_KEY }}
+          VUE_APP_RAPIDAPI_KEY: ${{ secrets.VUE_APP_RAPIDAPI_KEY }}
+      # Pinned to the commit behind v0.11.0 (the v0 tag) because this step receives the deploy credentials.
+      - uses: FirebaseExtended/action-hosting-deploy@500ac625ca2dd40cbd15f7659af953801858032a
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_PERSONAL_SITE_5BCA5 }}'

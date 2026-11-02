@@ -9,13 +9,11 @@
     "build": "vite build",
     "preview": "vite preview",
     "deploy": "vite build && firebase deploy",
-    "lint": "eslint src --ext .js,.vue"
+    "lint": "eslint src --ext .js,.vue",
+    "test": "node --test tests/*.test.mjs"
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
-    "axios": "^1.2.2",
-    "firebase": "^9.9.0",
-    "moment": "^2.29.3",
     "vue": "^3.5.13",
     "vue-router": "^4.4.5",
     "vuetify": "^3.12.5"
@@ -48,10 +46,5 @@
       "vue/multi-word-component-names": "off",
       "vue/no-reserved-component-names": "off"
     }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+  }
 }

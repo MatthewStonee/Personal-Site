@@ -9,7 +9,7 @@
         <v-row>
 
           <v-col
-              cols="20"
+              cols="12"
               sm="6"
               md="4"
               class="calendar mb-n10"
@@ -17,9 +17,7 @@
             <v-menu
                 v-model="menu2"
                 :close-on-content-click="false"
-                :nudge-right="40"
                 transition="scale-transition"
-                offset-y
                 min-width="auto"
             >
               <template v-slot:activator="{ props }">
@@ -42,8 +40,7 @@
 
         <v-row>
           <v-col
-              cols="20"
-              md="55"
+              cols="12"
               class="calendar"
           >
           <v-card-text
@@ -69,7 +66,7 @@
             <div v-else>
               <div v-if="games && games.length > 0">
                 <div
-                  v-for="item in games" :key="item.teams.home.code"
+                  v-for="item in games" :key="item.id"
                   class="score-row"
                 >
                   <v-img :src="teamLogo(item.teams.home.code)" width="60" aspect-ratio="1" class="team-logo"></v-img>
@@ -94,9 +91,12 @@
 </template>
 
 <script>
-import moment from 'moment'
+import { gamesOnEasternDate, isSettledUtcDate, toDateString, utcDatesFor } from '../utils/nbaDates.js'
 
-const teamLogos = import.meta.glob('../assets/Teams/*.png', { import: 'default' })
+const teamLogos = import.meta.glob('../assets/Teams/*.png', { eager: true, query: '?url', import: 'default' })
+
+// Finished days never change, so they're kept for the session to spare the API quota.
+const settledDays = new Map()
 
 export default {
 
@@ -109,13 +109,13 @@ export default {
       menu2: false,
       loading: false,
       error: null,
-      logoUrls: {},
+      controller: null,
     }
   },
 
   computed: {
     date() {
-      return moment(this.pickerDate).format('YYYY-MM-DD')
+      return toDateString(this.pickerDate)
     },
   },
 
@@ -123,27 +123,14 @@ export default {
     this.fetchGames();
   },
 
+  beforeUnmount() {
+    this.controller?.abort();
+  },
+
   methods: {
 
     teamLogo(code) {
-      if (this.logoUrls[code] !== undefined) return this.logoUrls[code]
-      const loader = teamLogos[`../assets/Teams/${code}.png`]
-      if (!loader) return ''
-      this.logoUrls[code] = ''
-      loader().then((url) => { this.logoUrls[code] = url })
-      return ''
-    },
-
-    loadLogos(codes) {
-      const tasks = []
-      for (const code of codes) {
-        if (this.logoUrls[code]) continue
-        const loader = teamLogos[`../assets/Teams/${code}.png`]
-        if (!loader) continue
-        this.logoUrls[code] = ''
-        tasks.push(loader().then((url) => { this.logoUrls[code] = url }))
-      }
-      return Promise.all(tasks)
+      return teamLogos[`../assets/Teams/${code}.png`] || ''
     },
 
     onDateSelected() {
@@ -152,35 +139,61 @@ export default {
     },
 
     async fetchGames() {
+      this.controller?.abort();
+      const controller = new AbortController();
+      this.controller = controller;
       this.loading = true;
       this.error = null;
 
-      const apiDate = moment(this.pickerDate).add(1, 'days').format('YYYY-MM-DD');
+      const easternDate = this.date;
 
       try {
-        const res = await fetch(`https://api-nba-v1.p.rapidapi.com/games?date=${apiDate}`, {
-          "method": "GET",
-          "headers": {
-            "x-rapidapi-host": "api-nba-v1.p.rapidapi.com",
-            "x-rapidapi-key": import.meta.env.VUE_APP_RAPIDAPI_KEY
-          }
-        });
-        const results = await res.json();
-        await this.setResults(results);
-      } catch {
-        this.error = 'Failed to load games. Please try again.';
+        const days = await Promise.all(
+          utcDatesFor(easternDate).map((utcDate) => this.fetchUtcDay(utcDate, controller.signal))
+        );
+        this.games = gamesOnEasternDate(days.flat(), easternDate);
+      } catch (e) {
+        if (e.name === 'AbortError') return;
+        this.games = [];
+        this.error = e.status === 429
+          ? 'NBA scores are temporarily unavailable (API limit reached). Please try again later.'
+          : 'Failed to load games. Please try again.';
       } finally {
-        this.loading = false;
+        // A newer request owns the loading state once it has replaced this one.
+        if (this.controller === controller) {
+          this.controller = null;
+          this.loading = false;
+        }
       }
     },
-    async setResults(results) {
-      this.games = results.response || [];
-      const codes = new Set();
-      for (const game of this.games) {
-        codes.add(game.teams.home.code);
-        codes.add(game.teams.visitors.code);
+
+    async fetchUtcDay(utcDate, signal, attempt = 1) {
+      if (settledDays.has(utcDate)) return settledDays.get(utcDate);
+
+      const res = await fetch(`https://api-nba-v1.p.rapidapi.com/games?date=${utcDate}`, {
+        "method": "GET",
+        "headers": {
+          "x-rapidapi-host": "api-nba-v1.p.rapidapi.com",
+          "x-rapidapi-key": import.meta.env.VUE_APP_RAPIDAPI_KEY
+        },
+        signal,
+      });
+      // The free plan can reject one of the two requests a cold page load sends at once; retry it once.
+      if (res.status === 429 && attempt === 1) {
+        await new Promise((resolve) => setTimeout(resolve, 1200));
+        signal.throwIfAborted();
+        return this.fetchUtcDay(utcDate, signal, attempt + 1);
       }
-      await this.loadLogos(codes);
+      if (!res.ok) throw Object.assign(new Error(`NBA API error: ${res.status}`), { status: res.status });
+
+      const results = await res.json();
+      if (results.errors && Object.keys(results.errors).length > 0) {
+        throw new Error('NBA API rejected the request');
+      }
+
+      const games = results.response || [];
+      if (isSettledUtcDate(utcDate)) settledDays.set(utcDate, games);
+      return games;
     },
 
   }
@@ -253,11 +266,11 @@ export default {
 .no-games {
   text-align: center;
   padding: 24px 0;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity));
 }
 
 .error-msg {
-  color: #ef5350;
+  color: rgb(var(--v-theme-error));
 }
 
 .games-skeleton {
