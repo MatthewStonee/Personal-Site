@@ -40,6 +40,8 @@ export default defineConfig({
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2,ttf}'],
         navigateFallback: 'index.html',
+        // Navigations to real files (the resume PDF) must reach the network instead of the SPA shell.
+        navigateFallbackDenylist: [/^\/__\//, /\/[^/?]+\.[^/]+$/],
       },
     }),
   ],
