@@ -156,7 +156,7 @@ export default {
         if (e.name === 'AbortError') return;
         this.games = [];
         this.error = e.status === 429
-          ? 'The daily limit for NBA scores has been reached. Please try again tomorrow.'
+          ? 'NBA scores are temporarily unavailable (API limit reached). Please try again later.'
           : 'Failed to load games. Please try again.';
       } finally {
         // A newer request owns the loading state once it has replaced this one.
@@ -167,7 +167,7 @@ export default {
       }
     },
 
-    async fetchUtcDay(utcDate, signal) {
+    async fetchUtcDay(utcDate, signal, attempt = 1) {
       if (settledDays.has(utcDate)) return settledDays.get(utcDate);
 
       const res = await fetch(`https://api-nba-v1.p.rapidapi.com/games?date=${utcDate}`, {
@@ -178,6 +178,12 @@ export default {
         },
         signal,
       });
+      // The free plan can reject one of the two requests a cold page load sends at once; retry it once.
+      if (res.status === 429 && attempt === 1) {
+        await new Promise((resolve) => setTimeout(resolve, 1200));
+        signal.throwIfAborted();
+        return this.fetchUtcDay(utcDate, signal, attempt + 1);
+      }
       if (!res.ok) throw Object.assign(new Error(`NBA API error: ${res.status}`), { status: res.status });
 
       const results = await res.json();
